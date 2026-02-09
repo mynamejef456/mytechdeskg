@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security & Privacy Guide - MacBook Tech Desk</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #f5f5f7; line-height: 1.6; }
+        .header { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px); color: white; padding: 16px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .logo { font-size: 1.5rem; font-weight: 600; cursor: pointer; }
+        .nav-menu { display: flex; gap: 30px; list-style: none; }
+        .nav-menu a { color: #f5f5f7; text-decoration: none; font-size: 0.95rem; transition: color 0.3s; }
+        .nav-menu a:hover { color: #667eea; }
+        .page-header { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; text-align: center; padding: 80px 20px; }
+        .page-header h1 { font-size: 3rem; font-weight: 800; }
+        .content { max-width: 900px; margin: 60px auto; padding: 0 20px; }
+        .guide-section { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 24px; margin-bottom: 30px; }
+        .guide-section h2 { font-size: 2rem; margin-bottom: 20px; color: #3b82f6; }
+        .guide-section h3 { font-size: 1.5rem; margin: 25px 0 15px; color: #fff; }
+        .guide-section p, .guide-section li { color: #b0b0b0; margin-bottom: 15px; line-height: 1.8; }
+        .guide-section ul, .guide-section ol { margin: 15px 0 15px 25px; }
+        .tip-box { background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .tip-box strong { color: #3b82f6; }
+        .warning-box { background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .warning-box strong { color: #ef4444; }
+        .back-link { display: inline-block; margin: 30px 0; color: #667eea; text-decoration: none; font-weight: 600; }
+        .footer { background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 40px 20px; text-align: center; color: #b0b0b0; margin-top: 60px; }
+        .secret-trigger { position: fixed; bottom: 20px; right: 20px; width: 8px; height: 8px; background: rgba(255, 255, 255, 0.15); border-radius: 50%; border: none; cursor: pointer; transition: all 0.3s; z-index: 999; }
+        .secret-trigger:hover { background: rgba(102, 126, 234, 0.5); box-shadow: 0 0 15px rgba(102, 126, 234, 0.5); transform: scale(1.5); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo" onclick="location.href='index.html'">🍎 MacBook Tech Desk</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="guides.html">Guides</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header"><h1>🔒 Security & Privacy Setup</h1></div>
+
+    <div class="content">
+        <div class="guide-section">
+            <h2>Protect Your MacBook & Data</h2>
+            <p>Your MacBook contains sensitive personal information. Follow this comprehensive guide to secure your device and protect your privacy.</p>
+
+            <h3>1. Enable FileVault Encryption</h3>
+            <p>FileVault encrypts your entire hard drive, protecting your data if your Mac is lost or stolen.</p>
+            <ol>
+                <li>Open <strong>System Settings</strong></li>
+                <li>Click <strong>Privacy & Security</strong></li>
+                <li>Scroll down to <strong>FileVault</strong></li>
+                <li>Click <strong>Turn On</strong></li>
+                <li>Choose to save your recovery key (IMPORTANT: save this somewhere safe!)</li>
+                <li>Restart your Mac to begin encryption</li>
+            </ol>
+
+            <div class="warning-box">
+                <strong>⚠️ Critical:</strong> Save your FileVault recovery key in a secure location (password manager, safe, etc.). If you forget your password AND lose this key, your data is permanently lost!
+            </div>
+
+            <h3>2. Set a Strong Password</h3>
+            <p>Your login password is your first line of defense.</p>
+            <ul>
+                <li><strong>Minimum 12 characters</strong></li>
+                <li>Mix of uppercase, lowercase, numbers, and symbols</li>
+                <li>Avoid dictionary words, birthdays, or common phrases</li>
+                <li>Don't reuse passwords from other accounts</li>
+            </ul>
+
+            <h4>Change Your Password:</h4>
+            <ol>
+                <li>System Settings → <strong>Touch ID & Password</strong></li>
+                <li>Click <strong>Change Password</strong></li>
+                <li>Enter old password, then new password twice</li>
+            </ol>
+
+            <h3>3. Enable Touch ID</h3>
+            <p>If your MacBook has Touch ID, set it up for secure, convenient access:</p>
+            <ol>
+                <li>System Settings → <strong>Touch ID & Password</strong></li>
+                <li>Click the <strong>+</strong> button</li>
+                <li>Follow prompts to scan your fingerprint</li>
+                <li>Add multiple fingers for convenience</li>
+            </ol>
+
+            <h3>4. Configure Firewall</h3>
+            <p>Enable macOS firewall to block unauthorized incoming connections:</p>
+            <ol>
+                <li>System Settings → <strong>Network</strong></li>
+                <li>Click <strong>Firewall</strong></li>
+                <li>Toggle <strong>On</strong></li>
+                <li>Click <strong>Options</strong></li>
+                <li>Enable <strong>Block all incoming connections</strong> (or configure specific apps)</li>
+            </ol>
+
+            <h3>5. Enable Find My Mac</h3>
+            <p>Helps locate your Mac if it's lost or stolen:</p>
+            <ol>
+                <li>System Settings → Click your <strong>name/Apple ID</strong></li>
+                <li>Click <strong>iCloud</strong></li>
+                <li>Enable <strong>Find My Mac</strong></li>
+            </ol>
+            <p>Now you can locate, lock, or erase your Mac remotely from iCloud.com or another Apple device.</p>
+
+            <h3>6. Require Password After Sleep</h3>
+            <ol>
+                <li>System Settings → <strong>Lock Screen</strong></li>
+                <li>Set "Require password after screen saver begins or display is turned off" to <strong>Immediately</strong></li>
+            </ol>
+
+            <h3>7. Disable Automatic Login</h3>
+            <ol>
+                <li>System Settings → <strong>Users & Groups</strong></li>
+                <li>Click <strong>Login Options</strong> (at bottom)</li>
+                <li>Set <strong>Automatic login</strong> to <strong>Off</strong></li>
+            </ol>
+
+            <h3>8. Review App Permissions</h3>
+            <p>Control which apps can access your data:</p>
+            <ol>
+                <li>System Settings → <strong>Privacy & Security</strong></li>
+                <li>Review each category:
+                    <ul>
+                        <li><strong>Location Services</strong> - Which apps can see your location</li>
+                        <li><strong>Contacts</strong> - Which apps can access your contacts</li>
+                        <li><strong>Calendar</strong> - Calendar access</li>
+                        <li><strong>Camera/Microphone</strong> - Audio/video permissions</li>
+                        <li><strong>Files and Folders</strong> - File system access</li>
+                    </ul>
+                </li>
+                <li>Disable permissions for apps that don't need them</li>
+            </ol>
+
+            <h3>9. Safari Privacy Settings</h3>
+            <p>Enhance browsing privacy in Safari:</p>
+            <ol>
+                <li>Open Safari → <strong>Settings</strong></li>
+                <li><strong>Privacy</strong> tab:
+                    <ul>
+                        <li>Enable <strong>Prevent cross-site tracking</strong></li>
+                        <li>Enable <strong>Hide IP address from trackers</strong></li>
+                    </ul>
+                </li>
+                <li><strong>Search</strong> tab:
+                    <ul>
+                        <li>Enable <strong>Include Safari Suggestions</strong> (optional)</li>
+                        <li>Disable <strong>Preload Top Hit</strong> for more privacy</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>10. Use a Password Manager</h3>
+            <p>Recommended options:</p>
+            <ul>
+                <li><strong>iCloud Keychain</strong> (built-in, free)</li>
+                <li><strong>1Password</strong> (premium, feature-rich)</li>
+                <li><strong>Bitwarden</strong> (open-source, free)</li>
+            </ul>
+
+            <h3>11. Enable Two-Factor Authentication</h3>
+            <p>For your Apple ID and other important accounts:</p>
+            <ol>
+                <li>System Settings → Click your <strong>name</strong></li>
+                <li>Click <strong>Password & Security</strong></li>
+                <li>Click <strong>Turn On Two-Factor Authentication</strong></li>
+            </ol>
+
+            <h3>12. Disable Bluetooth When Not Needed</h3>
+            <p>Reduces attack surface when you're not using wireless devices:</p>
+            <ul>
+                <li>Click Control Center in menu bar</li>
+                <li>Toggle <strong>Bluetooth</strong> off</li>
+            </ul>
+
+            <h3>13. Review Login Items</h3>
+            <p>Check which apps launch at startup:</p>
+            <ol>
+                <li>System Settings → <strong>General</strong> → <strong>Login Items</strong></li>
+                <li>Remove suspicious or unnecessary apps</li>
+            </ol>
+
+            <h3>14. Keep macOS Updated</h3>
+            <p>Security patches are critical:</p>
+            <ol>
+                <li>System Settings → <strong>General</strong> → <strong>Software Update</strong></li>
+                <li>Enable <strong>Automatic Updates</strong></li>
+                <li>Install updates promptly</li>
+            </ol>
+
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> Set up automatic updates so you never miss critical security patches. Go to System Settings → General → Software Update → Automatic Updates and enable all options.
+            </div>
+
+            <h3>Security Checklist</h3>
+            <ul>
+                <li>✅ FileVault encryption enabled</li>
+                <li>✅ Strong, unique password</li>
+                <li>✅ Touch ID configured</li>
+                <li>✅ Firewall enabled</li>
+                <li>✅ Find My Mac enabled</li>
+                <li>✅ Immediate password required after sleep</li>
+                <li>✅ Automatic login disabled</li>
+                <li>✅ App permissions reviewed</li>
+                <li>✅ Safari privacy settings configured</li>
+                <li>✅ Two-factor authentication enabled</li>
+                <li>✅ Automatic updates enabled</li>
+            </ul>
+
+            <h3>Additional Resources</h3>
+            <ul>
+                <li><a href="backup-guide.html" style="color: #3b82f6;">Backup Your Mac</a> - Protect against data loss</li>
+                <li><a href="performance-guide.html" style="color: #3b82f6;">Performance Optimization</a> - Keep your Mac running fast</li>
+            </ul>
+        </div>
+
+        <a href="guides.html" class="back-link">← Back to All Guides</a>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 MacBook Tech Desk. All rights reserved.</p>
+    </footer>
+
+    <button class="secret-trigger" id="secretBtn"></button>
+    <script>
+        document.getElementById('secretBtn').addEventListener('click', () => { window.location.href = 'games.html'; });
+    </script>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MacBook Tech Desk - Support & Resources</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #f5f5f7;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: white;
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: #f5f5f7;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #0071e3;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            text-align: center;
+            padding: 120px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #ffffff 0%, #a8dadc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            position: relative;
+            color: #e0e0e0;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px 48px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #1d1d1f;
+        }
+
+        /* Service Cards */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 30px;
+            border-radius: 24px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(102, 126, 234, 0.5);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+        }
+
+        .service-icon {
+            font-size: 4rem;
+            margin-bottom: 24px;
+            filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.3));
+        }
+
+        .service-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 16px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .service-card p {
+            color: #b0b0b0;
+            line-height: 1.8;
+        }
+
+        .service-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .service-link:hover {
+            color: #8a9ff5;
+            transform: translateX(5px);
+        }
+
+        /* Quick Links Section */
+        .quick-links {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 50px 30px;
+            border-radius: 24px;
+            margin-bottom: 60px;
+        }
+
+        .quick-links h2 {
+            font-size: 2.2rem;
+            margin-bottom: 35px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .quick-link-item {
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.3s;
+            display: block;
+        }
+
+        .quick-link-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .quick-link-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .quick-link-item p {
+            font-size: 0.95rem;
+            color: #b0b0b0;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 20px;
+            text-align: center;
+            color: #b0b0b0;
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+        }
+
+        /* Secret Button - Small visible dot */
+        .secret-trigger {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 999;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .secret-trigger:hover {
+            background: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.5);
+            transform: scale(1.5);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .nav-menu {
+                gap: 15px;
+                font-size: 0.85rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo" onclick="location.href='index.html'">🍎 MacBook Tech Desk</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="guides.html">Guides</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>MacBook Tech Support & Resources</h1>
+        <p>Expert help for all your MacBook needs</p>
+        <a href="support.html" class="cta-button">Get Support Now</a>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2 class="section-title">Our Services</h2>
+        
+        <!-- Services Grid -->
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🔧</div>
+                <h3>Hardware Repair</h3>
+                <p>Professional hardware diagnostics and repair services for all MacBook models. From screen replacements to battery issues.</p>
+                <a href="hardware-repair.html" class="service-link">Learn More →</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">💻</div>
+                <h3>Software Support</h3>
+                <p>macOS troubleshooting, software installation, and optimization. Keep your MacBook running smoothly.</p>
+                <a href="software-support.html" class="service-link">Learn More →</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">📚</div>
+                <h3>Tech Guides</h3>
+                <p>Step-by-step tutorials and guides to help you get the most out of your MacBook.</p>
+                <a href="guides.html" class="service-link">Browse Guides →</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">🛡️</div>
+                <h3>Security & Privacy</h3>
+                <p>Protect your data with our security guides and privacy recommendations for MacBook users.</p>
+                <a href="security-guide.html" class="service-link">View Resources →</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">⚡</div>
+                <h3>Performance Boost</h3>
+                <p>Optimize your MacBook's performance with our expert tips and recommended tools.</p>
+                <a href="performance-guide.html" class="service-link">Boost Performance →</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">☁️</div>
+                <h3>Cloud & Backup</h3>
+                <p>Set up reliable backup solutions and cloud storage for your important files and data.</p>
+                <a href="backup-guide.html" class="service-link">Setup Backup →</a>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="quick-links">
+            <h2>Popular Resources</h2>
+            <div class="links-grid">
+                <a href="getting-started.html" class="quick-link-item">
+                    <h4>🚀 Getting Started</h4>
+                    <p>New to MacBook? Start here</p>
+                </a>
+                <a href="support.html" class="quick-link-item">
+                    <h4>🔍 Troubleshooting</h4>
+                    <p>Fix common issues</p>
+                </a>
+                <a href="keyboard-shortcuts.html" class="quick-link-item">
+                    <h4>⌨️ Keyboard Shortcuts</h4>
+                    <p>Work faster and smarter</p>
+                </a>
+                <a href="resources.html" class="quick-link-item">
+                    <h4>📦 Recommended Apps</h4>
+                    <p>Essential software for your Mac</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 MacBook Tech Desk. All rights reserved.</p>
+        <p>Providing quality support for MacBook users worldwide.</p>
+    </footer>
+
+    <!-- Secret Button (click 5 times in corner) -->
+    <button class="secret-trigger" id="secretBtn"></button>
+
+    <script>
+        const secretBtn = document.getElementById('secretBtn');
+
+        secretBtn.addEventListener('click', () => {
+            // Single click opens games
+            window.location.href = 'games.html';
+        });
+    </script>
+</body>
+</html>

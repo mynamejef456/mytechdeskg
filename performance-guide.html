@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Optimization - MacBook Tech Desk</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #f5f5f7; line-height: 1.6; }
+        .header { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px); color: white; padding: 16px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .logo { font-size: 1.5rem; font-weight: 600; cursor: pointer; }
+        .nav-menu { display: flex; gap: 30px; list-style: none; }
+        .nav-menu a { color: #f5f5f7; text-decoration: none; font-size: 0.95rem; transition: color 0.3s; }
+        .nav-menu a:hover { color: #667eea; }
+        .page-header { background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%); color: white; text-align: center; padding: 80px 20px; }
+        .page-header h1 { font-size: 3rem; font-weight: 800; }
+        .content { max-width: 900px; margin: 60px auto; padding: 0 20px; }
+        .guide-section { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 24px; margin-bottom: 30px; }
+        .guide-section h2 { font-size: 2rem; margin-bottom: 20px; color: #f59e0b; }
+        .guide-section h3 { font-size: 1.5rem; margin: 25px 0 15px; color: #fff; }
+        .guide-section p, .guide-section li { color: #b0b0b0; margin-bottom: 15px; line-height: 1.8; }
+        .guide-section ul, .guide-section ol { margin: 15px 0 15px 25px; }
+        .tip-box { background: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .tip-box strong { color: #f59e0b; }
+        .back-link { display: inline-block; margin: 30px 0; color: #667eea; text-decoration: none; font-weight: 600; }
+        .footer { background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 40px 20px; text-align: center; color: #b0b0b0; margin-top: 60px; }
+        .secret-trigger { position: fixed; bottom: 20px; right: 20px; width: 8px; height: 8px; background: rgba(255, 255, 255, 0.15); border-radius: 50%; border: none; cursor: pointer; transition: all 0.3s; z-index: 999; }
+        .secret-trigger:hover { background: rgba(102, 126, 234, 0.5); box-shadow: 0 0 15px rgba(102, 126, 234, 0.5); transform: scale(1.5); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo" onclick="location.href='index.html'">🍎 MacBook Tech Desk</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="guides.html">Guides</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header"><h1>⚡ Performance Optimization Guide</h1></div>
+
+    <div class="content">
+        <div class="guide-section">
+            <h2>Speed Up Your MacBook</h2>
+            <p>Is your MacBook running slower than it used to? Follow these proven tips to boost performance and get it running like new again.</p>
+
+            <h3>1. Check Activity Monitor</h3>
+            <p>First, identify what's slowing you down:</p>
+            <ol>
+                <li>Open <strong>Activity Monitor</strong> (Applications → Utilities)</li>
+                <li>Click the <strong>CPU</strong> tab to see which apps are using the most processing power</li>
+                <li>Click the <strong>Memory</strong> tab to check RAM usage</li>
+                <li>Quit apps that are using excessive resources (select app → click X button)</li>
+            </ol>
+
+            <h3>2. Manage Startup Items</h3>
+            <p>Apps that launch at startup slow down boot time and consume resources:</p>
+            <ol>
+                <li>Go to <strong>System Settings → General → Login Items</strong></li>
+                <li>Remove apps you don't need at startup by clicking the (-) button</li>
+                <li>Keep only essential apps like Dropbox or Backup software</li>
+            </ol>
+
+            <h3>3. Free Up Storage Space</h3>
+            <p>A full hard drive slows down your Mac. Aim to keep at least 15% free space:</p>
+            <ol>
+                <li>Click the Apple menu → <strong>About This Mac → Storage</strong></li>
+                <li>Click <strong>Manage</strong> to see recommendations</li>
+                <li><strong>Store in iCloud:</strong> Move large files to cloud storage</li>
+                <li><strong>Optimize Storage:</strong> Let macOS remove watched movies/TV shows</li>
+                <li><strong>Empty Trash Automatically:</strong> Remove files after 30 days</li>
+                <li><strong>Reduce Clutter:</strong> Review and delete large files</li>
+            </ol>
+
+            <div class="tip-box">
+                <strong>💡 Quick Win:</strong> Delete old iOS backups! Go to Finder → Preferences → Devices and remove old backups you don't need. They can take up 10-50GB!
+            </div>
+
+            <h3>4. Reset SMC (System Management Controller)</h3>
+            <p>If your Mac has performance issues, battery problems, or fan noise:</p>
+            <p><strong>For Macs with T2 chip (2018+):</strong></p>
+            <ol>
+                <li>Shut down your Mac</li>
+                <li>Press and hold <strong>power button for 10 seconds</strong></li>
+                <li>Release, wait a few seconds, then turn on normally</li>
+            </ol>
+            <p><strong>For Intel Macs without T2:</strong></p>
+            <ol>
+                <li>Shut down your Mac</li>
+                <li>Press <strong>Shift + Control + Option + Power</strong> for 10 seconds</li>
+                <li>Release all keys, then turn on your Mac</li>
+            </ol>
+
+            <h3>5. Reset NVRAM/PRAM</h3>
+            <p>Fixes issues with volume, screen resolution, and startup disk:</p>
+            <ol>
+                <li>Shut down your Mac</li>
+                <li>Turn it on and immediately press and hold <strong>Option + Command + P + R</strong></li>
+                <li>Hold for about 20 seconds (until you hear startup chime twice)</li>
+                <li>Release the keys</li>
+            </ol>
+
+            <h3>6. Disable Visual Effects</h3>
+            <p>Reduce animations for older Macs:</p>
+            <ol>
+                <li>Go to <strong>System Settings → Accessibility → Display</strong></li>
+                <li>Enable <strong>Reduce Motion</strong></li>
+                <li>Enable <strong>Reduce Transparency</strong></li>
+            </ol>
+
+            <h3>7. Update macOS and Apps</h3>
+            <p>Updates often include performance improvements:</p>
+            <ol>
+                <li>Go to <strong>System Settings → General → Software Update</strong></li>
+                <li>Install all available updates</li>
+                <li>Update apps from the App Store</li>
+            </ol>
+
+            <h3>8. Clear System Caches</h3>
+            <p>Cached files can build up over time:</p>
+            <ol>
+                <li>Open Finder</li>
+                <li>Press <strong>Command + Shift + G</strong></li>
+                <li>Type <code>~/Library/Caches</code> and press Enter</li>
+                <li>Delete folder contents (keep the folders themselves)</li>
+                <li>Empty Trash</li>
+            </ol>
+
+            <h3>9. Disable FileVault (If Not Needed)</h3>
+            <p>FileVault encryption can slow down older Macs. Only disable if you don't need disk encryption:</p>
+            <ol>
+                <li>Go to <strong>System Settings → Privacy & Security → FileVault</strong></li>
+                <li>Click <strong>Turn Off FileVault</strong></li>
+            </ol>
+
+            <div class="tip-box">
+                <strong>⚠️ Warning:</strong> Only disable FileVault if your Mac doesn't contain sensitive data. It's a security feature!
+            </div>
+
+            <h3>10. Consider Hardware Upgrades</h3>
+            <p>For older Macs (pre-2016), consider:</p>
+            <ul>
+                <li><strong>Upgrade to SSD:</strong> Replace HDD with SSD (massive speed boost!)</li>
+                <li><strong>Add RAM:</strong> If your model supports it (older MacBooks only)</li>
+            </ul>
+            <p>Note: Newer MacBooks have soldered components and can't be upgraded.</p>
+
+            <h3>Performance Checklist</h3>
+            <ul>
+                <li>✅ Check Activity Monitor regularly</li>
+                <li>✅ Remove unnecessary startup items</li>
+                <li>✅ Keep 15%+ free storage space</li>
+                <li>✅ Clear caches monthly</li>
+                <li>✅ Update macOS and apps</li>
+                <li>✅ Restart your Mac weekly</li>
+                <li>✅ Close unused browser tabs</li>
+                <li>✅ Uninstall apps you don't use</li>
+            </ul>
+        </div>
+
+        <a href="guides.html" class="back-link">← Back to All Guides</a>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 MacBook Tech Desk. All rights reserved.</p>
+    </footer>
+
+    <button class="secret-trigger" id="secretBtn"></button>
+    <script>
+        document.getElementById('secretBtn').addEventListener('click', () => { window.location.href = 'games.html'; });
+    </script>
+</body>
+</html>
