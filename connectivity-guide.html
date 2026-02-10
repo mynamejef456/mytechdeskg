@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connectivity Guide - MacBook Tech Desk</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #f5f5f7; line-height: 1.6; }
+        .header { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px); color: white; padding: 16px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .logo { font-size: 1.5rem; font-weight: 600; cursor: pointer; }
+        .nav-menu { display: flex; gap: 30px; list-style: none; }
+        .nav-menu a { color: #f5f5f7; text-decoration: none; font-size: 0.95rem; transition: color 0.3s; }
+        .nav-menu a:hover { color: #667eea; }
+        .page-header { background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); color: white; text-align: center; padding: 80px 20px; }
+        .page-header h1 { font-size: 3rem; font-weight: 800; }
+        .content { max-width: 900px; margin: 60px auto; padding: 0 20px; }
+        .guide-section { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 24px; margin-bottom: 30px; }
+        .guide-section h2 { font-size: 2rem; margin-bottom: 20px; color: #06b6d4; }
+        .guide-section h3 { font-size: 1.5rem; margin: 25px 0 15px; color: #fff; }
+        .guide-section p, .guide-section li { color: #b0b0b0; margin-bottom: 15px; line-height: 1.8; }
+        .guide-section ul, .guide-section ol { margin: 15px 0 15px 25px; }
+        .tip-box { background: rgba(6, 182, 212, 0.1); border-left: 4px solid #06b6d4; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .tip-box strong { color: #06b6d4; }
+        .back-link { display: inline-block; margin: 30px 0; color: #667eea; text-decoration: none; font-weight: 600; }
+        .footer { background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 40px 20px; text-align: center; color: #b0b0b0; margin-top: 60px; }
+        .secret-trigger { position: fixed; bottom: 20px; right: 20px; width: 8px; height: 8px; background: rgba(255, 255, 255, 0.15); border-radius: 50%; border: none; cursor: pointer; transition: all 0.3s; z-index: 999; }
+        .secret-trigger:hover { background: rgba(102, 126, 234, 0.5); box-shadow: 0 0 15px rgba(102, 126, 234, 0.5); transform: scale(1.5); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo" onclick="location.href='index.html'">🍎 MacBook Tech Desk</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="guides.html">Guides</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header"><h1>📱 Connectivity Troubleshooting</h1></div>
+
+    <div class="content">
+        <div class="guide-section">
+            <h2>Fix Wi-Fi, Bluetooth & Network Issues</h2>
+
+            <h3>1. Wi-Fi Problems</h3>
+            
+            <h4>Can't Connect to Wi-Fi:</h4>
+            <ol>
+                <li>Turn Wi-Fi off and on from menu bar</li>
+                <li>Restart your router (unplug 30 seconds)</li>
+                <li>Restart your Mac</li>
+                <li>Forget network and reconnect:
+                    <ul>
+                        <li>System Settings → Wi-Fi</li>
+                        <li>Click (i) next to network name</li>
+                        <li>"Forget This Network"</li>
+                        <li>Reconnect with password</li>
+                    </ul>
+                </li>
+                <li>Check router is broadcasting SSID (network name visible)</li>
+                <li>Try connecting to different network to isolate issue</li>
+            </ol>
+
+            <h4>Connected But No Internet:</h4>
+            <ol>
+                <li>Renew DHCP Lease:
+                    <ul>
+                        <li>System Settings → Network → Wi-Fi → Details</li>
+                        <li>TCP/IP tab → "Renew DHCP Lease"</li>
+                    </ul>
+                </li>
+                <li>Change DNS servers:
+                    <ul>
+                        <li>Same location as above → DNS tab</li>
+                        <li>Add: 8.8.8.8 and 8.8.4.4 (Google DNS)</li>
+                        <li>Or: 1.1.1.1 and 1.0.0.1 (Cloudflare)</li>
+                    </ul>
+                </li>
+                <li>Reset network settings</li>
+                <li>Check if router has internet (test other devices)</li>
+            </ol>
+
+            <h4>Slow Wi-Fi:</h4>
+            <ul>
+                <li>Move closer to router</li>
+                <li>Check for interference (microwaves, cordless phones)</li>
+                <li>Change Wi-Fi channel on router (use 1, 6, or 11 on 2.4GHz)</li>
+                <li>Use 5GHz network if available (faster, shorter range)</li>
+                <li>Run speed test: fast.com</li>
+                <li>Close bandwidth-heavy apps</li>
+            </ul>
+
+            <h3>2. Bluetooth Issues</h3>
+
+            <h4>Bluetooth Won't Turn On:</h4>
+            <ol>
+                <li>Restart Mac</li>
+                <li>Reset Bluetooth module:
+                    <ul>
+                        <li>Hold Shift + Option</li>
+                        <li>Click Bluetooth in menu bar</li>
+                        <li>"Reset the Bluetooth module"</li>
+                        <li>Restart Mac</li>
+                    </ul>
+                </li>
+                <li>Delete Bluetooth .plist:
+                    <ul>
+                        <li>/Library/Preferences/com.apple.Bluetooth.plist</li>
+                        <li>Restart</li>
+                    </ul>
+                </li>
+                <li>Reset SMC and NVRAM</li>
+            </ol>
+
+            <h4>Device Won't Pair:</h4>
+            <ol>
+                <li>Make device discoverable (check device manual)</li>
+                <li>Forget device and re-pair:
+                    <ul>
+                        <li>System Settings → Bluetooth</li>
+                        <li>Click (i) next to device</li>
+                        <li>"Forget This Device"</li>
+                        <li>Pair again</li>
+                    </ul>
+                </li>
+                <li>Charge Bluetooth device fully</li>
+                <li>Move devices closer (within 30 feet)</li>
+                <li>Turn off other Bluetooth devices (reduce interference)</li>
+                <li>Reset device (check manufacturer instructions)</li>
+            </ol>
+
+            <h4>Audio Stuttering/Cutting Out:</h4>
+            <ul>
+                <li>Move closer to Mac</li>
+                <li>Remove obstacles between devices</li>
+                <li>Turn off Wi-Fi temporarily (test if interference)</li>
+                <li>Unpair and re-pair device</li>
+                <li>Check battery level</li>
+            </ul>
+
+            <h3>3. AirDrop Not Working</h3>
+
+            <h4>Can't See Other Devices:</h4>
+            <ol>
+                <li>Enable AirDrop on both devices:
+                    <ul>
+                        <li>Finder → AirDrop (sidebar)</li>
+                        <li>Set "Allow me to be discovered by: Everyone"</li>
+                    </ul>
+                </li>
+                <li>Enable Wi-Fi and Bluetooth on both devices</li>
+                <li>Turn off Personal Hotspot</li>
+                <li>Disable VPN temporarily</li>
+                <li>Sign in to same iCloud account (for "Contacts Only")</li>
+                <li>Restart both devices</li>
+                <li>Toggle AirDrop off/on</li>
+            </ol>
+
+            <h4>Transfer Failing:</h4>
+            <ul>
+                <li>Move devices closer (within 30 feet)</li>
+                <li>Disable Do Not Disturb</li>
+                <li>Check storage space on receiving device</li>
+                <li>Try sending smaller file first</li>
+            </ul>
+
+            <h3>4. External Display Issues</h3>
+
+            <h4>Display Not Detected:</h4>
+            <ol>
+                <li>Check cable connections (both ends)</li>
+                <li>Try different cable</li>
+                <li>Try different port on Mac</li>
+                <li>Restart Mac with display connected</li>
+                <li>Detect displays manually:
+                    <ul>
+                        <li>System Settings → Displays</li>
+                        <li>Hold Option key</li>
+                        <li>Click "Detect Displays" button</li>
+                    </ul>
+                </li>
+                <li>Reset NVRAM</li>
+                <li>Update macOS</li>
+            </ol>
+
+            <h4>Wrong Resolution:</h4>
+            <ul>
+                <li>System Settings → Displays</li>
+                <li>Select external display</li>
+                <li>Choose "Scaled" and select proper resolution</li>
+                <li>Hold Option and click "Scaled" for more options</li>
+            </ul>
+
+            <h3>5. USB Devices Not Recognized</h3>
+
+            <h4>Device Not Showing Up:</h4>
+            <ol>
+                <li>Try different USB-C port</li>
+                <li>Try different cable</li>
+                <li>Test device on another computer</li>
+                <li>Restart Mac with device connected</li>
+                <li>Check if device needs drivers</li>
+                <li>Reset SMC</li>
+                <li>Check System Settings → Privacy & Security for blocked devices</li>
+            </ol>
+
+            <h3>6. iCloud Sync Issues</h3>
+
+            <h4>Files Not Syncing:</h4>
+            <ol>
+                <li>Check internet connection</li>
+                <li>Check iCloud status: apple.com/support/systemstatus</li>
+                <li>Verify iCloud storage not full</li>
+                <li>Sign out and back in to iCloud</li>
+                <li>Toggle iCloud Drive off/on:
+                    <ul>
+                        <li>System Settings → Apple ID → iCloud</li>
+                        <li>Turn iCloud Drive off, wait 1 min, turn on</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>7. Ethernet Connection</h3>
+
+            <h4>Wired Connection Not Working:</h4>
+            <ol>
+                <li>Check cable is fully plugged in</li>
+                <li>Try different ethernet cable</li>
+                <li>Try different port on router/switch</li>
+                <li>Check link light on ethernet adapter</li>
+                <li>System Settings → Network → Make sure ethernet is at top of list (drag to reorder)</li>
+                <li>Renew DHCP lease</li>
+            </ol>
+
+            <div class="tip-box">
+                <strong>💡 Network Diagnostics:</strong> Use Wireless Diagnostics app (in /System/Library/CoreServices/) to analyze Wi-Fi issues. Hold Option and click Wi-Fi icon for quick signal info.
+            </div>
+        </div>
+
+        <a href="support.html" class="back-link">← Back to Support</a>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 MacBook Tech Desk. All rights reserved.</p>
+    </footer>
+
+    <button class="secret-trigger" id="secretBtn"></button>
+    <script>
+        document.getElementById('secretBtn').addEventListener('click', () => { window.location.href = 'games.html'; });
+    </script>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardware Repair - MacBook Tech Desk</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #f5f5f7; line-height: 1.6; }
+        .header { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px); color: white; padding: 16px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .logo { font-size: 1.5rem; font-weight: 600; cursor: pointer; }
+        .nav-menu { display: flex; gap: 30px; list-style: none; }
+        .nav-menu a { color: #f5f5f7; text-decoration: none; font-size: 0.95rem; transition: color 0.3s; }
+        .nav-menu a:hover { color: #667eea; }
+        .page-header { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; text-align: center; padding: 80px 20px; }
+        .page-header h1 { font-size: 3rem; font-weight: 800; }
+        .content { max-width: 900px; margin: 60px auto; padding: 0 20px; }
+        .guide-section { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 24px; margin-bottom: 30px; }
+        .guide-section h2 { font-size: 2rem; margin-bottom: 20px; color: #f59e0b; }
+        .guide-section h3 { font-size: 1.5rem; margin: 25px 0 15px; color: #fff; }
+        .guide-section p, .guide-section li { color: #b0b0b0; margin-bottom: 15px; line-height: 1.8; }
+        .guide-section ul, .guide-section ol { margin: 15px 0 15px 25px; }
+        .tip-box { background: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .tip-box strong { color: #f59e0b; }
+        .warning-box { background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .warning-box strong { color: #ef4444; }
+        .back-link { display: inline-block; margin: 30px 0; color: #667eea; text-decoration: none; font-weight: 600; }
+        .footer { background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 40px 20px; text-align: center; color: #b0b0b0; margin-top: 60px; }
+        .secret-trigger { position: fixed; bottom: 20px; right: 20px; width: 8px; height: 8px; background: rgba(255, 255, 255, 0.15); border-radius: 50%; border: none; cursor: pointer; transition: all 0.3s; z-index: 999; }
+        .secret-trigger:hover { background: rgba(102, 126, 234, 0.5); box-shadow: 0 0 15px rgba(102, 126, 234, 0.5); transform: scale(1.5); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo" onclick="location.href='index.html'">🍎 MacBook Tech Desk</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="guides.html">Guides</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header"><h1>🔧 Hardware Repair Guide</h1></div>
+
+    <div class="content">
+        <div class="guide-section">
+            <h2>MacBook Hardware Diagnostics & Repair</h2>
+            <p>This guide covers common hardware issues and how to diagnose and fix them. For complex repairs, always consult Apple or an authorized service provider.</p>
+
+            <div class="warning-box">
+                <strong>⚠️ Important:</strong> Opening your MacBook may void your warranty. Check your warranty status before attempting repairs. For newer MacBooks, internal repairs require specialized tools and expertise.
+            </div>
+
+            <h3>1. Screen Issues</h3>
+            
+            <h4>Black Screen / Won't Turn On:</h4>
+            <ul>
+                <li><strong>Check Power:</strong> Ensure battery is charged, try different outlet</li>
+                <li><strong>Force Restart:</strong> Hold Power button for 10 seconds, release, then press again</li>
+                <li><strong>Reset SMC:</strong> For Intel Macs: Shift + Control + Option + Power for 10 seconds</li>
+                <li><strong>Brightness:</strong> Screen might be at minimum - press F2 to increase</li>
+                <li><strong>External Display:</strong> Connect to external monitor to test if it's the screen or logic board</li>
+            </ul>
+
+            <h4>Flickering or Lines on Screen:</h4>
+            <ul>
+                <li>Update macOS to latest version</li>
+                <li>Reset NVRAM: Command + Option + P + R at startup (hold 20 seconds)</li>
+                <li>Boot in Safe Mode: Hold Shift during startup</li>
+                <li>If issue persists: Likely hardware defect requiring screen replacement</li>
+            </ul>
+
+            <h4>Cracked or Damaged Screen:</h4>
+            <ul>
+                <li>Must be replaced by professional</li>
+                <li>Cost: $300-$800 depending on model</li>
+                <li>Use external monitor temporarily</li>
+                <li>Check if AppleCare+ covers accidental damage</li>
+            </ul>
+
+            <h3>2. Battery Problems</h3>
+
+            <h4>Battery Draining Quickly:</h4>
+            <ol>
+                <li>Check Battery Health:
+                    <ul>
+                        <li>Hold Option key, click battery icon in menu bar</li>
+                        <li>Look for "Condition: Normal" (anything else needs attention)</li>
+                        <li>System Settings → Battery → Battery Health for details</li>
+                    </ul>
+                </li>
+                <li>Reduce Power Usage:
+                    <ul>
+                        <li>Lower screen brightness</li>
+                        <li>Close unnecessary apps (check Activity Monitor)</li>
+                        <li>Disable Bluetooth/Wi-Fi when not needed</li>
+                        <li>Enable Low Power Mode</li>
+                    </ul>
+                </li>
+                <li>Reset SMC (often fixes battery issues)</li>
+                <li>Recalibrate Battery:
+                    <ul>
+                        <li>Charge to 100%</li>
+                        <li>Use until it shuts down</li>
+                        <li>Leave off for 5 hours</li>
+                        <li>Charge to 100% without interruption</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h4>Battery Not Charging:</h4>
+            <ul>
+                <li>Check cable for damage</li>
+                <li>Try different outlet/power adapter</li>
+                <li>Clean charging port with compressed air</li>
+                <li>Reset SMC</li>
+                <li>If battery shows "Service Recommended" or "Replace Now" - needs replacement</li>
+            </ul>
+
+            <h4>Battery Replacement:</h4>
+            <ul>
+                <li>Apple Service: $129-$199 (out of warranty)</li>
+                <li>Battery cycle count > 1000: Time for replacement</li>
+                <li>Modern MacBooks have glued-in batteries - professional service required</li>
+            </ul>
+
+            <h3>3. Keyboard Issues</h3>
+
+            <h4>Stuck or Unresponsive Keys:</h4>
+            <ol>
+                <li>Clean Keyboard:
+                    <ul>
+                        <li>Turn Mac off</li>
+                        <li>Hold at 75-degree angle</li>
+                        <li>Use compressed air to blow under keys (left to right)</li>
+                        <li>Rotate and repeat from all angles</li>
+                    </ul>
+                </li>
+                <li>Test in Safe Mode (eliminates software issues)</li>
+                <li>External Keyboard Test: If external keyboard works, it's hardware</li>
+            </ol>
+
+            <h4>Butterfly Keyboard Issues (2015-2019 MacBooks):</h4>
+            <ul>
+                <li>Apple has free repair program for eligible models</li>
+                <li>Check Apple's Keyboard Service Program</li>
+                <li>Symptoms: repeating keys, letters not appearing, keys feeling "sticky"</li>
+            </ul>
+
+            <h4>Full Keyboard Replacement:</h4>
+            <ul>
+                <li>Cost: $300-$700 (includes top case on many models)</li>
+                <li>Must be done by Apple/authorized provider</li>
+            </ul>
+
+            <h3>4. Trackpad Problems</h3>
+
+            <h4>Trackpad Not Clicking:</h4>
+            <ul>
+                <li>Enable "Tap to Click": System Settings → Trackpad</li>
+                <li>Check for swollen battery (pushes trackpad up)</li>
+                <li>Restart Mac</li>
+                <li>Reset SMC and NVRAM</li>
+                <li>Clean trackpad surface</li>
+            </ul>
+
+            <h4>Cursor Jumping or Erratic:</h4>
+            <ul>
+                <li>Adjust tracking speed: System Settings → Trackpad</li>
+                <li>Disable "Force Click" if problematic</li>
+                <li>Check for interference (wireless devices nearby)</li>
+                <li>Clean trackpad thoroughly</li>
+            </ul>
+
+            <h3>5. Overheating Issues</h3>
+
+            <h4>Mac Running Hot:</h4>
+            <ol>
+                <li>Check Activity Monitor for CPU-intensive apps</li>
+                <li>Ensure vents aren't blocked</li>
+                <li>Clean vents with compressed air</li>
+                <li>Use Mac on hard, flat surface (not bed/couch)</li>
+                <li>Reset SMC</li>
+                <li>Consider laptop cooling pad</li>
+            </ol>
+
+            <h4>Fan Always Running Loud:</h4>
+            <ul>
+                <li>Normal during intensive tasks (video editing, gaming)</li>
+                <li>If constant: Check Activity Monitor for runaway processes</li>
+                <li>Reset SMC</li>
+                <li>May need thermal paste replacement (advanced repair)</li>
+            </ul>
+
+            <h3>6. Port Issues</h3>
+
+            <h4>USB-C Ports Not Working:</h4>
+            <ul>
+                <li>Try different cable</li>
+                <li>Clean port with compressed air</li>
+                <li>Test with different device</li>
+                <li>Reset SMC and NVRAM</li>
+                <li>Update macOS</li>
+            </ul>
+
+            <h4>Headphone Jack Issues:</h4>
+            <ul>
+                <li>Check for debris in port</li>
+                <li>Test different headphones</li>
+                <li>Reset NVRAM</li>
+                <li>Check Sound settings for output device</li>
+            </ul>
+
+            <h3>7. Speaker/Audio Problems</h3>
+
+            <h4>No Sound:</h4>
+            <ol>
+                <li>Check volume level (not muted)</li>
+                <li>Check Sound settings: correct output device selected</li>
+                <li>Option-click speaker icon to select output</li>
+                <li>Reset NVRAM</li>
+                <li>Boot in Safe Mode to test</li>
+            </ol>
+
+            <h4>Crackling or Distorted Audio:</h4>
+            <ul>
+                <li>Update macOS</li>
+                <li>Reset NVRAM</li>
+                <li>Check for software conflicts (audio apps)</li>
+                <li>Test with headphones - if clear, internal speakers may be damaged</li>
+            </ul>
+
+            <h3>8. Wi-Fi/Bluetooth Hardware</h3>
+
+            <h4>Wi-Fi Not Working:</h4>
+            <ol>
+                <li>Turn Wi-Fi off and on</li>
+                <li>Forget network and reconnect</li>
+                <li>Reset SMC and NVRAM</li>
+                <li>Delete Wi-Fi preference files (advanced)</li>
+                <li>Test other networks</li>
+                <li>If no networks detected: Hardware issue</li>
+            </ol>
+
+            <h3>9. When to Seek Professional Repair</h3>
+
+            <div class="warning-box">
+                <strong>⚠️ Get Professional Help For:</strong>
+                <ul>
+                    <li>Liquid damage</li>
+                    <li>Physical damage (drops, cracks)</li>
+                    <li>Component-level repairs (logic board, etc.)</li>
+                    <li>Battery swelling (stop using immediately!)</li>
+                    <li>Smoke or burning smell</li>
+                    <li>Any issue while under warranty</li>
+                </ul>
+            </div>
+
+            <h3>Diagnostic Tools</h3>
+
+            <h4>Apple Diagnostics:</h4>
+            <ol>
+                <li>Shut down Mac</li>
+                <li>Turn on and immediately press and hold <strong>D</strong></li>
+                <li>Release when you see language selection</li>
+                <li>Choose language</li>
+                <li>Diagnostics will run automatically (3-5 minutes)</li>
+                <li>Note any error codes (e.g., "VFD001" for fan issue)</li>
+            </ol>
+
+            <h4>Check Warranty Status:</h4>
+            <ol>
+                <li>Apple menu → About This Mac</li>
+                <li>Note serial number</li>
+                <li>Visit checkcoverage.apple.com</li>
+                <li>Enter serial number</li>
+            </ol>
+
+            <h3>Repair Options</h3>
+
+            <h4>Apple Store Genius Bar:</h4>
+            <ul>
+                <li>Book appointment online</li>
+                <li>Free diagnostics</li>
+                <li>Genuine parts</li>
+                <li>Warranty-safe repairs</li>
+            </ul>
+
+            <h4>Apple Authorized Service Provider:</h4>
+            <ul>
+                <li>Same quality as Apple</li>
+                <li>Sometimes faster turnaround</li>
+                <li>May be more convenient location</li>
+            </ul>
+
+            <h4>Mail-In Repair:</h4>
+            <ul>
+                <li>Apple will send prepaid box</li>
+                <li>5-7 day turnaround</li>
+                <li>Good for non-urgent repairs</li>
+            </ul>
+
+            <div class="tip-box">
+                <strong>💡 Save Money:</strong> Always check for Apple repair programs. Apple has extended warranty programs for known issues (keyboard, battery, display, etc.). Your repair might be free even if warranty expired!
+            </div>
+
+            <h3>Prevention Tips</h3>
+            <ul>
+                <li>✅ Use protective case when traveling</li>
+                <li>✅ Keep liquids away from Mac</li>
+                <li>✅ Clean vents and keyboard regularly</li>
+                <li>✅ Use surge protector</li>
+                <li>✅ Handle with care (avoid drops)</li>
+                <li>✅ Keep software updated</li>
+                <li>✅ Don't force ports or connections</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 MacBook Tech Desk. All rights reserved.</p>
+    </footer>
+
+    <button class="secret-trigger" id="secretBtn"></button>
+    <script>
+        document.getElementById('secretBtn').addEventListener('click', () => { window.location.href = 'games.html'; });
+    </script>
+</body>
+</html>

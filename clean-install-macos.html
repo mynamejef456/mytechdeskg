@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Install macOS - MacBook Tech Desk</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #f5f5f7; line-height: 1.6; }
+        .header { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px); color: white; padding: 16px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .logo { font-size: 1.5rem; font-weight: 600; cursor: pointer; }
+        .nav-menu { display: flex; gap: 30px; list-style: none; }
+        .nav-menu a { color: #f5f5f7; text-decoration: none; font-size: 0.95rem; transition: color 0.3s; }
+        .nav-menu a:hover { color: #667eea; }
+        .page-header { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: white; text-align: center; padding: 80px 20px; }
+        .page-header h1 { font-size: 3rem; font-weight: 800; }
+        .content { max-width: 900px; margin: 60px auto; padding: 0 20px; }
+        .guide-section { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 24px; margin-bottom: 30px; }
+        .guide-section h2 { font-size: 2rem; margin-bottom: 20px; color: #dc2626; }
+        .guide-section h3 { font-size: 1.5rem; margin: 25px 0 15px; color: #fff; }
+        .guide-section p, .guide-section li { color: #b0b0b0; margin-bottom: 15px; line-height: 1.8; }
+        .guide-section ul, .guide-section ol { margin: 15px 0 15px 25px; }
+        .warning-box { background: rgba(220, 38, 38, 0.1); border-left: 4px solid #dc2626; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .warning-box strong { color: #dc2626; }
+        .tip-box { background: rgba(34, 197, 94, 0.1); border-left: 4px solid #22c55e; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .tip-box strong { color: #22c55e; }
+        .back-link { display: inline-block; margin: 30px 0; color: #667eea; text-decoration: none; font-weight: 600; }
+        .footer { background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 40px 20px; text-align: center; color: #b0b0b0; margin-top: 60px; }
+        .secret-trigger { position: fixed; bottom: 20px; right: 20px; width: 8px; height: 8px; background: rgba(255, 255, 255, 0.15); border-radius: 50%; border: none; cursor: pointer; transition: all 0.3s; z-index: 999; }
+        .secret-trigger:hover { background: rgba(102, 126, 234, 0.5); box-shadow: 0 0 15px rgba(102, 126, 234, 0.5); transform: scale(1.5); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo" onclick="location.href='index.html'">🍎 MacBook Tech Desk</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="guides.html">Guides</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header"><h1>🔄 Clean Install macOS</h1></div>
+
+    <div class="content">
+        <div class="guide-section">
+            <h2>Complete Guide to Clean Installing macOS</h2>
+            <p>A clean install erases everything and installs macOS fresh. This resolves persistent software issues and gives you a like-new Mac.</p>
+
+            <div class="warning-box">
+                <strong>⚠️ CRITICAL - READ FIRST:</strong>
+                <ul>
+                    <li>This ERASES EVERYTHING on your Mac</li>
+                    <li>Back up ALL important data first!</li>
+                    <li>Make sure you have your Apple ID password</li>
+                    <li>Download any software installers you'll need</li>
+                    <li>Note serial numbers/licenses for paid software</li>
+                    <li>Set aside 2-4 hours for complete process</li>
+                </ul>
+            </div>
+
+            <h3>When to Clean Install</h3>
+            <ul>
+                <li>Persistent software problems</li>
+                <li>Mac extremely slow despite troubleshooting</li>
+                <li>Before selling your Mac</li>
+                <li>After buying used Mac</li>
+                <li>System files corrupted</li>
+                <li>Want fresh start</li>
+            </ul>
+
+            <h3>Step 1: Back Up Everything</h3>
+            <ol>
+                <li><strong>Time Machine Backup:</strong>
+                    <ul>
+                        <li>Connect external drive</li>
+                        <li>System Settings → Time Machine</li>
+                        <li>Complete full backup</li>
+                    </ul>
+                </li>
+                <li><strong>Manually Copy Important Files:</strong>
+                    <ul>
+                        <li>Documents</li>
+                        <li>Photos (or ensure in iCloud)</li>
+                        <li>Downloads you want to keep</li>
+                        <li>Browser bookmarks (export)</li>
+                        <li>Application settings if needed</li>
+                    </ul>
+                </li>
+                <li><strong>Deauthorize Apps:</strong>
+                    <ul>
+                        <li>iTunes/Music: Account → Deauthorize This Computer</li>
+                        <li>Adobe Creative Cloud: Sign out</li>
+                        <li>Any other licensed software</li>
+                    </ul>
+                </li>
+                <li><strong>Sign Out of Services:</strong>
+                    <ul>
+                        <li>iCloud: System Settings → Apple ID → Sign Out</li>
+                        <li>iMessage</li>
+                        <li>FaceTime</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>Step 2: Create Bootable Installer (Optional)</h3>
+            <p>Recommended if you want specific macOS version or offline install:</p>
+            <ol>
+                <li>Download macOS from App Store</li>
+                <li>Get 16GB+ USB drive (will be erased)</li>
+                <li>Open Terminal and run:
+                    <ul>
+                        <li>For Sonoma: <code>sudo /Applications/Install\ macOS\ Sonoma.app/Contents/Resources/createinstallmedia --volume /Volumes/MyVolume</code></li>
+                        <li>Replace "MyVolume" with your USB name</li>
+                    </ul>
+                </li>
+                <li>Enter password when prompted</li>
+                <li>Wait for completion (10-30 minutes)</li>
+            </ol>
+
+            <h3>Step 3: Boot into Recovery Mode</h3>
+            
+            <h4>For Intel Macs:</h4>
+            <ol>
+                <li>Restart Mac</li>
+                <li>Immediately hold <strong>Command + R</strong></li>
+                <li>Keep holding until you see Apple logo or spinning globe</li>
+                <li>Release keys</li>
+            </ol>
+
+            <h4>For Apple Silicon (M1/M2/M3):</h4>
+            <ol>
+                <li>Shut down Mac completely</li>
+                <li>Press and hold Power button until "Loading startup options" appears</li>
+                <li>Click <strong>Options</strong></li>
+                <li>Click <strong>Continue</strong></li>
+            </ol>
+
+            <h3>Step 4: Erase Your Mac</h3>
+            <ol>
+                <li>From Recovery, select <strong>Disk Utility</strong></li>
+                <li>Click <strong>Continue</strong></li>
+                <li>In Disk Utility:
+                    <ul>
+                        <li>Click <strong>View</strong> → <strong>Show All Devices</strong></li>
+                        <li>Select your main drive (usually "Macintosh HD" or "Apple SSD")</li>
+                        <li>Click <strong>Erase</strong></li>
+                        <li>Name: "Macintosh HD"</li>
+                        <li>Format: "APFS" (default)</li>
+                        <li>Click <strong>Erase</strong></li>
+                        <li>Wait for completion</li>
+                    </ul>
+                </li>
+                <li>Click <strong>Done</strong></li>
+                <li>Close Disk Utility (⌘ + Q)</li>
+            </ol>
+
+            <div class="warning-box">
+                <strong>⚠️ Point of No Return:</strong> After erasing, your data is gone! Make sure backups are complete before this step.
+            </div>
+
+            <h3>Step 5: Install macOS</h3>
+            <ol>
+                <li>From Recovery menu, select <strong>Reinstall macOS</strong></li>
+                <li>Click <strong>Continue</strong></li>
+                <li>Agree to terms and conditions</li>
+                <li>Select your erased disk (Macintosh HD)</li>
+                <li>Click <strong>Install</strong></li>
+                <li>Mac will restart several times (30-60 minutes)</li>
+                <li>Don't interrupt the process!</li>
+            </ol>
+
+            <h3>Step 6: Initial Setup</h3>
+            <ol>
+                <li>Select country/region</li>
+                <li>Choose keyboard layout</li>
+                <li>Connect to Wi-Fi</li>
+                <li>Migration options:
+                    <ul>
+                        <li><strong>Restore from Time Machine:</strong> Gets all your data back</li>
+                        <li><strong>From Mac, Time Machine backup, or startup disk:</strong> Transfer from another Mac</li>
+                        <li><strong>Not Now:</strong> Start completely fresh (clean install)</li>
+                    </ul>
+                </li>
+                <li>Sign in with Apple ID (or create one)</li>
+                <li>Create user account</li>
+                <li>Enable FileVault (recommended)</li>
+                <li>Set up Touch ID</li>
+                <li>Choose privacy settings</li>
+                <li>Customize appearance (light/dark mode)</li>
+            </ol>
+
+            <h3>Step 7: Post-Install Setup</h3>
+
+            <h4>1. System Updates:</h4>
+            <ul>
+                <li>System Settings → General → Software Update</li>
+                <li>Install all available updates</li>
+            </ul>
+
+            <h4>2. Restore Your Data:</h4>
+            <p>If you didn't use Migration Assistant:</p>
+            <ul>
+                <li>Manually copy files from backup</li>
+                <li>Reinstall applications</li>
+                <li>Sign in to iCloud</li>
+                <li>Restore browser bookmarks</li>
+            </ul>
+
+            <h4>3. Essential Apps to Reinstall:</h4>
+            <ul>
+                <li>Web browsers</li>
+                <li>Productivity apps</li>
+                <li>Cloud storage (Dropbox, Google Drive)</li>
+                <li>Communication (Slack, Discord)</li>
+                <li>Development tools (if applicable)</li>
+            </ul>
+
+            <h4>4. Configure System Settings:</h4>
+            <ul>
+                <li>Set up Time Machine again</li>
+                <li>Configure Dock</li>
+                <li>Set desktop wallpaper</li>
+                <li>Configure trackpad gestures</li>
+                <li>Set up hot corners</li>
+                <li>Enable Night Shift</li>
+            </ul>
+
+            <h3>Troubleshooting</h3>
+
+            <h4>Can't Boot into Recovery:</h4>
+            <ul>
+                <li>Try internet recovery: Command + Option + R (Intel)</li>
+                <li>This downloads Recovery over internet</li>
+                <li>Requires stable internet connection</li>
+            </ul>
+
+            <h4>Installation Fails:</h4>
+            <ul>
+                <li>Ensure Mac is plugged into power</li>
+                <li>Check internet connection</li>
+                <li>Try different macOS version</li>
+                <li>Run Disk Utility First Aid before installing</li>
+            </ul>
+
+            <h4>Activation Lock:</h4>
+            <ul>
+                <li>If buying used Mac, ensure previous owner removed Activation Lock</li>
+                <li>You need their Apple ID to proceed</li>
+                <li>Contact previous owner or Apple Support</li>
+            </ul>
+
+            <h3>Clean Install vs. Reinstall</h3>
+
+            <p><strong>Clean Install:</strong></p>
+            <ul>
+                <li>Erases everything</li>
+                <li>Fresh start</li>
+                <li>Fixes most software issues</li>
+                <li>Takes more time to set up</li>
+            </ul>
+
+            <p><strong>Reinstall (from Recovery without erasing):</strong></p>
+            <ul>
+                <li>Keeps your files</li>
+                <li>Reinstalls macOS only</li>
+                <li>May not fix all issues</li>
+                <li>Faster setup</li>
+            </ul>
+
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> After clean install, install apps gradually. This helps identify if a specific app was causing issues before. Don't restore everything at once!
+            </div>
+
+            <h3>Post-Install Checklist</h3>
+            <ul>
+                <li>✅ All software updates installed</li>
+                <li>✅ Time Machine backup configured</li>
+                <li>✅ iCloud signed in and syncing</li>
+                <li>✅ Essential apps installed</li>
+                <li>✅ FileVault enabled</li>
+                <li>✅ Firewall enabled</li>
+                <li>✅ Touch ID configured</li>
+                <li>✅ System preferences customized</li>
+                <li>✅ Browser bookmarks imported</li>
+                <li>✅ Email accounts set up</li>
+            </ul>
+
+            <h3>Alternative: Internet Recovery</h3>
+            <p>Installs macOS without Recovery partition:</p>
+            <ol>
+                <li>Restart Mac</li>
+                <li>Hold: <strong>Command + Option + R</strong> (Intel)</li>
+                <li>Or: <strong>Shift + Option + Command + R</strong> (for original OS)</li>
+                <li>Connect to Wi-Fi when prompted</li>
+                <li>Downloads and boots into Recovery over internet</li>
+                <li>Follow same steps as regular Recovery</li>
+            </ol>
+
+            <h3>When to Contact Apple Support</h3>
+            <ul>
+                <li>Can't access Recovery Mode</li>
+                <li>Installation repeatedly fails</li>
+                <li>Firmware password preventing access</li>
+                <li>Hardware errors during Disk Utility</li>
+                <li>Activation Lock issues</li>
+            </ul>
+
+            <p><strong>Apple Support:</strong> 1-800-MY-APPLE or support.apple.com</p>
+        </div>
+
+        <a href="guides.html" class="back-link">← Back to Guides</a>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 MacBook Tech Desk. All rights reserved.</p>
+    </footer>
+
+    <button class="secret-trigger" id="secretBtn"></button>
+    <script>
+        document.getElementById('secretBtn').addEventListener('click', () => { window.location.href = 'games.html'; });
+    </script>
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Support - MacBook Tech Desk</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #f5f5f7; line-height: 1.6; }
+        .header { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px); color: white; padding: 16px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .logo { font-size: 1.5rem; font-weight: 600; cursor: pointer; }
+        .nav-menu { display: flex; gap: 30px; list-style: none; }
+        .nav-menu a { color: #f5f5f7; text-decoration: none; font-size: 0.95rem; transition: color 0.3s; }
+        .nav-menu a:hover { color: #667eea; }
+        .page-header { background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%); color: white; text-align: center; padding: 80px 20px; }
+        .page-header h1 { font-size: 3rem; font-weight: 800; }
+        .content { max-width: 900px; margin: 60px auto; padding: 0 20px; }
+        .guide-section { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 24px; margin-bottom: 30px; }
+        .guide-section h2 { font-size: 2rem; margin-bottom: 20px; color: #8b5cf6; }
+        .guide-section h3 { font-size: 1.5rem; margin: 25px 0 15px; color: #fff; }
+        .guide-section p, .guide-section li { color: #b0b0b0; margin-bottom: 15px; line-height: 1.8; }
+        .guide-section ul, .guide-section ol { margin: 15px 0 15px 25px; }
+        .tip-box { background: rgba(139, 92, 246, 0.1); border-left: 4px solid #8b5cf6; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .tip-box strong { color: #8b5cf6; }
+        .warning-box { background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .warning-box strong { color: #ef4444; }
+        .back-link { display: inline-block; margin: 30px 0; color: #667eea; text-decoration: none; font-weight: 600; }
+        .footer { background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 40px 20px; text-align: center; color: #b0b0b0; margin-top: 60px; }
+        .secret-trigger { position: fixed; bottom: 20px; right: 20px; width: 8px; height: 8px; background: rgba(255, 255, 255, 0.15); border-radius: 50%; border: none; cursor: pointer; transition: all 0.3s; z-index: 999; }
+        .secret-trigger:hover { background: rgba(102, 126, 234, 0.5); box-shadow: 0 0 15px rgba(102, 126, 234, 0.5); transform: scale(1.5); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo" onclick="location.href='index.html'">🍎 MacBook Tech Desk</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="guides.html">Guides</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header"><h1>💻 Software Support Guide</h1></div>
+
+    <div class="content">
+        <div class="guide-section">
+            <h2>macOS Troubleshooting & Software Issues</h2>
+            <p>Comprehensive solutions for common software problems on your MacBook.</p>
+
+            <h3>1. macOS Won't Update</h3>
+
+            <h4>Common Causes & Fixes:</h4>
+            <ol>
+                <li><strong>Not Enough Storage:</strong>
+                    <ul>
+                        <li>Need 15-20GB free for major updates</li>
+                        <li>Delete files or move to external drive</li>
+                        <li>Empty Trash</li>
+                        <li>Check: Apple menu → About This Mac → Storage</li>
+                    </ul>
+                </li>
+                <li><strong>Download Issues:</strong>
+                    <ul>
+                        <li>Restart Mac and try again</li>
+                        <li>Check internet connection stability</li>
+                        <li>Try different network (mobile hotspot)</li>
+                        <li>Delete partial download: ~/Library/Updates</li>
+                    </ul>
+                </li>
+                <li><strong>Installation Failed:</strong>
+                    <ul>
+                        <li>Boot into Safe Mode (hold Shift at startup)</li>
+                        <li>Try update from Safe Mode</li>
+                        <li>Reset NVRAM: Command + Option + P + R at startup</li>
+                        <li>Try installing from Recovery Mode</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>2. Apps Crashing or Freezing</h3>
+
+            <h4>Force Quit Frozen App:</h4>
+            <ul>
+                <li>Press <strong>Command + Option + Esc</strong></li>
+                <li>Select app from list</li>
+                <li>Click <strong>Force Quit</strong></li>
+            </ul>
+
+            <h4>Fix Persistent Crashes:</h4>
+            <ol>
+                <li><strong>Update the App:</strong>
+                    <ul>
+                        <li>Check App Store for updates</li>
+                        <li>Or check app's website</li>
+                    </ul>
+                </li>
+                <li><strong>Delete App Preferences:</strong>
+                    <ul>
+                        <li>Finder → Go → Go to Folder</li>
+                        <li>Type: ~/Library/Preferences</li>
+                        <li>Find app's .plist files and delete</li>
+                        <li>Restart app</li>
+                    </ul>
+                </li>
+                <li><strong>Reinstall App:</strong>
+                    <ul>
+                        <li>Uninstall completely (use AppCleaner)</li>
+                        <li>Restart Mac</li>
+                        <li>Reinstall fresh copy</li>
+                    </ul>
+                </li>
+                <li><strong>Check Console Logs:</strong>
+                    <ul>
+                        <li>Open Console app (Utilities)</li>
+                        <li>Look for error messages when app crashes</li>
+                        <li>Search error online for solutions</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>3. Mac Running Slow</h3>
+
+            <h4>Quick Fixes:</h4>
+            <ol>
+                <li><strong>Restart Your Mac</strong> (clears RAM)</li>
+                <li><strong>Check Activity Monitor:</strong>
+                    <ul>
+                        <li>Applications → Utilities → Activity Monitor</li>
+                        <li>Click CPU tab</li>
+                        <li>Quit apps using >80% CPU</li>
+                        <li>Check Memory tab - if "Memory Pressure" is red, need more RAM or close apps</li>
+                    </ul>
+                </li>
+                <li><strong>Reduce Login Items:</strong>
+                    <ul>
+                        <li>System Settings → General → Login Items</li>
+                        <li>Remove unnecessary startup apps</li>
+                    </ul>
+                </li>
+                <li><strong>Free Up Storage:</strong>
+                    <ul>
+                        <li>Keep 15% free for best performance</li>
+                        <li>Use Storage Management tool</li>
+                    </ul>
+                </li>
+                <li><strong>Clear Caches:</strong>
+                    <ul>
+                        <li>Finder → Go → Go to Folder</li>
+                        <li>~/Library/Caches - delete contents</li>
+                        <li>/Library/Caches - delete contents (need admin)</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> Run Disk Utility First Aid monthly. Open Disk Utility, select your drive, click First Aid. This fixes file system errors that slow down your Mac.
+            </div>
+
+            <h3>4. Bluetooth Not Working</h3>
+
+            <h4>Troubleshooting Steps:</h4>
+            <ol>
+                <li>Toggle Bluetooth off and on</li>
+                <li>Restart Mac</li>
+                <li>Reset Bluetooth module:
+                    <ul>
+                        <li>Hold Shift + Option</li>
+                        <li>Click Bluetooth icon in menu bar</li>
+                        <li>Select "Reset the Bluetooth module"</li>
+                        <li>Restart Mac</li>
+                    </ul>
+                </li>
+                <li>Delete Bluetooth .plist files:
+                    <ul>
+                        <li>/Library/Preferences/com.apple.Bluetooth.plist</li>
+                        <li>Restart</li>
+                    </ul>
+                </li>
+                <li>Reset SMC and NVRAM</li>
+            </ol>
+
+            <h3>5. Storage Full Warnings</h3>
+
+            <h4>Quick Space Savers:</h4>
+            <ul>
+                <li><strong>Empty Trash:</strong> Right-click Trash → Empty Trash</li>
+                <li><strong>Delete Downloads:</strong> Review ~/Downloads folder</li>
+                <li><strong>Remove Old iOS Backups:</strong>
+                    <ul>
+                        <li>Finder → Preferences → Devices</li>
+                        <li>Delete old device backups</li>
+                    </ul>
+                </li>
+                <li><strong>Clear Browser Cache:</strong>
+                    <ul>
+                        <li>Safari: Settings → Advanced → Show Develop menu → Develop → Empty Caches</li>
+                        <li>Chrome: Settings → Privacy → Clear browsing data</li>
+                    </ul>
+                </li>
+                <li><strong>Remove Duplicate Files:</strong>
+                    <ul>
+                        <li>Use Finder → Search for duplicates</li>
+                        <li>Or use app like Gemini 2</li>
+                    </ul>
+                </li>
+                <li><strong>Uninstall Unused Apps:</strong>
+                    <ul>
+                        <li>Drag from Applications to Trash</li>
+                        <li>Or use AppCleaner for complete removal</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4>Storage Management Tool:</h4>
+            <ol>
+                <li>Apple menu → About This Mac → Storage</li>
+                <li>Click <strong>Manage</strong></li>
+                <li>Options:
+                    <ul>
+                        <li><strong>Store in iCloud:</strong> Moves Desktop/Documents to cloud</li>
+                        <li><strong>Optimize Storage:</strong> Removes watched iTunes content</li>
+                        <li><strong>Empty Trash Automatically:</strong> After 30 days</li>
+                        <li><strong>Reduce Clutter:</strong> Review and delete large files</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>6. Safari Problems</h3>
+
+            <h4>Safari Slow or Crashing:</h4>
+            <ol>
+                <li><strong>Clear History & Cache:</strong>
+                    <ul>
+                        <li>Safari → Settings → Privacy</li>
+                        <li>Click "Manage Website Data" → Remove All</li>
+                        <li>Safari → Clear History</li>
+                    </ul>
+                </li>
+                <li><strong>Disable Extensions:</strong>
+                    <ul>
+                        <li>Safari → Settings → Extensions</li>
+                        <li>Uncheck all extensions</li>
+                        <li>Re-enable one by one to find problem</li>
+                    </ul>
+                </li>
+                <li><strong>Reset Safari:</strong>
+                    <ul>
+                        <li>Close Safari</li>
+                        <li>Delete ~/Library/Safari/</li>
+                        <li>Restart Safari</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>7. Wi-Fi Connection Issues</h3>
+
+            <h4>Can't Connect to Wi-Fi:</h4>
+            <ol>
+                <li>Turn Wi-Fi off and on</li>
+                <li>Restart router and Mac</li>
+                <li>Forget network and rejoin:
+                    <ul>
+                        <li>System Settings → Wi-Fi</li>
+                        <li>Click (i) next to network</li>
+                        <li>Click "Forget This Network"</li>
+                        <li>Rejoin with password</li>
+                    </ul>
+                </li>
+                <li>Renew DHCP Lease:
+                    <ul>
+                        <li>System Settings → Network → Wi-Fi → Details</li>
+                        <li>TCP/IP tab</li>
+                        <li>Click "Renew DHCP Lease"</li>
+                    </ul>
+                </li>
+                <li>Delete Wi-Fi preferences:
+                    <ul>
+                        <li>/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist</li>
+                        <li>Restart</li>
+                    </ul>
+                </li>
+                <li>Reset SMC and NVRAM</li>
+            </ol>
+
+            <h3>8. Mail App Issues</h3>
+
+            <h4>Mail Not Receiving/Sending:</h4>
+            <ol>
+                <li><strong>Check Connection Settings:</strong>
+                    <ul>
+                        <li>Mail → Settings → Accounts</li>
+                        <li>Select account → Server Settings</li>
+                        <li>Verify incoming/outgoing server info</li>
+                    </ul>
+                </li>
+                <li><strong>Rebuild Mailbox:</strong>
+                    <ul>
+                        <li>Select mailbox in sidebar</li>
+                        <li>Mailbox menu → Rebuild</li>
+                        <li>Wait for completion</li>
+                    </ul>
+                </li>
+                <li><strong>Remove and Re-add Account:</strong>
+                    <ul>
+                        <li>Mail → Settings → Accounts</li>
+                        <li>Select account → minus (-) button</li>
+                        <li>Add account again</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>9. iCloud Sync Problems</h3>
+
+            <h4>Files Not Syncing:</h4>
+            <ol>
+                <li>Check iCloud status: Check Apple's system status page</li>
+                <li>Sign out and back in:
+                    <ul>
+                        <li>System Settings → Apple ID</li>
+                        <li>Sign Out (keep local copy of data)</li>
+                        <li>Restart</li>
+                        <li>Sign back in</li>
+                    </ul>
+                </li>
+                <li>Check storage: System Settings → Apple ID → iCloud</li>
+                <li>Disable and re-enable iCloud Drive</li>
+            </ol>
+
+            <h3>10. System Preferences Won't Open</h3>
+
+            <ol>
+                <li>Force quit: Command + Option + Esc</li>
+                <li>Delete preference pane cache:
+                    <ul>
+                        <li>~/Library/Caches/com.apple.preference*</li>
+                    </ul>
+                </li>
+                <li>Reset NVRAM</li>
+                <li>Boot in Safe Mode and try opening</li>
+                <li>Create new user account to test</li>
+            </ol>
+
+            <h3>11. Software Won't Install</h3>
+
+            <h4>Installation Fails:</h4>
+            <ol>
+                <li><strong>Check Security Settings:</strong>
+                    <ul>
+                        <li>System Settings → Privacy & Security</li>
+                        <li>Allow apps from: App Store and identified developers</li>
+                        <li>If blocked, click "Open Anyway"</li>
+                    </ul>
+                </li>
+                <li><strong>Right-click to Open:</strong>
+                    <ul>
+                        <li>Right-click installer → Open</li>
+                        <li>Click "Open" in dialog</li>
+                    </ul>
+                </li>
+                <li><strong>Verify Installer:</strong>
+                    <ul>
+                        <li>Download from official source only</li>
+                        <li>Check file isn't corrupted</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>Safe Mode</h3>
+            <p>Boot into Safe Mode to troubleshoot software issues:</p>
+            <ol>
+                <li>Shut down Mac</li>
+                <li>Turn on and <strong>immediately hold Shift</strong></li>
+                <li>Release when you see login screen</li>
+                <li>Log in (may take longer than usual)</li>
+                <li>Safe Mode:
+                    <ul>
+                        <li>Only essential system extensions load</li>
+                        <li>Clears various caches</li>
+                        <li>Runs basic disk check</li>
+                        <li>Prevents login items from loading</li>
+                    </ul>
+                </li>
+                <li>Test if issue persists in Safe Mode</li>
+                <li>Restart normally</li>
+            </ol>
+
+            <div class="warning-box">
+                <strong>⚠️ Before Major Troubleshooting:</strong> Always backup your data first! Use Time Machine or manual backup before deleting system files or reinstalling macOS.
+            </div>
+
+            <h3>Recovery Mode</h3>
+            <p>For serious software issues:</p>
+            <ol>
+                <li>Restart and hold <strong>Command + R</strong></li>
+                <li>Options in Recovery:
+                    <ul>
+                        <li><strong>Restore from Time Machine:</strong> Get your system back</li>
+                        <li><strong>Reinstall macOS:</strong> Fresh OS install (keeps files)</li>
+                        <li><strong>Disk Utility:</strong> Repair disk errors</li>
+                        <li><strong>Safari:</strong> Access web for help</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <div class="tip-box">
+                <strong>🎯 Quick Diagnostic:</strong> If an issue appears after installing new software, that software is likely the cause. Uninstall it and test. If issue appears after macOS update, wait for next update or reinstall macOS.
+            </div>
+
+            <h3>When to Reinstall macOS</h3>
+            <p>Consider clean install if:</p>
+            <ul>
+                <li>Multiple persistent software issues</li>
+                <li>Mac extremely slow despite troubleshooting</li>
+                <li>System files corrupted</li>
+                <li>Preparing to sell Mac</li>
+            </ul>
+
+            <p><strong>Important:</strong> Reinstalling macOS from Recovery keeps your files but reinstalls the OS. See our <a href="clean-install-macos.html" style="color: #8b5cf6;">Clean Install Guide</a> for details.</p>
+        </div>
+
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 MacBook Tech Desk. All rights reserved.</p>
+    </footer>
+
+    <button class="secret-trigger" id="secretBtn"></button>
+    <script>
+        document.getElementById('secretBtn').addEventListener('click', () => { window.location.href = 'games.html'; });
+    </script>
+</body>
+</html>

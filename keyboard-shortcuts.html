@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essential Keyboard Shortcuts - MacBook Tech Desk</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #f5f5f7;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            color: white;
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: #f5f5f7;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #667eea;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .breadcrumb {
+            max-width: 1000px;
+            margin: 30px auto 0;
+            padding: 0 20px;
+        }
+
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .content {
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .shortcuts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .shortcut-category {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+        }
+
+        .shortcut-category h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #8b5cf6;
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .shortcut-item:last-child {
+            border-bottom: none;
+        }
+
+        .shortcut-desc {
+            color: #f5f5f7;
+        }
+
+        .shortcut-keys {
+            background: rgba(139, 92, 246, 0.2);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #a78bfa;
+            white-space: nowrap;
+        }
+
+        .tip-box {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid #8b5cf6;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 30px 0;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 20px;
+            text-align: center;
+            color: #b0b0b0;
+            margin-top: 60px;
+        }
+
+        .secret-trigger {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .secret-trigger:hover {
+            background: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.5);
+            transform: scale(1.5);
+        }
+
+        @media (max-width: 768px) {
+            .shortcuts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo" onclick="location.href='index.html'">🍎 MacBook Tech Desk</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="guides.html">Guides</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h1>⌨️ Essential Keyboard Shortcuts</h1>
+    </div>
+
+    <div class="breadcrumb">
+        <a href="index.html">Home</a> / <a href="guides.html">Guides</a> / Keyboard Shortcuts
+    </div>
+
+    <div class="content">
+        <div class="tip-box">
+            <strong>💡 Pro Tip:</strong> The ⌘ (Command) key is your best friend on Mac. It's used where Ctrl is used on Windows. Start with the basics below and gradually add more shortcuts to your muscle memory!
+        </div>
+
+        <div class="shortcuts-grid">
+            <div class="shortcut-category">
+                <h2>✂️ Basic Editing</h2>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Cut</span>
+                    <span class="shortcut-keys">⌘ + X</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Copy</span>
+                    <span class="shortcut-keys">⌘ + C</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Paste</span>
+                    <span class="shortcut-keys">⌘ + V</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Undo</span>
+                    <span class="shortcut-keys">⌘ + Z</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Redo</span>
+                    <span class="shortcut-keys">⌘ + Shift + Z</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Select All</span>
+                    <span class="shortcut-keys">⌘ + A</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Find</span>
+                    <span class="shortcut-keys">⌘ + F</span>
+                </div>
+            </div>
+
+            <div class="shortcut-category">
+                <h2>📁 File Management</h2>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">New File</span>
+                    <span class="shortcut-keys">⌘ + N</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Open File</span>
+                    <span class="shortcut-keys">⌘ + O</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Save</span>
+                    <span class="shortcut-keys">⌘ + S</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Save As</span>
+                    <span class="shortcut-keys">⌘ + Shift + S</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Print</span>
+                    <span class="shortcut-keys">⌘ + P</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Delete File</span>
+                    <span class="shortcut-keys">⌘ + Delete</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Empty Trash</span>
+                    <span class="shortcut-keys">⌘ + Shift + Delete</span>
+                </div>
+            </div>
+
+            <div class="shortcut-category">
+                <h2>🪟 Window Management</h2>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Close Window</span>
+                    <span class="shortcut-keys">⌘ + W</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Quit Application</span>
+                    <span class="shortcut-keys">⌘ + Q</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Minimize Window</span>
+                    <span class="shortcut-keys">⌘ + M</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Hide App</span>
+                    <span class="shortcut-keys">⌘ + H</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Switch Windows</span>
+                    <span class="shortcut-keys">⌘ + `</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Full Screen</span>
+                    <span class="shortcut-keys">⌃ + ⌘ + F</span>
+                </div>
+            </div>
+
+            <div class="shortcut-category">
+                <h2>🔄 App Switching</h2>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Switch Apps</span>
+                    <span class="shortcut-keys">⌘ + Tab</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Switch Apps (Reverse)</span>
+                    <span class="shortcut-keys">⌘ + Shift + Tab</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Open Spotlight</span>
+                    <span class="shortcut-keys">⌘ + Space</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Mission Control</span>
+                    <span class="shortcut-keys">⌃ + ↑</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Show Desktop</span>
+                    <span class="shortcut-keys">F11</span>
+                </div>
+            </div>
+
+            <div class="shortcut-category">
+                <h2>📸 Screenshots</h2>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Screenshot Full Screen</span>
+                    <span class="shortcut-keys">⌘ + Shift + 3</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Screenshot Selection</span>
+                    <span class="shortcut-keys">⌘ + Shift + 4</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Screenshot Window</span>
+                    <span class="shortcut-keys">⌘ + Shift + 4, Space</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Screenshot Menu</span>
+                    <span class="shortcut-keys">⌘ + Shift + 5</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Copy to Clipboard</span>
+                    <span class="shortcut-keys">Add ⌃ to any above</span>
+                </div>
+            </div>
+
+            <div class="shortcut-category">
+                <h2>🌐 Safari</h2>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">New Tab</span>
+                    <span class="shortcut-keys">⌘ + T</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Close Tab</span>
+                    <span class="shortcut-keys">⌘ + W</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Reopen Closed Tab</span>
+                    <span class="shortcut-keys">⌘ + Shift + T</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Next Tab</span>
+                    <span class="shortcut-keys">⌃ + Tab</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Private Window</span>
+                    <span class="shortcut-keys">⌘ + Shift + N</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Refresh Page</span>
+                    <span class="shortcut-keys">⌘ + R</span>
+                </div>
+            </div>
+
+            <div class="shortcut-category">
+                <h2>🔍 Finder</h2>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">New Finder Window</span>
+                    <span class="shortcut-keys">⌘ + N</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Go to Applications</span>
+                    <span class="shortcut-keys">⌘ + Shift + A</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Go to Downloads</span>
+                    <span class="shortcut-keys">⌘ + Option + L</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Go to Desktop</span>
+                    <span class="shortcut-keys">⌘ + Shift + D</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Go to Home</span>
+                    <span class="shortcut-keys">⌘ + Shift + H</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Get Info</span>
+                    <span class="shortcut-keys">⌘ + I</span>
+                </div>
+            </div>
+
+            <div class="shortcut-category">
+                <h2>⚡ Power User</h2>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Force Quit</span>
+                    <span class="shortcut-keys">⌘ + Option + Esc</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Lock Screen</span>
+                    <span class="shortcut-keys">⌃ + ⌘ + Q</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Sleep Display</span>
+                    <span class="shortcut-keys">⌃ + Shift + Power</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Show/Hide Dock</span>
+                    <span class="shortcut-keys">⌘ + Option + D</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Emoji Picker</span>
+                    <span class="shortcut-keys">⌃ + ⌘ + Space</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">Paste Without Format</span>
+                    <span class="shortcut-keys">⌘ + Shift + V</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <strong>🎯 Practice Plan:</strong> Pick 3-5 shortcuts from this list and use them daily for a week. Once they become muscle memory, add 3-5 more. Within a month, you'll be flying through tasks!
+        </div>
+
+        <a href="guides.html" class="back-link">← Back to All Guides</a>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 MacBook Tech Desk. All rights reserved.</p>
+    </footer>
+
+    <button class="secret-trigger" id="secretBtn"></button>
+
+    <script>
+        const secretBtn = document.getElementById('secretBtn');
+        secretBtn.addEventListener('click', () => {
+            window.location.href = 'games.html';
+        });
+    </script>
+</body>
+</html>

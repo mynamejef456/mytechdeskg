@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Commands Guide - MacBook Tech Desk</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #f5f5f7; line-height: 1.6; }
+        .header { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px); color: white; padding: 16px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .logo { font-size: 1.5rem; font-weight: 600; cursor: pointer; }
+        .nav-menu { display: flex; gap: 30px; list-style: none; }
+        .nav-menu a { color: #f5f5f7; text-decoration: none; font-size: 0.95rem; transition: color 0.3s; }
+        .nav-menu a:hover { color: #667eea; }
+        .page-header { background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); color: white; text-align: center; padding: 80px 20px; }
+        .page-header h1 { font-size: 3rem; font-weight: 800; }
+        .content { max-width: 900px; margin: 60px auto; padding: 0 20px; }
+        .guide-section { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 24px; margin-bottom: 30px; }
+        .guide-section h2 { font-size: 2rem; margin-bottom: 20px; color: #14b8a6; }
+        .guide-section h3 { font-size: 1.5rem; margin: 25px 0 15px; color: #fff; }
+        .guide-section p, .guide-section li { color: #b0b0b0; margin-bottom: 15px; line-height: 1.8; }
+        code { background: rgba(20, 184, 166, 0.15); padding: 3px 8px; border-radius: 4px; font-family: 'Courier New', monospace; color: #5eead4; font-size: 0.9em; }
+        .cmd-box { background: rgba(20, 184, 166, 0.1); border-left: 4px solid #14b8a6; padding: 15px; margin: 15px 0; border-radius: 8px; font-family: 'Courier New', monospace; }
+        .warning-box { background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .warning-box strong { color: #ef4444; }
+        .back-link { display: inline-block; margin: 30px 0; color: #667eea; text-decoration: none; font-weight: 600; }
+        .footer { background: rgba(0, 0, 0, 0.5); border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 40px 20px; text-align: center; color: #b0b0b0; margin-top: 60px; }
+        .secret-trigger { position: fixed; bottom: 20px; right: 20px; width: 8px; height: 8px; background: rgba(255, 255, 255, 0.15); border-radius: 50%; border: none; cursor: pointer; transition: all 0.3s; z-index: 999; }
+        .secret-trigger:hover { background: rgba(102, 126, 234, 0.5); box-shadow: 0 0 15px rgba(102, 126, 234, 0.5); transform: scale(1.5); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo" onclick="location.href='index.html'">🍎 MacBook Tech Desk</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="guides.html">Guides</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header"><h1>🛠️ Terminal Commands Guide</h1></div>
+
+    <div class="content">
+        <div class="guide-section">
+            <h2>Essential macOS Terminal Commands</h2>
+            <p>Unlock the power of the command line! Terminal gives you direct access to your Mac's Unix foundation.</p>
+
+            <div class="warning-box">
+                <strong>⚠️ Warning:</strong> Terminal commands have power to modify system files. Always double-check commands before pressing Enter. When in doubt, don't run it!
+            </div>
+
+            <h3>Opening Terminal</h3>
+            <ul>
+                <li><strong>Applications → Utilities → Terminal</strong></li>
+                <li>Or: <code>⌘ + Space</code>, type "terminal", press Enter</li>
+            </ul>
+
+            <h3>1. Navigation Commands</h3>
+            
+            <div class="cmd-box">pwd</div>
+            <p><strong>Print Working Directory</strong> - Shows your current folder location</p>
+
+            <div class="cmd-box">ls</div>
+            <p><strong>List</strong> - Shows files in current directory</p>
+            <ul>
+                <li><code>ls -la</code> - Shows all files including hidden, with details</li>
+                <li><code>ls -lh</code> - Shows file sizes in human-readable format</li>
+            </ul>
+
+            <div class="cmd-box">cd ~/Desktop</div>
+            <p><strong>Change Directory</strong> - Navigate to Desktop</p>
+            <ul>
+                <li><code>cd ~</code> - Go to home directory</li>
+                <li><code>cd ..</code> - Go up one folder</li>
+                <li><code>cd /</code> - Go to root directory</li>
+            </ul>
+
+            <h3>2. File Operations</h3>
+
+            <div class="cmd-box">mkdir foldername</div>
+            <p><strong>Make Directory</strong> - Creates new folder</p>
+
+            <div class="cmd-box">touch filename.txt</div>
+            <p><strong>Touch</strong> - Creates empty file</p>
+
+            <div class="cmd-box">cp file.txt newfile.txt</div>
+            <p><strong>Copy</strong> - Duplicates a file</p>
+            <ul>
+                <li><code>cp -r folder/ newfolder/</code> - Copy entire folder</li>
+            </ul>
+
+            <div class="cmd-box">mv oldname.txt newname.txt</div>
+            <p><strong>Move/Rename</strong> - Moves or renames file</p>
+
+            <div class="cmd-box">rm filename.txt</div>
+            <p><strong>Remove</strong> - Deletes file (permanent!)</p>
+            <ul>
+                <li><code>rm -rf foldername/</code> - Delete folder and contents (use carefully!)</li>
+            </ul>
+
+            <h3>3. Viewing Files</h3>
+
+            <div class="cmd-box">cat filename.txt</div>
+            <p><strong>Concatenate</strong> - Displays file contents</p>
+
+            <div class="cmd-box">less filename.txt</div>
+            <p><strong>Less</strong> - View file page by page (press Q to quit)</p>
+
+            <div class="cmd-box">head -n 10 file.txt</div>
+            <p><strong>Head</strong> - Show first 10 lines of file</p>
+
+            <div class="cmd-box">tail -n 20 file.txt</div>
+            <p><strong>Tail</strong> - Show last 20 lines of file</p>
+
+            <h3>4. System Information</h3>
+
+            <div class="cmd-box">top</div>
+            <p><strong>Top</strong> - Shows running processes (like Activity Monitor)</p>
+            <p>Press Q to quit</p>
+
+            <div class="cmd-box">df -h</div>
+            <p><strong>Disk Free</strong> - Shows disk space usage</p>
+
+            <div class="cmd-box">du -sh *</div>
+            <p><strong>Disk Usage</strong> - Shows size of each item in current folder</p>
+
+            <div class="cmd-box">system_profiler SPHardwareDataType</div>
+            <p><strong>System Profiler</strong> - Hardware information</p>
+
+            <h3>5. Network Commands</h3>
+
+            <div class="cmd-box">ping google.com</div>
+            <p><strong>Ping</strong> - Test network connectivity</p>
+            <p>Press Control + C to stop</p>
+
+            <div class="cmd-box">ifconfig</div>
+            <p><strong>Interface Config</strong> - Shows network interface info</p>
+
+            <div class="cmd-box">netstat -an</div>
+            <p><strong>Network Statistics</strong> - Shows network connections</p>
+
+            <h3>6. Process Management</h3>
+
+            <div class="cmd-box">ps aux</div>
+            <p><strong>Process Status</strong> - Lists all running processes</p>
+
+            <div class="cmd-box">kill 1234</div>
+            <p><strong>Kill</strong> - Stops process with ID 1234</p>
+            <ul>
+                <li><code>kill -9 1234</code> - Force kill process</li>
+                <li><code>killall Safari</code> - Kill all Safari processes</li>
+            </ul>
+
+            <h3>7. File Permissions</h3>
+
+            <div class="cmd-box">chmod 755 script.sh</div>
+            <p><strong>Change Mode</strong> - Modify file permissions</p>
+            <ul>
+                <li><code>chmod +x script.sh</code> - Make file executable</li>
+            </ul>
+
+            <div class="cmd-box">chown user:staff file.txt</div>
+            <p><strong>Change Owner</strong> - Change file ownership</p>
+
+            <h3>8. Search Commands</h3>
+
+            <div class="cmd-box">find ~/Desktop -name "*.txt"</div>
+            <p><strong>Find</strong> - Search for files by name</p>
+
+            <div class="cmd-box">grep "search term" file.txt</div>
+            <p><strong>Grep</strong> - Search inside files for text</p>
+            <ul>
+                <li><code>grep -r "term" folder/</code> - Search recursively in folder</li>
+            </ul>
+
+            <h3>9. Useful Shortcuts</h3>
+
+            <div class="cmd-box">clear</div>
+            <p><strong>Clear</strong> - Clears terminal screen (or: <code>⌘ + K</code>)</p>
+
+            <div class="cmd-box">history</div>
+            <p><strong>History</strong> - Shows command history</p>
+
+            <div class="cmd-box">!!</div>
+            <p><strong>Bang Bang</strong> - Repeats last command</p>
+
+            <div class="cmd-box">sudo command</div>
+            <p><strong>Sudo</strong> - Run command as administrator</p>
+            <p>Will ask for your password</p>
+
+            <h3>10. macOS Specific Commands</h3>
+
+            <div class="cmd-box">open .</div>
+            <p><strong>Open</strong> - Opens current folder in Finder</p>
+            <ul>
+                <li><code>open file.pdf</code> - Opens file in default app</li>
+                <li><code>open -a Safari</code> - Opens Safari</li>
+            </ul>
+
+            <div class="cmd-box">defaults write com.apple.finder AppleShowAllFiles TRUE<br>killall Finder</div>
+            <p><strong>Defaults</strong> - Show hidden files in Finder</p>
+            <p>Change TRUE to FALSE to hide again</p>
+
+            <div class="cmd-box">pmset -g batt</div>
+            <p><strong>Power Management</strong> - Shows battery status</p>
+
+            <div class="cmd-box">caffeinate</div>
+            <p><strong>Caffeinate</strong> - Prevents Mac from sleeping</p>
+            <p>Press Control + C to stop</p>
+
+            <h3>11. Advanced Maintenance</h3>
+
+            <div class="cmd-box">sudo purge</div>
+            <p><strong>Purge</strong> - Clears RAM cache (frees memory)</p>
+
+            <div class="cmd-box">sudo periodic daily weekly monthly</div>
+            <p><strong>Periodic</strong> - Runs system maintenance scripts</p>
+
+            <div class="cmd-box">diskutil list</div>
+            <p><strong>Disk Utility</strong> - Lists all disks</p>
+
+            <div class="cmd-box">diskutil verifyVolume /</div>
+            <p><strong>Verify Volume</strong> - Checks disk for errors</p>
+
+            <h3>12. Tips & Tricks</h3>
+
+            <p><strong>Tab Completion:</strong> Start typing and press Tab to auto-complete</p>
+            <p><strong>Arrow Up/Down:</strong> Cycle through previous commands</p>
+            <p><strong>Control + C:</strong> Cancel current command</p>
+            <p><strong>Control + A:</strong> Move cursor to beginning of line</p>
+            <p><strong>Control + E:</strong> Move cursor to end of line</p>
+            <p><strong>Control + U:</strong> Delete everything before cursor</p>
+
+            <h3>13. Combining Commands</h3>
+
+            <div class="cmd-box">ls -la | grep "Desktop"</div>
+            <p><strong>Pipe</strong> - Sends output of first command to second</p>
+
+            <div class="cmd-box">ls -la > files.txt</div>
+            <p><strong>Redirect</strong> - Saves output to file</p>
+
+            <div class="cmd-box">command1 && command2</div>
+            <p><strong>AND</strong> - Runs second command only if first succeeds</p>
+
+            <h3>Useful One-Liners</h3>
+
+            <div class="cmd-box"># Find large files (over 1GB)<br>find ~ -size +1G</div>
+
+            <div class="cmd-box"># Show top 10 largest folders<br>du -sh * | sort -rh | head -10</div>
+
+            <div class="cmd-box"># Count files in directory<br>ls -1 | wc -l</div>
+
+            <div class="cmd-box"># Show your IP address<br>curl ifconfig.me</div>
+
+            <div class="cmd-box"># Download file<br>curl -O https://example.com/file.zip</div>
+
+            <h3>Getting Help</h3>
+
+            <div class="cmd-box">man ls</div>
+            <p><strong>Manual</strong> - Shows manual page for command</p>
+            <p>Press Q to quit manual</p>
+
+            <div class="cmd-box">command --help</div>
+            <p><strong>Help</strong> - Shows command options</p>
+
+            <div class="warning-box">
+                <strong>⚠️ Dangerous Commands to Avoid:</strong>
+                <ul>
+                    <li><code>rm -rf /</code> - Deletes everything (NEVER run this!)</li>
+                    <li><code>:(){ :|:& };:</code> - Fork bomb (crashes system)</li>
+                    <li>Any command from untrusted sources</li>
+                </ul>
+                Always understand what a command does before running it!
+            </div>
+        </div>
+
+        <a href="guides.html" class="back-link">← Back to Guides</a>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 MacBook Tech Desk. All rights reserved.</p>
+    </footer>
+
+    <button class="secret-trigger" id="secretBtn"></button>
+    <script>
+        document.getElementById('secretBtn').addEventListener('click', () => { window.location.href = 'games.html'; });
+    </script>
+</body>
+</html>
