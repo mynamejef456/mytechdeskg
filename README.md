@@ -10,12 +10,6 @@ TOTAL: 18 HTML PAGES - FULLY FUNCTIONAL!
 2. support.html - Support center (clickable cards!)
 3. guides.html - Complete guides overview
 4. resources.html - Apps and resources
-5. games.html - Secret arcade with 4 games!
-   • Tank Stars
-   • Ragdoll Archers  
-   • Friday Night Funkin'
-   • Ultrakill (NEW!)
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📚 COMPLETE GUIDE PAGES (8)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -49,7 +43,6 @@ TOTAL: 18 HTML PAGES - FULLY FUNCTIONAL!
 ✅ Breadcrumb navigation on guide pages
 ✅ Modern dark glassmorphism design
 ✅ Fully responsive (mobile & desktop)
-✅ 4 playable iframe games
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🗺️ SITE NAVIGATION MAP
@@ -73,25 +66,11 @@ Homepage (index.html)
     ├── Software Problems → software-support.html
     └── Connectivity → connectivity-guide.html
 
-Secret: Click dot bottom-right on any page → games.html
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📤 UPLOAD INSTRUCTIONS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. Download ALL 18 HTML files
-2. Go to your GitHub repository
-3. Click "Add file" → "Upload files"
-4. Drag all 18 files into upload area
-5. Commit changes
-6. Wait 1-2 minutes
-7. Visit your site - everything works!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🎮 SECRET EASTER EGG
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Look for the small semi-transparent dot in the
-bottom-right corner of EVERY page. Click it once
-to access the hidden games arcade!
+
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📊 WHAT EACH PAGE CONTAINS
