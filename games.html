@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free HTML5 Games - Play Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .game-section {
+            margin-bottom: 40px;
+        }
+
+        .game-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .game-title {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .game-meta {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .game-category {
+            background: #e0e7ff;
+            color: #4338ca;
+            padding: 5px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .game-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-loading {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-ready {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .game-wrapper {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .game-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #e5e7eb;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            color: #6b7280;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .error-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .error-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .error-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #991b1b;
+            margin-bottom: 10px;
+        }
+
+        .error-message {
+            color: #7f1d1d;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .retry-button {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .retry-button:hover {
+            background: #b91c1c;
+        }
+
+        .fullscreen-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .fullscreen-btn:hover {
+            background: #5568d3;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .info-notice {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 6px;
+        }
+
+        .info-notice h3 {
+            color: #1e40af;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .info-notice p {
+            color: #1e3a8a;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .info-notice code {
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #dc2626;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .game-wrapper {
+                height: 400px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎮 HTML5 Games Arcade</h1>
+        <p>Play games directly in your browser - no downloads needed!</p>
+        <a href="scicillians.html" style="
+            display: inline-block;
+            margin-top: 18px;
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            color: white;
+            padding: 14px 36px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.5);
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+        " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(37,99,235,0.6)'"
+           onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 20px rgba(37,99,235,0.5)'">
+            🎯 Visit Scicillians Game Hub
+        </a>
+    </div>
+
+    <div class="container">
+        
+        <div class="info-notice">
+            <h3>📌 How to Add Your Games:</h3>
+            <p>1. Copy the game container section below</p>
+            <p>2. Change the <code>data-src</code> URL to your game's embed URL (like kiz10.com/gamecode/your-game/)</p>
+            <p>3. Update the game title and category</p>
+            <p>4. Increment the ID numbers (game-1, game-2, etc.)</p>
+        </div>
+
+        <!-- FEATURED GAME: Tank Stars -->
+        <div class="game-section">
+            <div class="game-container">
+                <div class="game-header">
+                    <h2 class="game-title">🎯 Tank Stars</h2>
+                    <div class="game-meta">
+                        <span class="game-category">Action</span>
+                        <span class="game-status status-loading" id="status-1">Loading...</span>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('game-1')">⛶ Fullscreen</button>
+                    </div>
+                </div>
+                <div class="game-wrapper">
+                    <div class="loading-overlay" id="loading-1">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">Loading Tank Stars...</div>
+                    </div>
+                    <div class="error-overlay hidden" id="error-1">
+                        <div class="error-icon">⚠️</div>
+                        <div class="error-title">Failed to Load Game</div>
+                        <div class="error-message" id="error-msg-1">The game couldn't be loaded. Please check your connection and try again.</div>
+                        <button class="retry-button" onclick="retryGame(1)">🔄 Try Again</button>
+                    </div>
+                    <iframe 
+                        class="game-iframe" 
+                        id="game-1"
+                        data-src="https://kiz10.com/gamecode/tank-stars/"
+                        scrolling="no"
+                        allowfullscreen
+                        allow="autoplay; fullscreen"
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAME 2: Ragdoll Archers -->
+        <div class="game-section">
+            <div class="game-container">
+                <div class="game-header">
+                    <h2 class="game-title">🏹 Ragdoll Archers</h2>
+                    <div class="game-meta">
+                        <span class="game-category">Action</span>
+                        <span class="game-status status-loading" id="status-2">Loading...</span>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('game-2')">⛶ Fullscreen</button>
+                    </div>
+                </div>
+                <div class="game-wrapper">
+                    <div class="loading-overlay" id="loading-2">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">Loading Ragdoll Archers...</div>
+                    </div>
+                    <div class="error-overlay hidden" id="error-2">
+                        <div class="error-icon">⚠️</div>
+                        <div class="error-title">Failed to Load Game</div>
+                        <div class="error-message" id="error-msg-2">The game couldn't be loaded. Please check your connection and try again.</div>
+                        <button class="retry-button" onclick="retryGame(2)">🔄 Try Again</button>
+                    </div>
+                    <iframe 
+                        class="game-iframe" 
+                        id="game-2"
+                        data-src="https://crazygames-poki.com/embed/ragdoll-archers"
+                        scrolling="no"
+                        allowfullscreen
+                        allow="autoplay; fullscreen"
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAME 3: Friday Night Funkin' -->
+        <div class="game-section">
+            <div class="game-container">
+                <div class="game-header">
+                    <h2 class="game-title">🎵 Friday Night Funkin'</h2>
+                    <div class="game-meta">
+                        <span class="game-category">Rhythm</span>
+                        <span class="game-status status-loading" id="status-3">Loading...</span>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('game-3')">⛶ Fullscreen</button>
+                    </div>
+                </div>
+                <div class="game-wrapper">
+                    <div class="loading-overlay" id="loading-3">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">Loading Friday Night Funkin'...</div>
+                    </div>
+                    <div class="error-overlay hidden" id="error-3">
+                        <div class="error-icon">⚠️</div>
+                        <div class="error-title">Failed to Load Game</div>
+                        <div class="error-message" id="error-msg-3">The game couldn't be loaded. Please check your connection and try again.</div>
+                        <button class="retry-button" onclick="retryGame(3)">🔄 Try Again</button>
+                    </div>
+                    <iframe 
+                        class="game-iframe" 
+                        id="game-3"
+                        data-src="https://crazygames-poki.com/embed/friday-night-funkin-unblocked"
+                        scrolling="no"
+                        allowfullscreen
+                        allow="autoplay; fullscreen"
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAME 4: Ultrakill -->
+        <div class="game-section">
+            <div class="game-container">
+                <div class="game-header">
+                    <h2 class="game-title">🔫 Ultrakill</h2>
+                    <div class="game-meta">
+                        <span class="game-category">Action</span>
+                        <span class="game-status status-loading" id="status-4">Loading...</span>
+                        <button class="fullscreen-btn" onclick="toggleFullscreen('game-4')">⛶ Fullscreen</button>
+                    </div>
+                </div>
+                <div class="game-wrapper">
+                    <div class="loading-overlay" id="loading-4">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">Loading Ultrakill...</div>
+                    </div>
+                    <div class="error-overlay hidden" id="error-4">
+                        <div class="error-icon">⚠️</div>
+                        <div class="error-title">Failed to Load Game</div>
+                        <div class="error-message" id="error-msg-4">The game couldn't be loaded. Please check your connection and try again.</div>
+                        <button class="retry-button" onclick="retryGame(4)">🔄 Try Again</button>
+                    </div>
+                    <iframe 
+                        class="game-iframe" 
+                        id="game-4"
+                        data-src="https://kiz10.com/embed/ultrakill/"
+                        scrolling="no"
+                        allowfullscreen
+                        allow="autoplay; fullscreen"
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const LOAD_TIMEOUT = 20000; // 20 seconds timeout
+        const loadTimers = {};
+
+        // Initialize all games on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAllGames();
+        });
+
+        function initializeAllGames() {
+            // Find all game iframes
+            const gameIframes = document.querySelectorAll('.game-iframe');
+            gameIframes.forEach((iframe, index) => {
+                const gameId = index + 1;
+                loadGame(gameId);
+            });
+        }
+
+        function loadGame(gameId) {
+            const iframe = document.getElementById(`game-${gameId}`);
+            const loading = document.getElementById(`loading-${gameId}`);
+            const errorOverlay = document.getElementById(`error-${gameId}`);
+            const status = document.getElementById(`status-${gameId}`);
+            const errorMsg = document.getElementById(`error-msg-${gameId}`);
+
+            if (!iframe) return;
+
+            // Reset state
+            loading.classList.remove('hidden');
+            errorOverlay.classList.add('hidden');
+            status.textContent = 'Loading...';
+            status.className = 'game-status status-loading';
+
+            // Get the game URL from data-src attribute
+            const gameUrl = iframe.getAttribute('data-src');
+            
+            if (!gameUrl) {
+                showError(gameId, 'No game URL configured. Please add a URL to the data-src attribute in the HTML.');
+                return;
+            }
+
+            // Set up timeout
+            loadTimers[gameId] = setTimeout(() => {
+                showError(gameId, 'Game took too long to load. The game might not support iframe embedding, or there may be a network issue.');
+            }, LOAD_TIMEOUT);
+
+            // Set up iframe load handlers
+            iframe.onload = () => {
+                clearTimeout(loadTimers[gameId]);
+                hideLoading(gameId);
+            };
+
+            iframe.onerror = () => {
+                clearTimeout(loadTimers[gameId]);
+                showError(gameId, 'Failed to load the game. This game might block iframe embedding or the URL might be incorrect.');
+            };
+
+            // Try to load the iframe
+            try {
+                iframe.src = gameUrl;
+            } catch (error) {
+                clearTimeout(loadTimers[gameId]);
+                showError(gameId, 'Error loading game: ' + error.message);
+            }
+
+            // Backup check - if still loading after timeout + buffer
+            setTimeout(() => {
+                if (!loading.classList.contains('hidden')) {
+                    showError(gameId, 'Game failed to respond. It may not support iframe embedding.');
+                }
+            }, LOAD_TIMEOUT + 2000);
+        }
+
+        function hideLoading(gameId) {
+            const loading = document.getElementById(`loading-${gameId}`);
+            const status = document.getElementById(`status-${gameId}`);
+            
+            if (loading) loading.classList.add('hidden');
+            if (status) {
+                status.textContent = '✓ Ready';
+                status.className = 'game-status status-ready';
+            }
+        }
+
+        function showError(gameId, message) {
+            const loading = document.getElementById(`loading-${gameId}`);
+            const errorOverlay = document.getElementById(`error-${gameId}`);
+            const errorMsg = document.getElementById(`error-msg-${gameId}`);
+            const status = document.getElementById(`status-${gameId}`);
+            
+            if (loading) loading.classList.add('hidden');
+            if (errorOverlay) errorOverlay.classList.remove('hidden');
+            if (errorMsg) errorMsg.textContent = message;
+            if (status) {
+                status.textContent = '✗ Error';
+                status.className = 'game-status status-error';
+            }
+
+            // Log error for debugging
+            console.error(`Game ${gameId} error:`, message);
+        }
+
+        function retryGame(gameId) {
+            const iframe = document.getElementById(`game-${gameId}`);
+            
+            // Reset iframe
+            if (iframe) {
+                iframe.src = '';
+                
+                // Wait a moment before retrying
+                setTimeout(() => {
+                    loadGame(gameId);
+                }, 500);
+            }
+        }
+
+        function toggleFullscreen(gameId) {
+            const iframe = document.getElementById(gameId);
+            
+            if (!iframe) return;
+
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.webkitRequestFullscreen) {
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) {
+                iframe.msRequestFullscreen();
+            }
+        }
+
+        // Global error handler
+        window.addEventListener('error', (event) => {
+            console.error('Global error:', event.error);
+        }, true);
+
+        // Listen for messages from iframes (some games send status updates)
+        window.addEventListener('message', (event) => {
+            // Handle any messages from game iframes
+            console.log('Message from iframe:', event.data);
+        });
+    </script>
+</body>
+</html>
