@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scicillians - Free Online Games</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d0d14;
+            color: #f0f0f0;
+            min-height: 100vh;
+        }
+
+        /* ─── TOP NAV ─── */
+        .navbar {
+            background: #13131f;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-left { display: flex; align-items: center; gap: 32px; }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links { display: flex; gap: 6px; }
+
+        .nav-link {
+            color: #aaa;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #1e1e2e;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 8px 18px;
+            gap: 10px;
+            width: 260px;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar:focus-within { border-color: #3b82f6; }
+
+        .search-bar input {
+            background: none;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .search-bar input::placeholder { color: #666; }
+        .search-icon { color: #666; font-size: 1rem; }
+
+        .back-btn {
+            background: linear-gradient(135deg, #1d4ed8, #2563eb);
+            color: white;
+            padding: 9px 18px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(37,99,235,0.3);
+        }
+
+        .back-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+        /* ─── HERO BANNER ─── */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            padding: 60px 24px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, #93c5fd 50%, #c4b5fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .hero p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            position: relative;
+        }
+
+        .stat { text-align: center; }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #60a5fa;
+        }
+
+        .stat-label { font-size: 0.85rem; color: #64748b; }
+
+        /* ─── CATEGORY PILLS ─── */
+        .categories-bar {
+            background: #13131f;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            padding: 16px 24px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .categories-bar::-webkit-scrollbar { display: none; }
+
+        .cat-pill {
+            background: #1e1e2e;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #94a3b8;
+            padding: 9px 20px;
+            border-radius: 50px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .cat-pill:hover { border-color: #3b82f6; color: #60a5fa; }
+        .cat-pill.active { background: #1d4ed8; border-color: #3b82f6; color: white; }
+
+        /* ─── MAIN LAYOUT ─── */
+        .main {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 30px 24px;
+            gap: 28px;
+        }
+
+        /* ─── SIDEBAR ─── */
+        .sidebar {
+            width: 220px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-section { margin-bottom: 30px; }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #475569;
+            margin-bottom: 12px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            background: rgba(59,130,246,0.12);
+            color: #60a5fa;
+        }
+
+        /* ─── GAME CONTENT ─── */
+        .content { flex: 1; min-width: 0; }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .see-all {
+            color: #3b82f6;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* ─── GAME CARDS GRID ─── */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 18px;
+            margin-bottom: 40px;
+        }
+
+        .game-card {
+            background: #13131f;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59,130,246,0.5);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+
+        .game-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-icon {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            background: rgba(37,99,235,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .game-card:hover .play-icon { opacity: 1; }
+
+        .game-info { padding: 14px; }
+
+        .game-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+        .game-tag {
+            background: rgba(59,130,246,0.15);
+            color: #60a5fa;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        /* ─── GAME PLAYER MODAL ─── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 9000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .modal {
+            width: 90vw;
+            max-width: 1100px;
+            background: #13131f;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            background: #0d0d14;
+        }
+
+        .modal-title { font-size: 1.3rem; font-weight: 700; color: white; }
+
+        .modal-actions { display: flex; gap: 10px; align-items: center; }
+
+        .modal-fullscreen {
+            background: rgba(59,130,246,0.2);
+            border: 1px solid rgba(59,130,246,0.4);
+            color: #60a5fa;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-fullscreen:hover { background: rgba(59,130,246,0.35); }
+
+        .modal-close {
+            background: rgba(239,68,68,0.2);
+            border: 1px solid rgba(239,68,68,0.4);
+            color: #f87171;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover { background: rgba(239,68,68,0.35); }
+
+        .game-frame-wrapper {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            position: relative;
+        }
+
+        .game-frame-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .frame-loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #0d0d14;
+            gap: 16px;
+        }
+
+        .frame-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(59,130,246,0.2);
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ─── FEATURED BANNER ─── */
+        .featured-banner {
+            background: linear-gradient(135deg, #1e3a8a 0%, #4c1d95 100%);
+            border-radius: 18px;
+            padding: 32px;
+            margin-bottom: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            border: 1px solid rgba(59,130,246,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .featured-banner:hover { transform: translateY(-3px); box-shadow: 0 15px 50px rgba(30,58,138,0.4); }
+
+        .featured-text h2 { font-size: 2rem; font-weight: 900; margin-bottom: 8px; }
+        .featured-text p { color: #93c5fd; font-size: 1rem; margin-bottom: 20px; }
+
+        .featured-play {
+            background: white;
+            color: #1d4ed8;
+            border: none;
+            padding: 13px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .featured-play:hover { transform: scale(1.05); }
+
+        .featured-icon { font-size: 5rem; }
+
+        /* ─── NO RESULTS ─── */
+        .no-results {
+            text-align: center;
+            color: #475569;
+            padding: 60px 20px;
+            font-size: 1.1rem;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero-stats { gap: 20px; }
+        }
+
+        @media (max-width: 600px) {
+            .games-grid { grid-template-columns: repeat(2, 1fr); }
+            .search-bar { width: 160px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo" onclick="showAll()">🎯 Scicillians</div>
+            <div class="nav-links">
+                <a class="nav-link active" onclick="showAll()">🏠 Home</a>
+                <a class="nav-link" onclick="filterCategory('action')">⚔️ Action</a>
+                <a class="nav-link" onclick="filterCategory('racing')">🏎️ Racing</a>
+                <a class="nav-link" onclick="filterCategory('puzzle')">🧩 Puzzle</a>
+                <a class="nav-link" onclick="filterCategory('sports')">⚽ Sports</a>
+                <a class="nav-link" onclick="filterCategory('arcade')">👾 Arcade</a>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search games..." id="searchInput" oninput="handleSearch()">
+            </div>
+            <a href="games.html" class="back-btn">← Back to Arcade</a>
+        </div>
+    </nav>
+
+    <!-- CATEGORIES BAR -->
+    <div class="categories-bar">
+        <div class="cat-pill active" onclick="filterCat(this,'all')">🌟 All Games</div>
+        <div class="cat-pill" onclick="filterCat(this,'action')">⚔️ Action</div>
+        <div class="cat-pill" onclick="filterCat(this,'racing')">🏎️ Racing</div>
+        <div class="cat-pill" onclick="filterCat(this,'puzzle')">🧩 Puzzle</div>
+        <div class="cat-pill" onclick="filterCat(this,'sports')">⚽ Sports</div>
+        <div class="cat-pill" onclick="filterCat(this,'arcade')">👾 Arcade</div>
+        <div class="cat-pill" onclick="filterCat(this,'strategy')">🏰 Strategy</div>
+        <div class="cat-pill" onclick="filterCat(this,'multiplayer')">👥 Multiplayer</div>
+        <div class="cat-pill" onclick="filterCat(this,'shooting')">🔫 Shooting</div>
+        <div class="cat-pill" onclick="filterCat(this,'platformer')">🦘 Platformer</div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <div class="hero" id="heroSection">
+        <h1>Scicillians Game Hub</h1>
+        <p>Your go-to destination for free online games. No downloads, no sign-ups.</p>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-number">358</div>
+                <div class="stat-label">Games Available</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Categories</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Free to Play</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Browse</div>
+                <div class="sidebar-link active" onclick="showAll()">🏠 Home</div>
+                <div class="sidebar-link" onclick="filterCategory('action')">⚔️ Action</div>
+                <div class="sidebar-link" onclick="filterCategory('racing')">🏎️ Racing</div>
+                <div class="sidebar-link" onclick="filterCategory('puzzle')">🧩 Puzzle</div>
+                <div class="sidebar-link" onclick="filterCategory('sports')">⚽ Sports</div>
+                <div class="sidebar-link" onclick="filterCategory('arcade')">👾 Arcade</div>
+                <div class="sidebar-link" onclick="filterCategory('strategy')">🏰 Strategy</div>
+                <div class="sidebar-link" onclick="filterCategory('multiplayer')">👥 Multiplayer</div>
+                <div class="sidebar-link" onclick="filterCategory('shooting')">🔫 Shooting</div>
+                <div class="sidebar-link" onclick="filterCategory('platformer')">🦘 Platformer</div>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title">Quick Links</div>
+                <a href="index.html" class="sidebar-link">🍎 Tech Desk</a>
+                <a href="games.html" class="sidebar-link">🎮 Old Arcade</a>
+            </div>
+        </aside>
+
+        <!-- GAME CONTENT -->
+        <div class="content" id="mainContent">
+
+            <!-- FEATURED BANNER -->
+            <div class="featured-banner" id="featuredBanner" onclick="openGame('tank-stars')">
+                <div class="featured-text">
+                    <h2>🎯 Tank Stars</h2>
+                    <p>Epic tank battles with physics-based destruction. Our #1 featured game!</p>
+                    <button class="featured-play">▶ Play Now</button>
+                </div>
+                <div class="featured-icon">🎯</div>
+            </div>
+
+            <!-- GAMES GRID -->
+            <div class="section-header">
+                <h2 id="sectionTitle">🔥 All Games</h2>
+            </div>
+
+            <div class="games-grid" id="gamesGrid"></div>
+            <div class="no-results" id="noResults" style="display:none;">No games found. Try a different search!</div>
+
+        </div>
+    </div>
+
+    <!-- GAME PLAYER MODAL -->
+    <div class="modal-overlay" id="gameModal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title" id="modalTitle">Loading...</span>
+                <div class="modal-actions">
+                    <button class="modal-fullscreen" onclick="goFullscreen()">⛶ Fullscreen</button>
+                    <button class="modal-close" onclick="closeModal()">✕</button>
+                </div>
+            </div>
+            <div class="game-frame-wrapper" id="gameFrameWrapper">
+                <div class="frame-loading" id="frameLoading">
+                    <div class="frame-spinner"></div>
+                    <p style="color:#64748b;">Loading game...</p>
+                </div>
+                <iframe id="gameFrame" src="" scrolling="no" allowfullscreen allow="autoplay; fullscreen" style="display:none;"></iframe>
+            </div>
+        </div>
+    </div>
+
+<script>
+// ─── GAME DATABASE (350+ Games) ───────────────────────────────────────────────
+const games = [
+    // ── YOUR ORIGINAL GAMES ──────────────────────────────────────────────────
+    { id: 'tank-stars',        name: 'Tank Stars',                 emoji: '🎯', color: '#1e3a8a', tags: ['action','shooting'],     url: 'https://kiz10.com/gamecode/tank-stars/' },
+    { id: 'ragdoll',           name: 'Ragdoll Archers',            emoji: '🏹', color: '#7c3aed', tags: ['action','multiplayer'],  url: 'https://crazygames-poki.com/embed/ragdoll-archers' },
+    { id: 'fnf',               name: "Friday Night Funkin'",       emoji: '🎵', color: '#be185d', tags: ['arcade','multiplayer'],  url: 'https://crazygames-poki.com/embed/friday-night-funkin-unblocked' },
+    { id: 'ultrakill',         name: 'Ultrakill',                  emoji: '🔫', color: '#dc2626', tags: ['action','shooting'],     url: 'https://kiz10.com/embed/ultrakill/' },
+
+    // ── ACTION ───────────────────────────────────────────────────────────────
+    { id: 'stickman-hook',     name: 'Stickman Hook',              emoji: '🪝', color: '#1d4ed8', tags: ['action','platformer'],   url: 'https://kiz10.com/gamecode/stickman-hook/' },
+    { id: 'fnaf',              name: "Five Nights at Freddy's",    emoji: '🐻', color: '#7c2d12', tags: ['action','strategy'],     url: 'https://kiz10.com/gamecode/fnaf/' },
+    { id: 'happy-wheels',      name: 'Happy Wheels',               emoji: '🚲', color: '#b91c1c', tags: ['action','racing'],       url: 'https://kiz10.com/gamecode/happy-wheels/' },
+    { id: 'vex-7',             name: 'Vex 7',                      emoji: '🏃', color: '#064e3b', tags: ['action','platformer'],   url: 'https://kiz10.com/gamecode/vex-7/' },
+    { id: 'vex-6',             name: 'Vex 6',                      emoji: '🏃', color: '#065f46', tags: ['action','platformer'],   url: 'https://kiz10.com/gamecode/vex-6/' },
+    { id: 'vex-5',             name: 'Vex 5',                      emoji: '🏃', color: '#047857', tags: ['action','platformer'],   url: 'https://kiz10.com/gamecode/vex-5/' },
+    { id: 'fall-guys',         name: 'Fall Guys',                  emoji: '🥳', color: '#d946ef', tags: ['action','multiplayer'],  url: 'https://kiz10.com/gamecode/fall-guys/' },
+    { id: 'lol-beans',         name: 'LOL Beans',                  emoji: '🫘', color: '#c026d3', tags: ['action','multiplayer'],  url: 'https://kiz10.com/gamecode/lol-beans/' },
+    { id: 'combat-reloaded',   name: 'Combat Reloaded',            emoji: '⚔️', color: '#991b1b', tags: ['action','shooting'],     url: 'https://kiz10.com/gamecode/combat-reloaded/' },
+    { id: 'stickman-fight',    name: 'Stickman Fighter',           emoji: '🥷', color: '#1e3a8a', tags: ['action'],                url: 'https://kiz10.com/gamecode/stickman-fighter/' },
+    { id: 'sword-fight',       name: 'Sword Fight',                emoji: '⚔️', color: '#b91c1c', tags: ['action','multiplayer'],  url: 'https://kiz10.com/gamecode/sword-fight/' },
+    { id: 'zombie-shooter',    name: 'Zombie Shooter',             emoji: '🧟', color: '#365314', tags: ['action','shooting'],     url: 'https://kiz10.com/gamecode/zombie-shooter/' },
+    { id: 'ninja-run',         name: 'Ninja Run',                  emoji: '🥷', color: '#1c1917', tags: ['action','platformer'],   url: 'https://kiz10.com/gamecode/ninja-run/' },
+    { id: 'dino-game',         name: 'Dino Game',                  emoji: '🦕', color: '#374151', tags: ['action','arcade'],       url: 'https://kiz10.com/gamecode/dino-game/' },
+    { id: 'iron-snout',        name: 'Iron Snout',                 emoji: '🐷', color: '#b45309', tags: ['action'],                url: 'https://kiz10.com/gamecode/iron-snout/' },
+    { id: 'masked-forces',     name: 'Masked Forces',              emoji: '🎭', color: '#7c3aed', tags: ['action','shooting'],     url: 'https://kiz10.com/gamecode/masked-forces/' },
+    { id: 'bowmasters',        name: 'Bowmasters',                 emoji: '🏹', color: '#15803d', tags: ['action','multiplayer'],  url: 'https://kiz10.com/gamecode/bowmasters/' },
+    { id: 'stickman-archer',   name: 'Stickman Archer',            emoji: '🏹', color: '#0c4a6e', tags: ['action'],                url: 'https://kiz10.com/gamecode/stickman-archer/' },
+    { id: 'superhero-stunt',   name: 'Superhero Stunt',            emoji: '🦸', color: '#dc2626', tags: ['action'],                url: 'https://kiz10.com/gamecode/superhero-stunt/' },
+    { id: 'ninjago',           name: 'Ninjago',                    emoji: '🥷', color: '#1d4ed8', tags: ['action'],                url: 'https://kiz10.com/gamecode/ninjago/' },
+
+    // ── SHOOTING ─────────────────────────────────────────────────────────────
+    { id: 'krunker',           name: 'Krunker IO',                 emoji: '🎯', color: '#dc2626', tags: ['shooting','multiplayer'], url: 'https://kiz10.com/gamecode/krunker-io/' },
+    { id: 'bullet-force',      name: 'Bullet Force',               emoji: '💥', color: '#9a3412', tags: ['shooting','multiplayer'], url: 'https://kiz10.com/gamecode/bullet-force/' },
+    { id: 'shellshock',        name: 'ShellShock Live',            emoji: '💣', color: '#7c3aed', tags: ['shooting','multiplayer'], url: 'https://kiz10.com/gamecode/shellshock-live/' },
+    { id: 'warbrokers',        name: 'War Brokers',                emoji: '🪖', color: '#4d7c0f', tags: ['shooting','multiplayer'], url: 'https://kiz10.com/gamecode/war-brokers/' },
+    { id: 'pixel-gun',         name: 'Pixel Gun Apocalypse',       emoji: '🔫', color: '#15803d', tags: ['shooting','multiplayer'], url: 'https://kiz10.com/gamecode/pixel-gun-apocalypse/' },
+    { id: 'surviv-io',         name: 'Surviv.io',                  emoji: '🪖', color: '#854d0e', tags: ['shooting','multiplayer'], url: 'https://kiz10.com/gamecode/surviv-io/' },
+    { id: 'yohoho',            name: 'YoHoHo.io',                  emoji: '🏴‍☠️', color: '#1e3a8a', tags: ['shooting','multiplayer'], url: 'https://kiz10.com/gamecode/yohoho-io/' },
+    { id: 'crazy-shooters',    name: 'Crazy Shooters 2',           emoji: '💥', color: '#dc2626', tags: ['shooting','multiplayer'], url: 'https://kiz10.com/gamecode/crazy-shooters-2/' },
+    { id: 'bf-sniper',         name: 'Battlefield Sniper',         emoji: '🔭', color: '#1c1917', tags: ['shooting'],              url: 'https://kiz10.com/gamecode/bf-sniper/' },
+    { id: 'crossfire',         name: 'CrossFire',                  emoji: '🎯', color: '#991b1b', tags: ['shooting','multiplayer'], url: 'https://kiz10.com/gamecode/crossfire/' },
+    { id: 'dead-zed',          name: 'Dead Zed',                   emoji: '🧟', color: '#292524', tags: ['shooting'],              url: 'https://kiz10.com/gamecode/dead-zed/' },
+    { id: 'shooting-games',    name: 'Shooting Games',             emoji: '🔫', color: '#7f1d1d', tags: ['shooting'],              url: 'https://kiz10.com/gamecode/shooting-games/' },
+    { id: 'sniper-3d',         name: 'Sniper 3D',                  emoji: '🎯', color: '#0c4a6e', tags: ['shooting'],              url: 'https://kiz10.com/gamecode/sniper-3d/' },
+    { id: 'gun-mayhem',        name: 'Gun Mayhem 2',               emoji: '💥', color: '#b91c1c', tags: ['shooting','multiplayer'], url: 'https://kiz10.com/gamecode/gun-mayhem-2/' },
+
+    // ── RACING ───────────────────────────────────────────────────────────────
+    { id: 'moto-x3m',          name: 'Moto X3M',                   emoji: '🏍️', color: '#b45309', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/moto-x3m/' },
+    { id: 'moto-x3m-2',        name: 'Moto X3M 2',                 emoji: '🏍️', color: '#92400e', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/moto-x3m-2/' },
+    { id: 'moto-x3m-3',        name: 'Moto X3M 3',                 emoji: '🏍️', color: '#78350f', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/moto-x3m-3/' },
+    { id: 'moto-x3m-pool',     name: 'Moto X3M Pool Party',        emoji: '🏊', color: '#0369a1', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/moto-x3m-pool-party/' },
+    { id: 'moto-x3m-winter',   name: 'Moto X3M Winter',            emoji: '❄️', color: '#1e40af', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/moto-x3m-winter/' },
+    { id: 'drift-hunters',     name: 'Drift Hunters',               emoji: '🚗', color: '#9a3412', tags: ['racing'],                url: 'https://kiz10.com/gamecode/drift-hunters/' },
+    { id: 'drift-hunters-2',   name: 'Drift Hunters 2',             emoji: '🚗', color: '#7c2d12', tags: ['racing'],                url: 'https://kiz10.com/gamecode/drift-hunters-2/' },
+    { id: 'smash-karts',       name: 'Smash Karts',                 emoji: '🏎️', color: '#0f766e', tags: ['racing','multiplayer'],  url: 'https://kiz10.com/gamecode/smash-karts/' },
+    { id: 'road-fury',         name: 'Road Fury',                   emoji: '🚗', color: '#dc2626', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/road-fury/' },
+    { id: 'car-rush',          name: 'Car Rush',                    emoji: '🏎️', color: '#b45309', tags: ['racing'],                url: 'https://kiz10.com/gamecode/car-rush/' },
+    { id: 'parking-fury',      name: 'Parking Fury 3D',             emoji: '🅿️', color: '#374151', tags: ['racing'],                url: 'https://kiz10.com/gamecode/parking-fury-3d/' },
+    { id: 'burnout-drift',     name: 'Burnout Drift',               emoji: '💨', color: '#dc2626', tags: ['racing'],                url: 'https://kiz10.com/gamecode/burnout-drift/' },
+    { id: 'highway-traffic',   name: 'Highway Traffic',             emoji: '🛣️', color: '#0369a1', tags: ['racing'],                url: 'https://kiz10.com/gamecode/highway-traffic/' },
+    { id: 'crazy-cars',        name: 'Crazy Cars',                  emoji: '🚗', color: '#7c3aed', tags: ['racing'],                url: 'https://kiz10.com/gamecode/crazy-cars/' },
+    { id: 'hill-climb',        name: 'Hill Climb Racing',           emoji: '⛰️', color: '#b45309', tags: ['racing'],                url: 'https://kiz10.com/gamecode/hill-climb-racing/' },
+    { id: 'extreme-car',       name: 'Extreme Car Driving',         emoji: '🏎️', color: '#dc2626', tags: ['racing'],                url: 'https://kiz10.com/gamecode/extreme-car-driving/' },
+    { id: 'traffic-jam',       name: 'Traffic Jam 3D',              emoji: '🚦', color: '#15803d', tags: ['racing','puzzle'],       url: 'https://kiz10.com/gamecode/traffic-jam-3d/' },
+    { id: 'bike-race',         name: 'Bike Race',                   emoji: '🚴', color: '#0369a1', tags: ['racing'],                url: 'https://kiz10.com/gamecode/bike-race/' },
+    { id: 'rally-racer',       name: 'Rally Racer Dirt',            emoji: '🏎️', color: '#854d0e', tags: ['racing'],                url: 'https://kiz10.com/gamecode/rally-racer-dirt/' },
+    { id: 'racing-limits',     name: 'Racing Limits',               emoji: '🛣️', color: '#1e3a8a', tags: ['racing'],                url: 'https://kiz10.com/gamecode/racing-limits/' },
+    { id: 'traffic-racer',     name: 'Traffic Racer',               emoji: '🚗', color: '#0c4a6e', tags: ['racing'],                url: 'https://kiz10.com/gamecode/traffic-racer/' },
+    { id: 'taxi-simulator',    name: 'Taxi Simulator',              emoji: '🚕', color: '#ca8a04', tags: ['racing'],                url: 'https://kiz10.com/gamecode/taxi-simulator/' },
+    { id: 'madalin-stunt',     name: 'Madalin Stunt Cars 2',        emoji: '🏎️', color: '#7c3aed', tags: ['racing','multiplayer'],  url: 'https://kiz10.com/gamecode/madalin-stunt-cars-2/' },
+    { id: 'offroad-jeep',      name: 'Offroad Jeep Driving',        emoji: '🚙', color: '#15803d', tags: ['racing'],                url: 'https://kiz10.com/gamecode/offroad-jeep-driving/' },
+
+    // ── PLATFORMER ───────────────────────────────────────────────────────────
+    { id: 'run-3',             name: 'Run 3',                       emoji: '🌀', color: '#0e7490', tags: ['platformer','arcade'],   url: 'https://kiz10.com/gamecode/run-3/' },
+    { id: 'geometry-dash',     name: 'Geometry Dash',               emoji: '⬛', color: '#ca8a04', tags: ['platformer','arcade'],   url: 'https://kiz10.com/gamecode/geometry-dash/' },
+    { id: 'temple-run',        name: 'Temple Run 2',                emoji: '🏛️', color: '#b45309', tags: ['platformer','arcade'],   url: 'https://kiz10.com/gamecode/temple-run-2/' },
+    { id: 'subway',            name: 'Subway Surfers',              emoji: '🚇', color: '#0369a1', tags: ['platformer','arcade'],   url: 'https://kiz10.com/gamecode/subway-surfers/' },
+    { id: 'crossy-road',       name: 'Crossy Road',                 emoji: '🐔', color: '#65a30d', tags: ['platformer','arcade'],   url: 'https://kiz10.com/gamecode/crossy-road/' },
+    { id: 'color-tunnel',      name: 'Color Tunnel',                emoji: '🌈', color: '#7c3aed', tags: ['platformer','arcade'],   url: 'https://kiz10.com/gamecode/color-tunnel/' },
+    { id: 'slope',             name: 'Slope',                       emoji: '⛷️', color: '#065f46', tags: ['platformer','arcade'],   url: 'https://kiz10.com/gamecode/slope/' },
+    { id: 'slope-2',           name: 'Slope 2',                     emoji: '⛷️', color: '#047857', tags: ['platformer','arcade'],   url: 'https://kiz10.com/gamecode/slope-2/' },
+    { id: 'getaway-shootout',  name: 'Getaway Shootout',            emoji: '🚁', color: '#b91c1c', tags: ['platformer','multiplayer'], url: 'https://kiz10.com/gamecode/getaway-shootout/' },
+    { id: 'short-life',        name: 'Short Life',                  emoji: '💀', color: '#dc2626', tags: ['platformer','action'],   url: 'https://kiz10.com/gamecode/short-life/' },
+    { id: 'short-life-2',      name: 'Short Life 2',                emoji: '💀', color: '#b91c1c', tags: ['platformer','action'],   url: 'https://kiz10.com/gamecode/short-life-2/' },
+    { id: 'jump-king',         name: 'Jump King',                   emoji: '👑', color: '#92400e', tags: ['platformer'],            url: 'https://kiz10.com/gamecode/jump-king/' },
+    { id: 'free-rider',        name: 'Free Rider HD',               emoji: '🚴', color: '#0369a1', tags: ['platformer','racing'],   url: 'https://kiz10.com/gamecode/free-rider-hd/' },
+    { id: 'super-mario',       name: 'Super Mario Bros',            emoji: '🍄', color: '#dc2626', tags: ['platformer'],            url: 'https://kiz10.com/gamecode/super-mario-bros/' },
+    { id: 'sonic',             name: 'Sonic The Hedgehog',          emoji: '🦔', color: '#1d4ed8', tags: ['platformer','action'],   url: 'https://kiz10.com/gamecode/sonic-the-hedgehog/' },
+    { id: 'sonic-2',           name: 'Sonic 2',                     emoji: '🦔', color: '#1e40af', tags: ['platformer','action'],   url: 'https://kiz10.com/gamecode/sonic-2/' },
+    { id: 'duck-life',         name: 'Duck Life 4',                 emoji: '🦆', color: '#0369a1', tags: ['platformer'],            url: 'https://kiz10.com/gamecode/duck-life-4/' },
+    { id: 'fireboy-water',     name: 'Fireboy and Watergirl',       emoji: '🔥', color: '#ea580c', tags: ['platformer','multiplayer'], url: 'https://kiz10.com/gamecode/fireboy-and-watergirl/' },
+    { id: 'fireboy-water-2',   name: 'Fireboy & Watergirl 2',       emoji: '❄️', color: '#0369a1', tags: ['platformer','multiplayer'], url: 'https://kiz10.com/gamecode/fireboy-and-watergirl-2/' },
+    { id: 'fireboy-water-3',   name: 'Fireboy & Watergirl 3',       emoji: '🌲', color: '#15803d', tags: ['platformer','multiplayer'], url: 'https://kiz10.com/gamecode/fireboy-and-watergirl-3/' },
+    { id: 'fireboy-water-4',   name: 'Fireboy & Watergirl 4',       emoji: '💎', color: '#0e7490', tags: ['platformer','multiplayer'], url: 'https://kiz10.com/gamecode/fireboy-and-watergirl-4/' },
+    { id: 'fireboy-water-5',   name: 'Fireboy & Watergirl 5',       emoji: '🌡️', color: '#7c3aed', tags: ['platformer','multiplayer'], url: 'https://kiz10.com/gamecode/fireboy-and-watergirl-5/' },
+
+    // ── ARCADE ───────────────────────────────────────────────────────────────
+    { id: 'snake',             name: 'Snake IO',                    emoji: '🐍', color: '#166534', tags: ['arcade','multiplayer'],  url: 'https://kiz10.com/gamecode/snake-io/' },
+    { id: 'agar-io',           name: 'Agar.io',                     emoji: '🔵', color: '#1d4ed8', tags: ['arcade','multiplayer'],  url: 'https://kiz10.com/gamecode/agar-io/' },
+    { id: 'paper-io',          name: 'Paper.io 2',                  emoji: '📄', color: '#0369a1', tags: ['arcade','multiplayer'],  url: 'https://kiz10.com/gamecode/paper-io-2/' },
+    { id: 'spinz-io',          name: 'Spinz.io',                    emoji: '🌀', color: '#7c3aed', tags: ['arcade','multiplayer'],  url: 'https://kiz10.com/gamecode/spinz-io/' },
+    { id: 'diep-io',           name: 'Diep.io',                     emoji: '💣', color: '#1e3a8a', tags: ['arcade','multiplayer'],  url: 'https://kiz10.com/gamecode/diep-io/' },
+    { id: 'hole-io',           name: 'Hole.io',                     emoji: '🕳️', color: '#1e293b', tags: ['arcade','multiplayer'],  url: 'https://kiz10.com/gamecode/hole-io/' },
+    { id: 'brutal-io',         name: 'Brutal.io',                   emoji: '⚡', color: '#dc2626', tags: ['arcade','multiplayer'],  url: 'https://kiz10.com/gamecode/brutal-io/' },
+    { id: 'flappy-bird',       name: 'Flappy Bird',                 emoji: '🐦', color: '#ca8a04', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/flappy-bird/' },
+    { id: 'pac-man',           name: 'Pac-Man',                     emoji: '👻', color: '#ca8a04', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/pac-man/' },
+    { id: 'tetris',            name: 'Tetris',                      emoji: '🟦', color: '#1d4ed8', tags: ['arcade','puzzle'],       url: 'https://kiz10.com/gamecode/tetris/' },
+    { id: 'galaga',            name: 'Galaga',                      emoji: '👾', color: '#7c3aed', tags: ['arcade','shooting'],     url: 'https://kiz10.com/gamecode/galaga/' },
+    { id: 'space-invaders',    name: 'Space Invaders',              emoji: '🛸', color: '#1e293b', tags: ['arcade','shooting'],     url: 'https://kiz10.com/gamecode/space-invaders/' },
+    { id: 'bubble-shooter',    name: 'Bubble Shooter',              emoji: '🫧', color: '#0369a1', tags: ['arcade','puzzle'],       url: 'https://kiz10.com/gamecode/bubble-shooter/' },
+    { id: 'candy-crash',       name: 'Candy Crush',                 emoji: '🍭', color: '#dc2626', tags: ['arcade','puzzle'],       url: 'https://kiz10.com/gamecode/candy-crush/' },
+    { id: 'cookie-clicker',    name: 'Cookie Clicker',              emoji: '🍪', color: '#b45309', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/cookie-clicker/' },
+    { id: 'duck-hunt',         name: 'Duck Hunt',                   emoji: '🦆', color: '#15803d', tags: ['arcade','shooting'],     url: 'https://kiz10.com/gamecode/duck-hunt/' },
+    { id: 'pong',              name: 'Pong',                        emoji: '🏓', color: '#1e293b', tags: ['arcade','sports'],       url: 'https://kiz10.com/gamecode/pong/' },
+    { id: 'brick-breaker',     name: 'Brick Breaker',               emoji: '🧱', color: '#dc2626', tags: ['arcade','puzzle'],       url: 'https://kiz10.com/gamecode/brick-breaker/' },
+    { id: 'fruit-ninja',       name: 'Fruit Ninja',                 emoji: '🍉', color: '#dc2626', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/fruit-ninja/' },
+    { id: 'jetpack-joyride',   name: 'Jetpack Joyride',             emoji: '🚀', color: '#7c3aed', tags: ['arcade','platformer'],   url: 'https://kiz10.com/gamecode/jetpack-joyride/' },
+    { id: 'piano-tiles',       name: 'Piano Tiles',                 emoji: '🎹', color: '#1e293b', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/piano-tiles/' },
+    { id: 'geometry-dash-2',   name: 'Geometry Dash 2.2',           emoji: '🔷', color: '#b45309', tags: ['arcade','platformer'],   url: 'https://kiz10.com/gamecode/geometry-dash-2/' },
+    { id: 'temple-run-oz',     name: 'Temple Run Oz',               emoji: '🌪️', color: '#15803d', tags: ['arcade','platformer'],   url: 'https://kiz10.com/gamecode/temple-run-oz/' },
+    { id: 'skribbl',           name: 'Skribbl IO',                  emoji: '🎨', color: '#2563eb', tags: ['arcade','multiplayer'],  url: 'https://kiz10.com/gamecode/skribbl-io/' },
+
+    // ── PUZZLE ───────────────────────────────────────────────────────────────
+    { id: '2048',              name: '2048',                        emoji: '🔢', color: '#78350f', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/2048/' },
+    { id: 'angry-birds',       name: 'Angry Birds Online',          emoji: '🐦', color: '#dc2626', tags: ['puzzle','action'],       url: 'https://kiz10.com/gamecode/angry-birds-classic/' },
+    { id: 'cut-the-rope',      name: 'Cut the Rope',                emoji: '🍭', color: '#15803d', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/cut-the-rope/' },
+    { id: 'sudoku',            name: 'Sudoku',                      emoji: '🔢', color: '#1e293b', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/sudoku/' },
+    { id: 'mahjong',           name: 'Mahjong',                     emoji: '🀄', color: '#b91c1c', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/mahjong/' },
+    { id: 'jigsaw',            name: 'Jigsaw Puzzles',              emoji: '🧩', color: '#0369a1', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/jigsaw-puzzles/' },
+    { id: 'solitaire',         name: 'Solitaire',                   emoji: '🃏', color: '#15803d', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/solitaire/' },
+    { id: 'escape-room',       name: 'Escape Room',                 emoji: '🚪', color: '#374151', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/escape-room/' },
+    { id: 'where-is-cat',      name: "Where's My Cat?",             emoji: '🐱', color: '#ca8a04', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/wheres-my-cat/' },
+    { id: 'traffic-jam-p',     name: 'Traffic Jam',                 emoji: '🚗', color: '#dc2626', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/traffic-jam/' },
+    { id: 'unblock-car',       name: 'Unblock Car',                 emoji: '🚗', color: '#0369a1', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/unblock-car/' },
+    { id: 'tower-blocks',      name: 'Tower Blocks',                emoji: '🏙️', color: '#0c4a6e', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/tower-blocks/' },
+    { id: 'word-search',       name: 'Word Search',                 emoji: '🔤', color: '#15803d', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/word-search/' },
+    { id: 'minesweeper',       name: 'Minesweeper',                 emoji: '💣', color: '#374151', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/minesweeper/' },
+    { id: 'tic-tac-toe',       name: 'Tic Tac Toe',                 emoji: '❎', color: '#1d4ed8', tags: ['puzzle','multiplayer'],  url: 'https://kiz10.com/gamecode/tic-tac-toe/' },
+    { id: 'connect-4',         name: 'Connect 4',                   emoji: '🟡', color: '#ca8a04', tags: ['puzzle','multiplayer'],  url: 'https://kiz10.com/gamecode/connect-4/' },
+    { id: 'wordle',            name: 'Wordle',                      emoji: '📝', color: '#15803d', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/wordle/' },
+    { id: 'nonogram',          name: 'Nonogram',                    emoji: '🎨', color: '#7c3aed', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/nonogram/' },
+    { id: 'room-escape',       name: 'Room Escape',                 emoji: '🔑', color: '#78350f', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/room-escape/' },
+    { id: 'block-puzzle',      name: 'Block Puzzle',                emoji: '🟦', color: '#1d4ed8', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/block-puzzle/' },
+    { id: 'watermelon',        name: 'Watermelon Game',             emoji: '🍉', color: '#166534', tags: ['puzzle','arcade'],       url: 'https://kiz10.com/gamecode/watermelon-game/' },
+
+    // ── STRATEGY ─────────────────────────────────────────────────────────────
+    { id: 'chess',             name: 'Chess',                       emoji: '♟️', color: '#1e293b', tags: ['strategy','multiplayer'], url: 'https://kiz10.com/gamecode/chess/' },
+    { id: 'bloons',            name: 'Bloons Tower Defense',        emoji: '🎈', color: '#7c3aed', tags: ['strategy'],               url: 'https://kiz10.com/gamecode/bloons-tower-defense/' },
+    { id: 'bloons-5',          name: 'Bloons Tower Defense 5',      emoji: '🎈', color: '#6d28d9', tags: ['strategy'],               url: 'https://kiz10.com/gamecode/bloons-td-5/' },
+    { id: 'bloons-6',          name: 'Bloons Tower Defense 6',      emoji: '🎈', color: '#5b21b6', tags: ['strategy'],               url: 'https://kiz10.com/gamecode/bloons-td-6/' },
+    { id: 'minecraft',         name: 'Minecraft Classic',           emoji: '⛏️', color: '#4d7c0f', tags: ['strategy','multiplayer'], url: 'https://kiz10.com/gamecode/minecraft-classic/' },
+    { id: 'minecraft-2',       name: 'Minecraft 2',                 emoji: '🧱', color: '#65a30d', tags: ['strategy'],               url: 'https://kiz10.com/gamecode/minecraft-2/' },
+    { id: 'among-us',          name: 'Among Us',                    emoji: '🚀', color: '#6d28d9', tags: ['strategy','multiplayer'], url: 'https://kiz10.com/gamecode/among-us-original/' },
+    { id: 'fnaf',              name: "Five Nights at Freddy's",     emoji: '🐻', color: '#7c2d12', tags: ['strategy','action'],      url: 'https://kiz10.com/gamecode/fnaf/' },
+    { id: 'tower-defense',     name: 'Tower Defense',               emoji: '🏰', color: '#b45309', tags: ['strategy'],               url: 'https://kiz10.com/gamecode/tower-defense/' },
+    { id: 'kingdom-rush',      name: 'Kingdom Rush',                emoji: '👑', color: '#92400e', tags: ['strategy'],               url: 'https://kiz10.com/gamecode/kingdom-rush/' },
+    { id: 'kingdom-rush-2',    name: 'Kingdom Rush Origins',        emoji: '⚔️', color: '#78350f', tags: ['strategy'],               url: 'https://kiz10.com/gamecode/kingdom-rush-origins/' },
+    { id: 'age-of-war',        name: 'Age of War',                  emoji: '⚔️', color: '#7c2d12', tags: ['strategy'],               url: 'https://kiz10.com/gamecode/age-of-war/' },
+    { id: 'age-of-war-2',      name: 'Age of War 2',                emoji: '🏹', color: '#6b21a8', tags: ['strategy'],               url: 'https://kiz10.com/gamecode/age-of-war-2/' },
+    { id: 'stick-war',         name: 'Stick War Legacy',            emoji: '🗡️', color: '#1e293b', tags: ['strategy','action'],      url: 'https://kiz10.com/gamecode/stick-war-legacy/' },
+    { id: 'worlds-hardest',    name: "World's Hardest Game",        emoji: '😤', color: '#dc2626', tags: ['strategy','puzzle'],      url: 'https://kiz10.com/gamecode/worlds-hardest-game/' },
+    { id: 'worlds-hardest-2',  name: "World's Hardest Game 2",      emoji: '😡', color: '#b91c1c', tags: ['strategy','puzzle'],      url: 'https://kiz10.com/gamecode/worlds-hardest-game-2/' },
+    { id: 'snake-ladder',      name: 'Snakes and Ladders',          emoji: '🎲', color: '#15803d', tags: ['strategy','multiplayer'], url: 'https://kiz10.com/gamecode/snakes-and-ladders/' },
+    { id: 'backgammon',        name: 'Backgammon',                  emoji: '🎲', color: '#92400e', tags: ['strategy','multiplayer'], url: 'https://kiz10.com/gamecode/backgammon/' },
+    { id: 'checkers',          name: 'Checkers',                    emoji: '🔴', color: '#b91c1c', tags: ['strategy','multiplayer'], url: 'https://kiz10.com/gamecode/checkers/' },
+    { id: 'idle-defense',      name: 'Idle Tower Defense',          emoji: '🏯', color: '#78350f', tags: ['strategy'],               url: 'https://kiz10.com/gamecode/idle-tower-defense/' },
+    { id: 'plants-zombies',    name: 'Plants vs Zombies',           emoji: '🌻', color: '#15803d', tags: ['strategy'],               url: 'https://kiz10.com/gamecode/plants-vs-zombies/' },
+
+    // ── SPORTS ───────────────────────────────────────────────────────────────
+    { id: 'basketball',        name: 'Basketball Stars',            emoji: '🏀', color: '#ea580c', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/basketball-stars/' },
+    { id: 'penalty',           name: 'Penalty Shooters 2',          emoji: '⚽', color: '#15803d', tags: ['sports'],                url: 'https://kiz10.com/gamecode/penalty-shooters-2/' },
+    { id: 'boxing',            name: 'Boxing Random',               emoji: '🥊', color: '#b91c1c', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/boxing-random/' },
+    { id: 'nba-stars',         name: 'NBA Stars',                   emoji: '🏆', color: '#dc2626', tags: ['sports'],                url: 'https://kiz10.com/gamecode/nba-stars/' },
+    { id: 'soccer-random',     name: 'Soccer Random',               emoji: '⚽', color: '#15803d', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/soccer-random/' },
+    { id: 'volleyball',        name: 'Volleyball Random',           emoji: '🏐', color: '#0369a1', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/volleyball-random/' },
+    { id: 'tennis',            name: 'Tennis Random',               emoji: '🎾', color: '#ca8a04', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/tennis-random/' },
+    { id: 'ping-pong',         name: 'Ping Pong',                   emoji: '🏓', color: '#1d4ed8', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/ping-pong/' },
+    { id: 'football-legends',  name: 'Football Legends',            emoji: '🏈', color: '#dc2626', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/football-legends/' },
+    { id: 'baseball',          name: 'Baseball Pro',                emoji: '⚾', color: '#1e293b', tags: ['sports'],                url: 'https://kiz10.com/gamecode/baseball-pro/' },
+    { id: 'golf-battle',       name: 'Golf Battle',                 emoji: '⛳', color: '#15803d', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/golf-battle/' },
+    { id: 'mini-golf',         name: 'Mini Golf',                   emoji: '⛳', color: '#4d7c0f', tags: ['sports'],                url: 'https://kiz10.com/gamecode/mini-golf/' },
+    { id: 'wrestling',         name: 'Wrestling Random',            emoji: '🤼', color: '#dc2626', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/wrestling-random/' },
+    { id: 'pool',              name: '8 Ball Pool',                 emoji: '🎱', color: '#15803d', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/8-ball-pool/' },
+    { id: 'darts',             name: 'Darts',                       emoji: '🎯', color: '#dc2626', tags: ['sports'],                url: 'https://kiz10.com/gamecode/darts/' },
+    { id: 'bowling',           name: 'Bowling',                     emoji: '🎳', color: '#1d4ed8', tags: ['sports'],                url: 'https://kiz10.com/gamecode/bowling/' },
+    { id: 'skateboard',        name: 'Skate City',                  emoji: '🛹', color: '#0369a1', tags: ['sports','action'],       url: 'https://kiz10.com/gamecode/skate-city/' },
+    { id: 'surfing',           name: 'Surfing',                     emoji: '🏄', color: '#0369a1', tags: ['sports'],                url: 'https://kiz10.com/gamecode/surfing/' },
+    { id: 'hockey',            name: 'Ice Hockey',                  emoji: '🏒', color: '#1e40af', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/ice-hockey/' },
+    { id: 'cricket',           name: 'Cricket',                     emoji: '🏏', color: '#15803d', tags: ['sports'],                url: 'https://kiz10.com/gamecode/cricket/' },
+
+    // ── MULTIPLAYER ───────────────────────────────────────────────────────────
+    { id: 'smash-karts-mp',    name: 'Smash Karts Multiplayer',     emoji: '🏎️', color: '#0f766e', tags: ['multiplayer','racing'],  url: 'https://kiz10.com/gamecode/smash-karts/' },
+    { id: 'ev-io',             name: 'ev.io',                       emoji: '🎮', color: '#7c3aed', tags: ['multiplayer','shooting'], url: 'https://kiz10.com/gamecode/ev-io/' },
+    { id: 'narrow-one',        name: 'Narrow One',                  emoji: '🏹', color: '#1e3a8a', tags: ['multiplayer','action'],  url: 'https://kiz10.com/gamecode/narrow-one/' },
+    { id: 'betrayal-io',       name: 'Betrayal.io',                 emoji: '🔪', color: '#dc2626', tags: ['multiplayer'],           url: 'https://kiz10.com/gamecode/betrayal-io/' },
+    { id: 'lordz-io',          name: 'Lordz.io',                    emoji: '👑', color: '#92400e', tags: ['multiplayer','strategy'], url: 'https://kiz10.com/gamecode/lordz-io/' },
+    { id: 'taming-io',         name: 'Taming.io',                   emoji: '🐾', color: '#15803d', tags: ['multiplayer'],           url: 'https://kiz10.com/gamecode/taming-io/' },
+    { id: 'moomoo-io',         name: 'Moomoo.io',                   emoji: '🐄', color: '#ca8a04', tags: ['multiplayer','strategy'], url: 'https://kiz10.com/gamecode/moomoo-io/' },
+    { id: 'shell-shockers',    name: 'Shell Shockers',              emoji: '🥚', color: '#ca8a04', tags: ['multiplayer','shooting'], url: 'https://kiz10.com/gamecode/shell-shockers/' },
+    { id: 'venge-io',          name: 'Venge.io',                    emoji: '⚔️', color: '#1e3a8a', tags: ['multiplayer','shooting'], url: 'https://kiz10.com/gamecode/venge-io/' },
+    { id: 'zombs-royale',      name: 'Zombs Royale',                emoji: '👑', color: '#7c2d12', tags: ['multiplayer','shooting'], url: 'https://kiz10.com/gamecode/zombs-royale/' },
+    { id: 'battle-io',         name: 'Battle.io',                   emoji: '⚔️', color: '#dc2626', tags: ['multiplayer'],           url: 'https://kiz10.com/gamecode/battle-io/' },
+    { id: 'splix-io',          name: 'Splix.io',                    emoji: '📐', color: '#0369a1', tags: ['multiplayer','arcade'],  url: 'https://kiz10.com/gamecode/splix-io/' },
+    { id: 'wings-io',          name: 'Wings.io',                    emoji: '✈️', color: '#0369a1', tags: ['multiplayer','action'],  url: 'https://kiz10.com/gamecode/wings-io/' },
+    { id: 'tanks-io',          name: 'Tanks.io',                    emoji: '🎯', color: '#15803d', tags: ['multiplayer','action'],  url: 'https://kiz10.com/gamecode/tanks-io/' },
+    { id: 'wormate-io',        name: 'Wormate.io',                  emoji: '🐛', color: '#65a30d', tags: ['multiplayer','arcade'],  url: 'https://kiz10.com/gamecode/wormate-io/' },
+    { id: 'slither-io',        name: 'Slither.io',                  emoji: '🐍', color: '#15803d', tags: ['multiplayer','arcade'],  url: 'https://kiz10.com/gamecode/slither-io/' },
+    { id: 'defly-io',          name: 'Defly.io',                    emoji: '🚁', color: '#0369a1', tags: ['multiplayer','action'],  url: 'https://kiz10.com/gamecode/defly-io/' },
+    { id: 'starblast',         name: 'Starblast.io',                emoji: '🌟', color: '#1e3a8a', tags: ['multiplayer','shooting'], url: 'https://kiz10.com/gamecode/starblast-io/' },
+    { id: 'gartic-phone',      name: 'Gartic Phone',                emoji: '📱', color: '#7c3aed', tags: ['multiplayer'],           url: 'https://kiz10.com/gamecode/gartic-phone/' },
+    { id: 'stab-io',           name: 'Stab.io',                     emoji: '🗡️', color: '#dc2626', tags: ['multiplayer','action'],  url: 'https://kiz10.com/gamecode/stab-io/' },
+    { id: 'miniclip',          name: 'Miniclip Pool',               emoji: '🎱', color: '#1e3a8a', tags: ['multiplayer','sports'],  url: 'https://kiz10.com/gamecode/miniclip-pool/' },
+
+    // ── MORE KIZ10 POPULAR GAMES ─────────────────────────────────────────────
+    { id: 'papa-louie',        name: "Papa's Pizzeria",             emoji: '🍕', color: '#dc2626', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/papas-pizzeria/' },
+    { id: 'papa-burgeria',     name: "Papa's Burgeria",             emoji: '🍔', color: '#b45309', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/papas-burgeria/' },
+    { id: 'papa-freezeria',    name: "Papa's Freezeria",            emoji: '🍦', color: '#0369a1', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/papas-freezeria/' },
+    { id: 'papa-bakeria',      name: "Papa's Bakeria",              emoji: '🎂', color: '#be185d', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/papas-bakeria/' },
+    { id: 'papa-taco',         name: "Papa's Taco Mia",             emoji: '🌮', color: '#ca8a04', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/papas-taco-mia/' },
+    { id: 'papa-pancake',      name: "Papa's Pancakeria",           emoji: '🥞', color: '#b45309', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/papas-pancakeria/' },
+    { id: 'papa-cupcake',      name: "Papa's Cupcakeria",           emoji: '🧁', color: '#be185d', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/papas-cupcakeria/' },
+    { id: 'papa-sushiria',     name: "Papa's Sushiria",             emoji: '🍣', color: '#dc2626', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/papas-sushiria/' },
+    { id: 'papa-donuteria',    name: "Papa's Donuteria",            emoji: '🍩', color: '#b45309', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/papas-donuteria/' },
+    { id: 'papa-wingeria',     name: "Papa's Wingeria",             emoji: '🍗', color: '#b91c1c', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/papas-wingeria/' },
+    { id: 'stickman-bike',     name: 'Stickman Bike',               emoji: '🚴', color: '#0369a1', tags: ['action','racing'],       url: 'https://kiz10.com/gamecode/stickman-bike/' },
+    { id: 'city-car-driving',  name: 'City Car Driving',            emoji: '🚗', color: '#374151', tags: ['racing'],                url: 'https://kiz10.com/gamecode/city-car-driving/' },
+    { id: 'car-simulator',     name: 'Car Simulator Arena',         emoji: '🚗', color: '#0369a1', tags: ['racing'],                url: 'https://kiz10.com/gamecode/car-simulator-arena/' },
+    { id: 'waterpark-io',      name: 'WaterPark.io',                emoji: '🌊', color: '#0284c7', tags: ['arcade','multiplayer'],  url: 'https://kiz10.com/gamecode/waterpark-io/' },
+    { id: 'bomb-it',           name: 'Bomb It 7',                   emoji: '💣', color: '#dc2626', tags: ['action','multiplayer'],  url: 'https://kiz10.com/gamecode/bomb-it-7/' },
+    { id: 'bombers-io',        name: 'Bombers.io',                  emoji: '💣', color: '#7c3aed', tags: ['action','multiplayer'],  url: 'https://kiz10.com/gamecode/bombers-io/' },
+    { id: 'superfighters',     name: 'Superfighters',               emoji: '🥊', color: '#dc2626', tags: ['action','multiplayer'],  url: 'https://kiz10.com/gamecode/superfighters/' },
+    { id: 'draw-sword',        name: 'Draw Sword',                  emoji: '⚔️', color: '#78350f', tags: ['action'],                url: 'https://kiz10.com/gamecode/draw-sword/' },
+    { id: 'pixel-warfare',     name: 'Pixel Warfare',               emoji: '🎮', color: '#65a30d', tags: ['shooting','multiplayer'], url: 'https://kiz10.com/gamecode/pixel-warfare/' },
+    { id: 'armed-forces',      name: 'Armed Forces',                emoji: '🪖', color: '#4d7c0f', tags: ['shooting','strategy'],   url: 'https://kiz10.com/gamecode/armed-forces/' },
+    { id: 'space-is-key',      name: 'Space Is Key',                emoji: '🌌', color: '#1e293b', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/space-is-key/' },
+    { id: 'n-game',            name: 'N Game',                      emoji: '🥷', color: '#374151', tags: ['platformer','action'],   url: 'https://kiz10.com/gamecode/n-game/' },
+    { id: 'rooftop-snipers',   name: 'Rooftop Snipers',             emoji: '🎯', color: '#0c4a6e', tags: ['shooting','multiplayer'], url: 'https://kiz10.com/gamecode/rooftop-snipers/' },
+    { id: 'wrestling-mpx',     name: 'Wrestling MPX',               emoji: '🤼', color: '#b91c1c', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/wrestling-mpx/' },
+    { id: 'flip-masters',      name: 'Flip Masters',                emoji: '🤸', color: '#7c3aed', tags: ['sports','action'],       url: 'https://kiz10.com/gamecode/flip-masters/' },
+    { id: 'stunt-car',         name: 'Stunt Car Extreme',           emoji: '🚗', color: '#dc2626', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/stunt-car-extreme/' },
+    { id: 'trials',            name: 'Trials Online',               emoji: '🏍️', color: '#b45309', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/trials-online/' },
+    { id: 'basketbros',        name: 'BasketBros',                  emoji: '🏀', color: '#ea580c', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/basketbros/' },
+    { id: 'stickman-ragdoll',  name: 'Stickman Ragdoll',            emoji: '🪆', color: '#7c3aed', tags: ['action'],                url: 'https://kiz10.com/gamecode/stickman-ragdoll/' },
+    { id: 'clicker-heroes',    name: 'Clicker Heroes',              emoji: '⚔️', color: '#b45309', tags: ['strategy','arcade'],     url: 'https://kiz10.com/gamecode/clicker-heroes/' },
+    { id: 'adventure-time',    name: 'Adventure Time',              emoji: '🗡️', color: '#15803d', tags: ['action'],                url: 'https://kiz10.com/gamecode/adventure-time/' },
+    { id: 'gravbot',           name: 'GravBot',                     emoji: '🤖', color: '#374151', tags: ['puzzle','action'],       url: 'https://kiz10.com/gamecode/gravbot/' },
+    { id: 'parkour-block',     name: 'Parkour Block 3D',            emoji: '🧱', color: '#65a30d', tags: ['platformer','action'],   url: 'https://kiz10.com/gamecode/parkour-block-3d/' },
+    { id: 'buildnow-gg',       name: 'BuildNow GG',                 emoji: '🏗️', color: '#0369a1', tags: ['shooting','action'],     url: 'https://kiz10.com/gamecode/buildnow-gg/' },
+    { id: 'stickman-jailbreak',name: 'Stickman Jailbreak',          emoji: '🔓', color: '#374151', tags: ['action','platformer'],   url: 'https://kiz10.com/gamecode/stickman-jailbreak/' },
+    { id: 'subway-clash',      name: 'Subway Clash 3D',             emoji: '🚇', color: '#dc2626', tags: ['shooting','action'],     url: 'https://kiz10.com/gamecode/subway-clash-3d/' },
+    { id: 'prison-break',      name: 'Prison Break',                emoji: '🔒', color: '#374151', tags: ['action'],                url: 'https://kiz10.com/gamecode/prison-break/' },
+    { id: 'police-car-chase',  name: 'Police Car Chase',            emoji: '🚔', color: '#1d4ed8', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/police-car-chase/' },
+    { id: 'destruction-derby', name: 'Destruction Derby',           emoji: '💥', color: '#dc2626', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/destruction-derby/' },
+    { id: 'stick-duel',        name: 'Stick Duel Battle',           emoji: '⚔️', color: '#1e293b', tags: ['action','multiplayer'],  url: 'https://kiz10.com/gamecode/stick-duel-battle/' },
+    { id: 'duo-survival',      name: 'Duo Survival 3',              emoji: '👫', color: '#0369a1', tags: ['action','multiplayer'],  url: 'https://kiz10.com/gamecode/duo-survival-3/' },
+    { id: 'monster-truck',     name: 'Monster Truck',               emoji: '🚛', color: '#15803d', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/monster-truck/' },
+    { id: 'tank-trouble',      name: 'Tank Trouble',                emoji: '🎯', color: '#1e3a8a', tags: ['action','multiplayer'],  url: 'https://kiz10.com/gamecode/tank-trouble/' },
+    { id: 'stick-merge',       name: 'Stick Merge',                 emoji: '⚔️', color: '#7c3aed', tags: ['strategy'],              url: 'https://kiz10.com/gamecode/stick-merge/' },
+    { id: 'idle-breakout',     name: 'Idle Breakout',               emoji: '🟦', color: '#0369a1', tags: ['strategy','arcade'],     url: 'https://kiz10.com/gamecode/idle-breakout/' },
+    { id: 'learn-to-fly',      name: 'Learn to Fly 3',              emoji: '🐧', color: '#0c4a6e', tags: ['arcade','action'],       url: 'https://kiz10.com/gamecode/learn-to-fly-3/' },
+    { id: 'cat-ninja',         name: 'Cat Ninja',                   emoji: '🐱', color: '#1e293b', tags: ['platformer','action'],   url: 'https://kiz10.com/gamecode/cat-ninja/' },
+    { id: 'snowrider',         name: 'Snow Rider 3D',               emoji: '🏂', color: '#e0f2fe', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/snow-rider-3d/' },
+    { id: 'helix-jump',        name: 'Helix Jump',                  emoji: '🌀', color: '#dc2626', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/helix-jump/' },
+    { id: 'tower-jump',        name: 'Tower Jump',                  emoji: '🏗️', color: '#ca8a04', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/tower-jump/' },
+    { id: 'knife-hit',         name: 'Knife Hit',                   emoji: '🔪', color: '#1e293b', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/knife-hit/' },
+    { id: 'color-road',        name: 'Color Road',                  emoji: '🔵', color: '#7c3aed', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/color-road/' },
+    { id: 'ball-sort',         name: 'Ball Sort Puzzle',            emoji: '🔵', color: '#0369a1', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/ball-sort-puzzle/' },
+    { id: 'merge-dragons',     name: 'Merge Dragons',               emoji: '🐉', color: '#15803d', tags: ['strategy','puzzle'],     url: 'https://kiz10.com/gamecode/merge-dragons/' },
+    { id: 'stackball',         name: 'Stack Ball',                  emoji: '🟠', color: '#ea580c', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/stack-ball/' },
+    { id: 'sand-strike',       name: 'Sand Strike',                 emoji: '⚔️', color: '#b45309', tags: ['action','shooting'],     url: 'https://kiz10.com/gamecode/sand-strike/' },
+    { id: 'alien-invasion',    name: 'Alien Invasion',              emoji: '👽', color: '#15803d', tags: ['shooting','arcade'],     url: 'https://kiz10.com/gamecode/alien-invasion/' },
+    { id: 'zombie-derby',      name: 'Zombie Derby',                emoji: '🧟', color: '#365314', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/zombie-derby/' },
+    { id: 'galaxy-attack',     name: 'Galaxy Attack',               emoji: '🚀', color: '#1e3a8a', tags: ['shooting','arcade'],     url: 'https://kiz10.com/gamecode/galaxy-attack/' },
+    { id: 'air-hockey',        name: 'Air Hockey',                  emoji: '🏒', color: '#0369a1', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/air-hockey/' },
+    { id: 'ping-pong-chaos',   name: 'Ping Pong Chaos',             emoji: '🏓', color: '#7c3aed', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/ping-pong-chaos/' },
+    { id: 'table-tennis',      name: 'Table Tennis World Tour',     emoji: '🏓', color: '#1d4ed8', tags: ['sports'],                url: 'https://kiz10.com/gamecode/table-tennis-world-tour/' },
+    { id: 'pool-club',         name: 'Pool Club',                   emoji: '🎱', color: '#15803d', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/pool-club/' },
+    { id: 'epic-minigolf',     name: 'Epic Mini Golf',              emoji: '⛳', color: '#4d7c0f', tags: ['sports'],                url: 'https://kiz10.com/gamecode/epic-mini-golf/' },
+    { id: 'cricket-hero',      name: 'Cricket Hero',                emoji: '🏏', color: '#ca8a04', tags: ['sports'],                url: 'https://kiz10.com/gamecode/cricket-hero/' },
+    { id: 'stickman-boxing',   name: 'Stickman Boxing',             emoji: '🥊', color: '#dc2626', tags: ['sports','action'],       url: 'https://kiz10.com/gamecode/stickman-boxing/' },
+    { id: 'sumo-io',           name: 'Sumo.io',                     emoji: '🤼', color: '#b45309', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/sumo-io/' },
+    { id: 'football-io',       name: 'Football.io',                 emoji: '🏈', color: '#15803d', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/football-io/' },
+    { id: 'touchgoal',         name: 'TouchGoal',                   emoji: '⚽', color: '#15803d', tags: ['sports'],                url: 'https://kiz10.com/gamecode/touchgoal/' },
+    { id: 'champion-archer',   name: 'Champion Archer',             emoji: '🏹', color: '#b45309', tags: ['sports','action'],       url: 'https://kiz10.com/gamecode/champion-archer/' },
+    { id: 'dunk-shot',         name: 'Dunk Shot',                   emoji: '🏀', color: '#ea580c', tags: ['sports'],                url: 'https://kiz10.com/gamecode/dunk-shot/' },
+
+    // ── ADDITIONAL GAMES BATCH 2 ─────────────────────────────────────────────
+    { id: 'robot-unicorn',     name: 'Robot Unicorn Attack',        emoji: '🦄', color: '#7c3aed', tags: ['arcade','action'],       url: 'https://kiz10.com/gamecode/robot-unicorn-attack/' },
+    { id: 'potty-racers',      name: 'Potty Racers 3',              emoji: '🚽', color: '#b45309', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/potty-racers-3/' },
+    { id: 'elastic-man',       name: 'Elastic Man',                 emoji: '😮', color: '#dc2626', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/elastic-man/' },
+    { id: 'funny-shooter',     name: 'Funny Shooter 2',             emoji: '😄', color: '#ca8a04', tags: ['shooting','action'],     url: 'https://kiz10.com/gamecode/funny-shooter-2/' },
+    { id: 'tower-swap',        name: 'Tower Swap',                  emoji: '🏰', color: '#7c3aed', tags: ['puzzle','strategy'],     url: 'https://kiz10.com/gamecode/tower-swap/' },
+    { id: 'egg-hunt',          name: 'Egg Hunt',                    emoji: '🥚', color: '#ca8a04', tags: ['action','arcade'],       url: 'https://kiz10.com/gamecode/egg-hunt/' },
+    { id: 'ragdoll-hit',       name: 'Ragdoll Hit',                 emoji: '🎳', color: '#1d4ed8', tags: ['action','arcade'],       url: 'https://kiz10.com/gamecode/ragdoll-hit/' },
+    { id: 'guts-glory',        name: 'Guts and Glory',              emoji: '💀', color: '#b91c1c', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/guts-and-glory/' },
+    { id: 'bad-ice-cream',     name: 'Bad Ice Cream',               emoji: '🍦', color: '#0369a1', tags: ['arcade','multiplayer'],  url: 'https://kiz10.com/gamecode/bad-ice-cream/' },
+    { id: 'bad-ice-cream-2',   name: 'Bad Ice Cream 2',             emoji: '🍧', color: '#0284c7', tags: ['arcade','multiplayer'],  url: 'https://kiz10.com/gamecode/bad-ice-cream-2/' },
+    { id: 'bad-ice-cream-3',   name: 'Bad Ice Cream 3',             emoji: '🍨', color: '#0ea5e9', tags: ['arcade','multiplayer'],  url: 'https://kiz10.com/gamecode/bad-ice-cream-3/' },
+    { id: 'snail-bob',         name: 'Snail Bob',                   emoji: '🐌', color: '#15803d', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/snail-bob/' },
+    { id: 'snail-bob-2',       name: 'Snail Bob 2',                 emoji: '🐌', color: '#166534', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/snail-bob-2/' },
+    { id: 'wheely',            name: 'Wheely',                      emoji: '🚗', color: '#dc2626', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/wheely/' },
+    { id: 'wheely-8',          name: 'Wheely 8',                    emoji: '🚗', color: '#b91c1c', tags: ['puzzle'],                url: 'https://kiz10.com/gamecode/wheely-8/' },
+    { id: 'trollface-quest',   name: 'Trollface Quest',             emoji: '😈', color: '#374151', tags: ['puzzle','arcade'],       url: 'https://kiz10.com/gamecode/trollface-quest/' },
+    { id: 'give-up-robot',     name: 'Give Up Robot',               emoji: '🤖', color: '#374151', tags: ['platformer'],            url: 'https://kiz10.com/gamecode/give-up-robot/' },
+    { id: 'ricochet-kills',    name: 'Ricochet Kills',              emoji: '🔫', color: '#1e293b', tags: ['shooting','puzzle'],     url: 'https://kiz10.com/gamecode/ricochet-kills/' },
+    { id: 'this-is-the-only',  name: 'This Is the Only Level',      emoji: '🐘', color: '#374151', tags: ['puzzle','platformer'],   url: 'https://kiz10.com/gamecode/this-is-the-only-level/' },
+    { id: 'awesome-tanks',     name: 'Awesome Tanks 2',             emoji: '🎯', color: '#1e3a8a', tags: ['action','shooting'],     url: 'https://kiz10.com/gamecode/awesome-tanks-2/' },
+    { id: 'raze',              name: 'Raze 3',                      emoji: '🚀', color: '#dc2626', tags: ['action','shooting'],     url: 'https://kiz10.com/gamecode/raze-3/' },
+    { id: 'electric-man',      name: 'Electric Man 2',              emoji: '⚡', color: '#1d4ed8', tags: ['action'],                url: 'https://kiz10.com/gamecode/electric-man-2/' },
+    { id: 'superfighters-2',   name: 'Superfighters Deluxe',        emoji: '🥊', color: '#7c2d12', tags: ['action','multiplayer'],  url: 'https://kiz10.com/gamecode/superfighters-deluxe/' },
+    { id: 'boxhead',           name: 'Boxhead 2Play',               emoji: '📦', color: '#374151', tags: ['action','multiplayer'],  url: 'https://kiz10.com/gamecode/boxhead-2play/' },
+    { id: 'strike-force',      name: 'Strike Force Heroes',         emoji: '🪖', color: '#4d7c0f', tags: ['action','shooting'],     url: 'https://kiz10.com/gamecode/strike-force-heroes/' },
+    { id: 'strike-force-2',    name: 'Strike Force Heroes 2',       emoji: '🪖', color: '#365314', tags: ['action','shooting'],     url: 'https://kiz10.com/gamecode/strike-force-heroes-2/' },
+    { id: 'strike-force-3',    name: 'Strike Force Heroes 3',       emoji: '🪖', color: '#166534', tags: ['action','shooting'],     url: 'https://kiz10.com/gamecode/strike-force-heroes-3/' },
+    { id: 'earn-to-die',       name: 'Earn to Die 2',               emoji: '🧟', color: '#374151', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/earn-to-die-2/' },
+    { id: 'redneck-life',      name: 'Redneck Life',                emoji: '🤠', color: '#92400e', tags: ['arcade','strategy'],     url: 'https://kiz10.com/gamecode/redneck-life/' },
+    { id: 'toon-cup',          name: 'Toon Cup',                    emoji: '⚽', color: '#0369a1', tags: ['sports'],                url: 'https://kiz10.com/gamecode/toon-cup/' },
+    { id: 'penalty-power',     name: 'Penalty Power',               emoji: '⚽', color: '#15803d', tags: ['sports'],                url: 'https://kiz10.com/gamecode/penalty-power/' },
+    { id: 'soccer-skills',     name: 'Soccer Skills World Cup',     emoji: '🏆', color: '#ca8a04', tags: ['sports'],                url: 'https://kiz10.com/gamecode/soccer-skills-world-cup/' },
+    { id: 'head-soccer',       name: 'Head Soccer',                 emoji: '⚽', color: '#dc2626', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/head-soccer/' },
+    { id: 'head-basketball',   name: 'Head Basketball',             emoji: '🏀', color: '#ea580c', tags: ['sports','multiplayer'],  url: 'https://kiz10.com/gamecode/head-basketball/' },
+    { id: 'basketball-line',   name: 'Basketball Line',             emoji: '🏀', color: '#b45309', tags: ['sports'],                url: 'https://kiz10.com/gamecode/basketball-line/' },
+    { id: 'backflip-dive',     name: 'Backflip Dive',               emoji: '🏊', color: '#0369a1', tags: ['sports'],                url: 'https://kiz10.com/gamecode/backflip-dive/' },
+    { id: 'swimming-pro',      name: 'Swimming Pro',                emoji: '🏊', color: '#0284c7', tags: ['sports'],                url: 'https://kiz10.com/gamecode/swimming-pro/' },
+    { id: 'archery-world',     name: 'Archery World',               emoji: '🎯', color: '#15803d', tags: ['sports'],                url: 'https://kiz10.com/gamecode/archery-world/' },
+    { id: 'stickman-golf',     name: 'Stickman Golf',               emoji: '⛳', color: '#166534', tags: ['sports'],                url: 'https://kiz10.com/gamecode/stickman-golf/' },
+    { id: 'racing-frenzy',     name: 'Racing Frenzy',               emoji: '🏎️', color: '#dc2626', tags: ['racing'],                url: 'https://kiz10.com/gamecode/racing-frenzy/' },
+    { id: 'bike-rush',         name: 'Bike Rush',                   emoji: '🚴', color: '#0369a1', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/bike-rush/' },
+    { id: 'turbo-moto',        name: 'Turbo Moto Racer',            emoji: '🏍️', color: '#92400e', tags: ['racing'],                url: 'https://kiz10.com/gamecode/turbo-moto-racer/' },
+    { id: 'dirt-bike',         name: 'Dirt Bike',                   emoji: '🏍️', color: '#78350f', tags: ['racing'],                url: 'https://kiz10.com/gamecode/dirt-bike/' },
+    { id: 'mini-race',         name: 'Mini Race',                   emoji: '🚗', color: '#ca8a04', tags: ['racing'],                url: 'https://kiz10.com/gamecode/mini-race/' },
+    { id: 'road-drawers',      name: 'Road Drawers',                emoji: '🛣️', color: '#0369a1', tags: ['racing','puzzle'],       url: 'https://kiz10.com/gamecode/road-drawers/' },
+    { id: 'fast-and-furious',  name: 'Fast and Furious',            emoji: '🏎️', color: '#dc2626', tags: ['racing'],                url: 'https://kiz10.com/gamecode/fast-and-furious/' },
+    { id: 'death-race',        name: 'Death Race',                  emoji: '💀', color: '#1e293b', tags: ['racing','action'],       url: 'https://kiz10.com/gamecode/death-race/' },
+    { id: 'jetski',            name: 'Jet Ski Race',                emoji: '🛥️', color: '#0284c7', tags: ['racing'],                url: 'https://kiz10.com/gamecode/jet-ski-race/' },
+    { id: 'boat-race',         name: 'Boat Race 3D',                emoji: '⛵', color: '#0369a1', tags: ['racing'],                url: 'https://kiz10.com/gamecode/boat-race-3d/' },
+    { id: 'hovercraft',        name: 'Hovercraft',                  emoji: '🛸', color: '#7c3aed', tags: ['racing'],                url: 'https://kiz10.com/gamecode/hovercraft/' },
+    { id: 'raft-wars',         name: 'Raft Wars',                   emoji: '🛶', color: '#0369a1', tags: ['action','strategy'],     url: 'https://kiz10.com/gamecode/raft-wars/' },
+    { id: 'raft-wars-2',       name: 'Raft Wars 2',                 emoji: '🛶', color: '#0284c7', tags: ['action','strategy'],     url: 'https://kiz10.com/gamecode/raft-wars-2/' },
+    { id: 'pirates-plunder',   name: "Pirates' Plunder",            emoji: '🏴‍☠️', color: '#1e3a8a', tags: ['strategy','action'],     url: 'https://kiz10.com/gamecode/pirates-plunder/' },
+    { id: 'sea-battle',        name: 'Sea Battle',                  emoji: '⚓', color: '#1d4ed8', tags: ['strategy','multiplayer'], url: 'https://kiz10.com/gamecode/sea-battle/' },
+    { id: 'battleship',        name: 'Battleship',                  emoji: '🚢', color: '#0369a1', tags: ['strategy','multiplayer'], url: 'https://kiz10.com/gamecode/battleship/' },
+    { id: 'flight-sim',        name: 'Flight Simulator',            emoji: '✈️', color: '#0ea5e9', tags: ['action'],                url: 'https://kiz10.com/gamecode/flight-simulator/' },
+    { id: 'dogfight',          name: 'Dogfight: Battle for the Sky', emoji: '✈️', color: '#1e3a8a', tags: ['action','shooting'],    url: 'https://kiz10.com/gamecode/dogfight/' },
+    { id: 'helicopter',        name: 'Helicopter Game',             emoji: '🚁', color: '#374151', tags: ['arcade','action'],       url: 'https://kiz10.com/gamecode/helicopter-game/' },
+    { id: 'space-shooter',     name: 'Space Shooter',               emoji: '🚀', color: '#1e3a8a', tags: ['shooting','arcade'],     url: 'https://kiz10.com/gamecode/space-shooter/' },
+    { id: 'asteroids',         name: 'Asteroids',                   emoji: '☄️', color: '#1e293b', tags: ['arcade','shooting'],     url: 'https://kiz10.com/gamecode/asteroids/' },
+    { id: 'star-wars',         name: 'Star Wars Arcade',            emoji: '⭐', color: '#1e293b', tags: ['arcade','shooting'],     url: 'https://kiz10.com/gamecode/star-wars-arcade/' },
+    { id: 'transformers',      name: 'Transformers',                emoji: '🤖', color: '#1e3a8a', tags: ['action'],                url: 'https://kiz10.com/gamecode/transformers/' },
+    { id: 'pokemon-tower',     name: 'Pokemon Tower Defense',       emoji: '⚡', color: '#ca8a04', tags: ['strategy'],              url: 'https://kiz10.com/gamecode/pokemon-tower-defense/' },
+    { id: 'pokemon-emerald',   name: 'Pokemon Emerald',             emoji: '💎', color: '#15803d', tags: ['strategy'],              url: 'https://kiz10.com/gamecode/pokemon-emerald/' },
+    { id: 'dragon-ball',       name: 'Dragon Ball Z',               emoji: '🐉', color: '#dc2626', tags: ['action'],                url: 'https://kiz10.com/gamecode/dragon-ball-z/' },
+    { id: 'naruto',            name: 'Naruto',                      emoji: '🥷', color: '#f97316', tags: ['action'],                url: 'https://kiz10.com/gamecode/naruto/' },
+    { id: 'ben10',             name: 'Ben 10 Games',                emoji: '🟢', color: '#15803d', tags: ['action'],                url: 'https://kiz10.com/gamecode/ben-10-games/' },
+    { id: 'spongebob',         name: 'SpongeBob Games',             emoji: '🧽', color: '#ca8a04', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/spongebob-games/' },
+    { id: 'tom-jerry',         name: 'Tom and Jerry',               emoji: '🐱', color: '#dc2626', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/tom-and-jerry/' },
+    { id: 'fnaf-2',            name: "Five Nights at Freddy's 2",   emoji: '🐰', color: '#7c2d12', tags: ['strategy','action'],     url: 'https://kiz10.com/gamecode/fnaf-2/' },
+    { id: 'fnaf-3',            name: "Five Nights at Freddy's 3",   emoji: '🦊', color: '#6b21a8', tags: ['strategy','action'],     url: 'https://kiz10.com/gamecode/fnaf-3/' },
+    { id: 'granny',            name: 'Granny Horror',               emoji: '👵', color: '#374151', tags: ['action','strategy'],     url: 'https://kiz10.com/gamecode/granny-horror/' },
+    { id: 'horror-games',      name: 'Horror Night',                emoji: '👻', color: '#1e293b', tags: ['action'],                url: 'https://kiz10.com/gamecode/horror-night/' },
+    { id: 'idle-miner',        name: 'Idle Miner Tycoon',           emoji: '⛏️', color: '#78350f', tags: ['strategy'],              url: 'https://kiz10.com/gamecode/idle-miner-tycoon/' },
+    { id: 'gold-miner',        name: 'Gold Miner',                  emoji: '⛏️', color: '#ca8a04', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/gold-miner/' },
+    { id: 'lumber-tycoon',     name: 'Lumber Tycoon',               emoji: '🪵', color: '#92400e', tags: ['strategy'],              url: 'https://kiz10.com/gamecode/lumber-tycoon/' },
+    { id: 'farming-simulator', name: 'Farming Simulator',           emoji: '🌾', color: '#65a30d', tags: ['strategy'],              url: 'https://kiz10.com/gamecode/farming-simulator/' },
+    { id: 'my-little-farm',    name: 'My Little Farm',              emoji: '🐄', color: '#4d7c0f', tags: ['strategy'],              url: 'https://kiz10.com/gamecode/my-little-farm/' },
+    { id: 'city-builder',      name: 'City Builder',                emoji: '🏙️', color: '#374151', tags: ['strategy'],              url: 'https://kiz10.com/gamecode/city-builder/' },
+    { id: 'hotel-empire',      name: 'Hotel Empire Tycoon',         emoji: '🏨', color: '#7c3aed', tags: ['strategy'],              url: 'https://kiz10.com/gamecode/hotel-empire-tycoon/' },
+    { id: 'diner-dash',        name: 'Diner Dash',                  emoji: '🍽️', color: '#dc2626', tags: ['arcade','strategy'],     url: 'https://kiz10.com/gamecode/diner-dash/' },
+    { id: 'cooking-fever',     name: 'Cooking Fever',               emoji: '🍳', color: '#ea580c', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/cooking-fever/' },
+    { id: 'adventure-capitalist', name: 'AdVenture Capitalist',     emoji: '💰', color: '#ca8a04', tags: ['strategy'],              url: 'https://kiz10.com/gamecode/adventure-capitalist/' },
+    { id: 'zombie-idle',       name: 'Zombie Idle Defense',         emoji: '🧟', color: '#365314', tags: ['strategy'],              url: 'https://kiz10.com/gamecode/zombie-idle-defense/' },
+    { id: 'plants-v-2',        name: 'Plants vs Zombies 2',         emoji: '🌻', color: '#15803d', tags: ['strategy'],              url: 'https://kiz10.com/gamecode/plants-vs-zombies-2/' },
+    { id: 'btd-battles',       name: 'BTD Battles',                 emoji: '🎈', color: '#7c3aed', tags: ['strategy','multiplayer'], url: 'https://kiz10.com/gamecode/btd-battles/' },
+    { id: 'tower-defense-2',   name: 'Tower Defense 2',             emoji: '🏰', color: '#92400e', tags: ['strategy'],              url: 'https://kiz10.com/gamecode/tower-defense-2/' },
+    { id: 'immortal-dash',     name: 'Immortal Dash',               emoji: '⚡', color: '#7c3aed', tags: ['platformer','arcade'],   url: 'https://kiz10.com/gamecode/immortal-dash/' },
+    { id: 'ninja-jump',        name: 'Ninja Jump',                  emoji: '🥷', color: '#1e293b', tags: ['platformer'],            url: 'https://kiz10.com/gamecode/ninja-jump/' },
+    { id: 'stair-master',      name: 'Stair Master',                emoji: '🪜', color: '#374151', tags: ['platformer','arcade'],   url: 'https://kiz10.com/gamecode/stair-master/' },
+    { id: 'slope-ball',        name: 'Slope Ball',                  emoji: '🔵', color: '#065f46', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/slope-ball/' },
+    { id: 'bounce-ball',       name: 'Bounce Ball',                 emoji: '🏀', color: '#ea580c', tags: ['arcade'],                url: 'https://kiz10.com/gamecode/bounce-ball/' },
+    { id: 'ball-blast',        name: 'Ball Blast',                  emoji: '💥', color: '#dc2626', tags: ['arcade','shooting'],     url: 'https://kiz10.com/gamecode/ball-blast/' },
+    { id: 'worms',             name: 'Worms Zone',                  emoji: '🐛', color: '#65a30d', tags: ['arcade','multiplayer'],  url: 'https://kiz10.com/gamecode/worms-zone/' },
+    { id: 'taming-io2',        name: 'Taming IO Advanced',          emoji: '🐾', color: '#166534', tags: ['multiplayer'],           url: 'https://kiz10.com/gamecode/taming-io-advanced/' },
+    { id: 'brute-io',          name: 'Brute.io',                    emoji: '💪', color: '#7c2d12', tags: ['multiplayer','action'],  url: 'https://kiz10.com/gamecode/brute-io/' },
+];
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let currentFilter = 'all';
+let currentSearch = '';
+
+// ─── RENDER GAMES ────────────────────────────────────────────────────────────
+function renderGames() {
+    const grid = document.getElementById('gamesGrid');
+    const noResults = document.getElementById('noResults');
+    
+    let filtered = games.filter(g => {
+        const matchCat = currentFilter === 'all' || g.tags.includes(currentFilter);
+        const matchSearch = !currentSearch || g.name.toLowerCase().includes(currentSearch.toLowerCase());
+        return matchCat && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+        grid.innerHTML = '';
+        noResults.style.display = 'block';
+        return;
+    }
+
+    noResults.style.display = 'none';
+    grid.innerHTML = filtered.map(g => `
+        <div class="game-card" onclick="openGame('${g.id}')">
+            <div class="game-thumb" style="background: linear-gradient(135deg, ${g.color}aa, ${g.color}44);">
+                <span style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.4))">${g.emoji}</span>
+                <div class="play-icon">▶</div>
+            </div>
+            <div class="game-info">
+                <div class="game-name">${g.name}</div>
+                <div class="game-tags">
+                    ${g.tags.map(t => `<span class="game-tag">${t}</span>`).join('')}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ─── CATEGORY FILTER ─────────────────────────────────────────────────────────
+function filterCat(el, cat) {
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    currentFilter = cat;
+    const titles = {
+        all: '🔥 All Games', action: '⚔️ Action', racing: '🏎️ Racing',
+        puzzle: '🧩 Puzzle', sports: '⚽ Sports', arcade: '👾 Arcade',
+        strategy: '🏰 Strategy', multiplayer: '👥 Multiplayer',
+        shooting: '🔫 Shooting', platformer: '🦘 Platformer'
+    };
+    document.getElementById('sectionTitle').textContent = titles[cat] || '🎮 Games';
+    document.getElementById('featuredBanner').style.display = cat === 'all' ? 'flex' : 'none';
+    renderGames();
+}
+
+function filterCategory(cat) {
+    currentFilter = cat;
+    renderGames();
+}
+
+function showAll() {
+    currentFilter = 'all';
+    currentSearch = '';
+    document.getElementById('searchInput').value = '';
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    document.querySelector('.cat-pill').classList.add('active');
+    document.getElementById('featuredBanner').style.display = 'flex';
+    document.getElementById('sectionTitle').textContent = '🔥 All Games';
+    renderGames();
+}
+
+function handleSearch() {
+    currentSearch = document.getElementById('searchInput').value;
+    renderGames();
+}
+
+// ─── GAME MODAL ───────────────────────────────────────────────────────────────
+function openGame(id) {
+    const game = games.find(g => g.id === id);
+    if (!game) return;
+
+    document.getElementById('modalTitle').textContent = game.emoji + ' ' + game.name;
+    document.getElementById('gameModal').classList.add('open');
+    document.getElementById('frameLoading').style.display = 'flex';
+    
+    const frame = document.getElementById('gameFrame');
+    frame.style.display = 'none';
+    frame.src = '';
+
+    setTimeout(() => {
+        frame.src = game.url;
+        frame.onload = () => {
+            document.getElementById('frameLoading').style.display = 'none';
+            frame.style.display = 'block';
+        };
+        setTimeout(() => {
+            document.getElementById('frameLoading').style.display = 'none';
+            frame.style.display = 'block';
+        }, 4000);
+    }, 200);
+
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('gameModal').classList.remove('open');
+    const frame = document.getElementById('gameFrame');
+    frame.src = '';
+    frame.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function goFullscreen() {
+    const frame = document.getElementById('gameFrame');
+    if (frame.requestFullscreen) frame.requestFullscreen();
+    else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Close modal clicking overlay
+document.getElementById('gameModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+renderGames();
+</script>
+</body>
+</html>
