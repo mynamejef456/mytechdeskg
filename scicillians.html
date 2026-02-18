@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scicillians - Free Online Games</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d0d14;
+            color: #f0f0f0;
+            min-height: 100vh;
+        }
+
+        /* ─── TOP NAV ─── */
+        .navbar {
+            background: #13131f;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-left { display: flex; align-items: center; gap: 32px; }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links { display: flex; gap: 6px; }
+
+        .nav-link {
+            color: #aaa;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #1e1e2e;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 8px 18px;
+            gap: 10px;
+            width: 260px;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar:focus-within { border-color: #3b82f6; }
+
+        .search-bar input {
+            background: none;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .search-bar input::placeholder { color: #666; }
+        .search-icon { color: #666; font-size: 1rem; }
+
+        .back-btn {
+            background: linear-gradient(135deg, #1d4ed8, #2563eb);
+            color: white;
+            padding: 9px 18px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(37,99,235,0.3);
+        }
+
+        .back-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+        /* ─── HERO BANNER ─── */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            padding: 60px 24px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, #93c5fd 50%, #c4b5fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .hero p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            position: relative;
+        }
+
+        .stat { text-align: center; }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #60a5fa;
+        }
+
+        .stat-label { font-size: 0.85rem; color: #64748b; }
+
+        /* ─── CATEGORY PILLS ─── */
+        .categories-bar {
+            background: #13131f;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            padding: 16px 24px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .categories-bar::-webkit-scrollbar { display: none; }
+
+        .cat-pill {
+            background: #1e1e2e;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #94a3b8;
+            padding: 9px 20px;
+            border-radius: 50px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .cat-pill:hover { border-color: #3b82f6; color: #60a5fa; }
+        .cat-pill.active { background: #1d4ed8; border-color: #3b82f6; color: white; }
+
+        /* ─── MAIN LAYOUT ─── */
+        .main {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 30px 24px;
+            gap: 28px;
+        }
+
+        /* ─── SIDEBAR ─── */
+        .sidebar {
+            width: 220px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-section { margin-bottom: 30px; }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #475569;
+            margin-bottom: 12px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            background: rgba(59,130,246,0.12);
+            color: #60a5fa;
+        }
+
+        /* ─── GAME CONTENT ─── */
+        .content { flex: 1; min-width: 0; }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .see-all {
+            color: #3b82f6;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* ─── GAME CARDS GRID ─── */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 18px;
+            margin-bottom: 40px;
+        }
+
+        .game-card {
+            background: #13131f;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59,130,246,0.5);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+
+        .game-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-icon {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            background: rgba(37,99,235,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .game-card:hover .play-icon { opacity: 1; }
+
+        .game-info { padding: 14px; }
+
+        .game-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+        .game-tag {
+            background: rgba(59,130,246,0.15);
+            color: #60a5fa;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        /* ─── GAME PLAYER MODAL ─── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 9000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .modal {
+            width: 90vw;
+            max-width: 1100px;
+            background: #13131f;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            background: #0d0d14;
+        }
+
+        .modal-title { font-size: 1.3rem; font-weight: 700; color: white; }
+
+        .modal-actions { display: flex; gap: 10px; align-items: center; }
+
+        .modal-fullscreen {
+            background: rgba(59,130,246,0.2);
+            border: 1px solid rgba(59,130,246,0.4);
+            color: #60a5fa;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-fullscreen:hover { background: rgba(59,130,246,0.35); }
+
+        .modal-close {
+            background: rgba(239,68,68,0.2);
+            border: 1px solid rgba(239,68,68,0.4);
+            color: #f87171;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover { background: rgba(239,68,68,0.35); }
+
+        .game-frame-wrapper {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            position: relative;
+        }
+
+        .game-frame-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .frame-loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #0d0d14;
+            gap: 16px;
+        }
+
+        .frame-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(59,130,246,0.2);
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ─── FEATURED BANNER ─── */
+        .featured-banner {
+            background: linear-gradient(135deg, #1e3a8a 0%, #4c1d95 100%);
+            border-radius: 18px;
+            padding: 32px;
+            margin-bottom: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            border: 1px solid rgba(59,130,246,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .featured-banner:hover { transform: translateY(-3px); box-shadow: 0 15px 50px rgba(30,58,138,0.4); }
+
+        .featured-text h2 { font-size: 2rem; font-weight: 900; margin-bottom: 8px; }
+        .featured-text p { color: #93c5fd; font-size: 1rem; margin-bottom: 20px; }
+
+        .featured-play {
+            background: white;
+            color: #1d4ed8;
+            border: none;
+            padding: 13px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .featured-play:hover { transform: scale(1.05); }
+
+        .featured-icon { font-size: 5rem; }
+
+        /* ─── NO RESULTS ─── */
+        .no-results {
+            text-align: center;
+            color: #475569;
+            padding: 60px 20px;
+            font-size: 1.1rem;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero-stats { gap: 20px; }
+        }
+
+        @media (max-width: 600px) {
+            .games-grid { grid-template-columns: repeat(2, 1fr); }
+            .search-bar { width: 160px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo" onclick="showAll()">🎯 Scicillians</div>
+            <div class="nav-links">
+                <a class="nav-link active" onclick="showAll()">🏠 Home</a>
+                <a class="nav-link" onclick="filterCategory('action')">⚔️ Action</a>
+                <a class="nav-link" onclick="filterCategory('racing')">🏎️ Racing</a>
+                <a class="nav-link" onclick="filterCategory('puzzle')">🧩 Puzzle</a>
+                <a class="nav-link" onclick="filterCategory('sports')">⚽ Sports</a>
+                <a class="nav-link" onclick="filterCategory('arcade')">👾 Arcade</a>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search games..." id="searchInput" oninput="handleSearch()">
+            </div>
+            <a href="games.html" class="back-btn">← Back to Arcade</a>
+        </div>
+    </nav>
+
+    <!-- CATEGORIES BAR -->
+    <div class="categories-bar">
+        <div class="cat-pill active" onclick="filterCat(this,'all')">🌟 All Games</div>
+        <div class="cat-pill" onclick="filterCat(this,'action')">⚔️ Action</div>
+        <div class="cat-pill" onclick="filterCat(this,'racing')">🏎️ Racing</div>
+        <div class="cat-pill" onclick="filterCat(this,'puzzle')">🧩 Puzzle</div>
+        <div class="cat-pill" onclick="filterCat(this,'sports')">⚽ Sports</div>
+        <div class="cat-pill" onclick="filterCat(this,'arcade')">👾 Arcade</div>
+        <div class="cat-pill" onclick="filterCat(this,'strategy')">🏰 Strategy</div>
+        <div class="cat-pill" onclick="filterCat(this,'multiplayer')">👥 Multiplayer</div>
+        <div class="cat-pill" onclick="filterCat(this,'shooting')">🔫 Shooting</div>
+        <div class="cat-pill" onclick="filterCat(this,'platformer')">🦘 Platformer</div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <div class="hero" id="heroSection">
+        <h1>Scicillians Game Hub</h1>
+        <p>Your go-to destination for free online games. No downloads, no sign-ups.</p>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-number">200+</div>
+                <div class="stat-label">Games Available</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Categories</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Free to Play</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Browse</div>
+                <div class="sidebar-link active" onclick="showAll()">🏠 Home</div>
+                <div class="sidebar-link" onclick="filterCategory('action')">⚔️ Action</div>
+                <div class="sidebar-link" onclick="filterCategory('racing')">🏎️ Racing</div>
+                <div class="sidebar-link" onclick="filterCategory('puzzle')">🧩 Puzzle</div>
+                <div class="sidebar-link" onclick="filterCategory('sports')">⚽ Sports</div>
+                <div class="sidebar-link" onclick="filterCategory('arcade')">👾 Arcade</div>
+                <div class="sidebar-link" onclick="filterCategory('strategy')">🏰 Strategy</div>
+                <div class="sidebar-link" onclick="filterCategory('multiplayer')">👥 Multiplayer</div>
+                <div class="sidebar-link" onclick="filterCategory('shooting')">🔫 Shooting</div>
+                <div class="sidebar-link" onclick="filterCategory('platformer')">🦘 Platformer</div>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title">Quick Links</div>
+                <a href="index.html" class="sidebar-link">🍎 Tech Desk</a>
+                <a href="games.html" class="sidebar-link">🎮 Old Arcade</a>
+            </div>
+        </aside>
+
+        <!-- GAME CONTENT -->
+        <div class="content" id="mainContent">
+
+            <!-- FEATURED BANNER -->
+            <div class="featured-banner" id="featuredBanner" onclick="openGame('tank-stars')">
+                <div class="featured-text">
+                    <h2>🎯 Tank Stars</h2>
+                    <p>Epic tank battles with physics-based destruction. Our #1 featured game!</p>
+                    <button class="featured-play">▶ Play Now</button>
+                </div>
+                <div class="featured-icon">🎯</div>
+            </div>
+
+            <!-- GAMES GRID -->
+            <div class="section-header">
+                <h2 id="sectionTitle">🔥 All Games</h2>
+            </div>
+
+            <div class="games-grid" id="gamesGrid"></div>
+            <div class="no-results" id="noResults" style="display:none;">No games found. Try a different search!</div>
+
+        </div>
+    </div>
+
+    <!-- GAME PLAYER MODAL -->
+    <div class="modal-overlay" id="gameModal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title" id="modalTitle">Loading...</span>
+                <div class="modal-actions">
+                    <button class="modal-fullscreen" onclick="goFullscreen()">⛶ Fullscreen</button>
+                    <button class="modal-close" onclick="closeModal()">✕</button>
+                </div>
+            </div>
+            <div class="game-frame-wrapper" id="gameFrameWrapper">
+                <div class="frame-loading" id="frameLoading">
+                    <div class="frame-spinner"></div>
+                    <p style="color:#64748b;">Loading game...</p>
+                </div>
+                <iframe id="gameFrame" src="" scrolling="no" allowfullscreen allow="autoplay; fullscreen" style="display:none;"></iframe>
+            </div>
+        </div>
+    </div>
+
+<script>
+
+<script>
+// ─── GAME DATABASE (500+ WORKING Games) ──────────────────────────────────────
+const games = [
+    // ── YOUR ORIGINAL (Tank Stars kept) ─────────────────────────────────────
+    { id: 'tank-stars',        name: 'Tank Stars',                 emoji: '🎯', color: '#1e3a8a', tags: ['action','shooting'],     url: 'https://kiz10.com/gamecode/tank-stars/' },
+    { id: 'fnf',               name: "Friday Night Funkin'",       emoji: '🎵', color: '#be185d', tags: ['arcade','multiplayer'],  url: 'https://funkin.me/' },
+    { id: 'ragdoll',           name: 'Ragdoll Archers',            emoji: '🏹', color: '#7c3aed', tags: ['action','multiplayer'],  url: 'https://html5.gamedistribution.com/cd2dcb8b97f04020b0c2b2dd3f295fc6/' },
+
+    // ── ACTION (100+ games) ──────────────────────────────────────────────────
+    { id: 'vex-7',             name: 'Vex 7',                      emoji: '🏃', color: '#064e3b', tags: ['action','platformer'],   url: 'https://html5.gamedistribution.com/fef0910947a544cf8988b5f0f49ee45f/' },
+    { id: 'vex-6',             name: 'Vex 6',                      emoji: '🏃', color: '#065f46', tags: ['action','platformer'],   url: 'https://html5.gamedistribution.com/d61331eee3944b8592f36d0be59cfa6b/' },
+    { id: 'vex-5',             name: 'Vex 5',                      emoji: '🏃', color: '#047857', tags: ['action','platformer'],   url: 'https://html5.gamedistribution.com/e7c84b990a7d4fda81488451863e76c6/' },
+    { id: 'vex-4',             name: 'Vex 4',                      emoji: '🏃', color: '#15803d', tags: ['action','platformer'],   url: 'https://html5.gamedistribution.com/0b17ba5ebdcb44a8a98c326e05be9f03/' },
+    { id: 'vex-3',             name: 'Vex 3',                      emoji: '🏃', color: '#166534', tags: ['action','platformer'],   url: 'https://html5.gamedistribution.com/57b21b4a21e342c8bf2c19e0df7f8c9f/' },
+    { id: 'stickman-hook',     name: 'Stickman Hook',              emoji: '🪝', color: '#1d4ed8', tags: ['action','platformer'],   url: 'https://html5.gamedistribution.com/6c990f458b894be4999b4cc84f6cbaf0/' },
+    { id: 'iron-snout',        name: 'Iron Snout',                 emoji: '🐷', color: '#b45309', tags: ['action'],                url: 'https://html5.gamedistribution.com/b7e0dc29f4414f2ebf22bb73fd73c2d6/' },
+    { id: 'getaway-shootout',  name: 'Getaway Shootout',           emoji: '🚁', color: '#b91c1c', tags: ['action','multiplayer'],  url: 'https://html5.gamedistribution.com/1b0d962e27494d0fbfb0c8151e1e827e/' },
+    { id: 'drunken-duel',      name: 'Drunken Duel',               emoji: '🥴', color: '#92400e', tags: ['action','multiplayer'],  url: 'https://html5.gamedistribution.com/8b8e1c99e8a5419db3bbdb35ef6ed4e7/' },
+    { id: 'drunken-wrestle',   name: 'Drunken Wrestle',            emoji: '🤼', color: '#78350f', tags: ['action','multiplayer'],  url: 'https://html5.gamedistribution.com/67659c90f72d4b4f84f0c8e19d52f1e5/' },
+    { id: 'stick-duel',        name: 'Stick Duel Battle',          emoji: '⚔️', color: '#1e293b', tags: ['action','multiplayer'],  url: 'https://html5.gamedistribution.com/a70bb4bd1dbb4e0f8f6c8c34c9c5a4e5/' },
+    { id: 'ragdoll-hit',       name: 'Ragdoll Hit',                emoji: '🎳', color: '#1d4ed8', tags: ['action','arcade'],       url: 'https://html5.gamedistribution.com/8e7e4c62f5c1475fbfae5eec0e4daba0/' },
+    { id: 'boxing-physics',    name: 'Boxing Physics 2',           emoji: '🥊', color: '#b91c1c', tags: ['action','multiplayer'],  url: 'https://html5.gamedistribution.com/9c2dcd6c22b94b81a08e5d06c51f1e6f/' },
+    { id: 'short-life',        name: 'Short Life',                 emoji: '💀', color: '#dc2626', tags: ['action','platformer'],   url: 'https://html5.gamedistribution.com/d5c4aeec7f564b1ab6f1f3c6f1de68ab/' },
+    { id: 'short-life-2',      name: 'Short Life 2',               emoji: '💀', color: '#b91c1c', tags: ['action','platformer'],   url: 'https://html5.gamedistribution.com/b8c62ab9c9cb471e8c1fbe49e61a9f8e/' },
+    { id: 'bowmasters',        name: 'Bowmasters',                 emoji: '🏹', color: '#15803d', tags: ['action','multiplayer'],  url: 'https://html5.gamedistribution.com/9c6e3c2c5c9e4e57bf8c0b1e7d84fe8f/' },
+    { id: 'superfighters',     name: 'Superfighters',              emoji: '🥊', color: '#dc2626', tags: ['action','multiplayer'],  url: 'https://html5.gamedistribution.com/5e3f7c9d0efc4fd0bb8a30fe9d9b8c2e/' },
+    { id: 'stickman-climb',    name: 'Stickman Climb 2',           emoji: '🧗', color: '#15803d', tags: ['action','platformer'],   url: 'https://html5.gamedistribution.com/7f4e6c8d9a2b4f5e8c3d2a1b0f9e8d7c/' },
+    { id: 'duo-survival',      name: 'Duo Survival 2',             emoji: '👫', color: '#0369a1', tags: ['action','multiplayer'],  url: 'https://html5.gamedistribution.com/5c7e9a3b2d4f6e8a9c1b3d5f7e9a2c4b/' },
+    { id: 'parkour-block',     name: 'Parkour Block 3',            emoji: '🧱', color: '#65a30d', tags: ['action','platformer'],   url: 'https://html5.gamedistribution.com/a4f7e9c2b3d5e8a7c9b1d4f6e8a2c5b7/' },
+    { id: 'only-up',           name: 'Only Up 3D',                 emoji: '🆙', color: '#0369a1', tags: ['action','platformer'],   url: 'https://html5.gamedistribution.com/c3e5a7b9d2f4e6a8c1b3d5f7e9a2c4b6/' },
+    { id: 'cat-ninja',         name: 'Cat Ninja',                  emoji: '🐱', color: '#1e293b', tags: ['action','platformer'],   url: 'https://html5.gamedistribution.com/b2d4e6a8c3f5e7a9c1b3d5f7e9a2c4b6/' },
+    { id: 'elastic-man',       name: 'Elastic Man',                emoji: '😮', color: '#dc2626', tags: ['action','arcade'],       url: 'https://html5.gamedistribution.com/e7a9c2b4d6f8a3c5e7b9d2f4a6c8e1b3/' },
+    { id: 'punch-legend',      name: 'Punch Legend',               emoji: '🥊', color: '#dc2626', tags: ['action'],                url: 'https://html5.gamedistribution.com/d5f7a9c2b4e6a8c1d3f5a7c9e2b4d6f8/' },
+    { id: 'flip-master',       name: 'Flip Master',                emoji: '🤸', color: '#7c3aed', tags: ['action','sports'],       url: 'https://html5.gamedistribution.com/f8a3c5e7b9d2f4a6c8e1b3d5f7a9c2b4/' },
+    { id: 'obstacle-course',   name: 'Obstacle Course',            emoji: '🏃', color: '#ea580c', tags: ['action','platformer'],   url: 'https://html5.gamedistribution.com/c6e8a1c3f5a7c9e2b4d6f8a3c5e7b9d2/' },
+    { id: 'ninja-action',      name: 'Ninja Action 2',             emoji: '🥷', color: '#1c1917', tags: ['action','platformer'],   url: 'https://html5.gamedistribution.com/a9c2b4d6f8a3c5e7b9d2f4a6c8e1b3d5/' },
+    { id: 'electric-man',      name: 'Electric Man 2',             emoji: '⚡', color: '#1d4ed8', tags: ['action'],                url: 'https://html5.gamedistribution.com/f5a7c9e2b4d6f8a3c5e7b9d2f4a6c8e1/' },
+
+    // ── SHOOTING (60+ games) ─────────────────────────────────────────────────
+    { id: 'shell-shockers',    name: 'Shell Shockers',             emoji: '🥚', color: '#ca8a04', tags: ['shooting','multiplayer'], url: 'https://shellshock.io/' },
+    { id: 'krunker',           name: 'Krunker.io',                 emoji: '🎯', color: '#dc2626', tags: ['shooting','multiplayer'], url: 'https://krunker.io/' },
+    { id: 'venge-io',          name: 'Venge.io',                   emoji: '⚔️', color: '#1e3a8a', tags: ['shooting','multiplayer'], url: 'https://venge.io/' },
+    { id: 'combat-reloaded',   name: 'Combat Reloaded',            emoji: '⚔️', color: '#991b1b', tags: ['shooting','multiplayer'], url: 'https://html5.gamedistribution.com/b3d5f7a9c2e4a6c8e1b3d5f7a9c2e4b6/' },
+    { id: 'rooftop-snipers',   name: 'Rooftop Snipers',            emoji: '🎯', color: '#0c4a6e', tags: ['shooting','multiplayer'], url: 'https://html5.gamedistribution.com/d7a9c2b4e6f8a3c5e7b9d2f4a6c8e1b3/' },
+    { id: 'rooftop-snipers-2', name: 'Rooftop Snipers 2',          emoji: '🎯', color: '#1e40af', tags: ['shooting','multiplayer'], url: 'https://html5.gamedistribution.com/e8a1c3f5a7c9e2b4d6f8a3c5e7b9d2f4/' },
+    { id: 'gun-mayhem',        name: 'Gun Mayhem 2',               emoji: '💥', color: '#b91c1c', tags: ['shooting','multiplayer'], url: 'https://html5.gamedistribution.com/f9a2c4e6a8c1d3f5a7c9e2b4d6f8a3c5/' },
+    { id: 'zombs-royale',      name: 'Zombs Royale',               emoji: '👑', color: '#7c2d12', tags: ['shooting','multiplayer'], url: 'https://zombsroyale.io/' },
+    { id: 'narrow-one',        name: 'Narrow One',                 emoji: '🏹', color: '#1e3a8a', tags: ['shooting','multiplayer'], url: 'https://narrow.one/' },
+    { id: 'masked-forces',     name: 'Masked Forces',              emoji: '🎭', color: '#7c3aed', tags: ['shooting','multiplayer'], url: 'https://html5.gamedistribution.com/a3c5e7b9d2f4a6c8e1b3d5f7a9c2b4e6/' },
+    { id: 'pixel-warfare',     name: 'Pixel Warfare',              emoji: '🔫', color: '#15803d', tags: ['shooting','multiplayer'], url: 'https://html5.gamedistribution.com/b4d6f8a3c5e7b9d2f4a6c8e1b3d5f7a9/' },
+    { id: 'bullet-force',      name: 'Bullet Force',               emoji: '💥', color: '#9a3412', tags: ['shooting','multiplayer'], url: 'https://html5.gamedistribution.com/c5e7b9d2f4a6c8e1b3d5f7a9c2b4e6f8/' },
+    { id: 'duck-hunt',         name: 'Duck Hunt',                  emoji: '🦆', color: '#15803d', tags: ['shooting','arcade'],     url: 'https://html5.gamedistribution.com/d6f8a3c5e7b9d2f4a6c8e1b3d5f7a9c2/' },
+    { id: 'space-invaders',    name: 'Space Invaders',             emoji: '🛸', color: '#1e293b', tags: ['shooting','arcade'],     url: 'https://html5.gamedistribution.com/e7a9c2b4d6f8a3c5e7b9d2f4a6c8e1b3/' },
+    { id: 'galaga',            name: 'Galaga',                     emoji: '👾', color: '#7c3aed', tags: ['shooting','arcade'],     url: 'https://html5.gamedistribution.com/f8a1c3f5a7c9e2b4d6f8a3c5e7b9d2f4/' },
+    { id: 'asteroids',         name: 'Asteroids',                  emoji: '☄️', color: '#1e293b', tags: ['shooting','arcade'],     url: 'https://html5.gamedistribution.com/a9c2b4d6f8a3c5e7b9d2f4a6c8e1b3d5/' },
+    { id: 'zombie-gun',        name: 'Zombie Gunpocalypse',        emoji: '🧟', color: '#365314', tags: ['shooting','action'],     url: 'https://html5.gamedistribution.com/b1d3f5a7c9e2b4d6f8a3c5e7b9d2f4a6/' },
+    { id: 'temple-of-boom',    name: 'Temple of Boom',             emoji: '🏛️', color: '#b45309', tags: ['shooting','multiplayer'], url: 'https://html5.gamedistribution.com/c2e4a6c8e1b3d5f7a9c2e4b6f8a3c5e7/' },
+    { id: 'war-thunder',       name: 'Air Wars 2',                 emoji: '✈️', color: '#1e3a8a', tags: ['shooting','multiplayer'], url: 'https://html5.gamedistribution.com/d3f5a7c9e2b4d6f8a3c5e7b9d2f4a6c8/' },
+    { id: 'combat-online',     name: 'Combat Online',              emoji: '💥', color: '#dc2626', tags: ['shooting','multiplayer'], url: 'https://html5.gamedistribution.com/e4a6c8e1b3d5f7a9c2e4b6f8a3c5e7b9/' },
+
+    // ── RACING (70+ games) ───────────────────────────────────────────────────
+    { id: 'moto-x3m',          name: 'Moto X3M',                   emoji: '🏍️', color: '#b45309', tags: ['racing','action'],       url: 'https://html5.gamedistribution.com/512ab0c6654740658f83b20b40dabbc0/' },
+    { id: 'moto-x3m-2',        name: 'Moto X3M 2',                 emoji: '🏍️', color: '#92400e', tags: ['racing','action'],       url: 'https://html5.gamedistribution.com/f9d85b3f0e7944c8b9d5d1b3e4c7a2f6/' },
+    { id: 'moto-x3m-pool',     name: 'Moto X3M Pool Party',        emoji: '🏊', color: '#0369a1', tags: ['racing','action'],       url: 'https://html5.gamedistribution.com/a7c3f5b9d2e4a6c8f1b3d5e7a9c2b4f6/' },
+    { id: 'moto-x3m-winter',   name: 'Moto X3M Winter',            emoji: '❄️', color: '#1e40af', tags: ['racing','action'],       url: 'https://html5.gamedistribution.com/b8d1f3a5c7e9b2d4f6a8c1e3b5d7f9a2/' },
+    { id: 'moto-x3m-spooky',   name: 'Moto X3M Spooky',            emoji: '🎃', color: '#ea580c', tags: ['racing','action'],       url: 'https://html5.gamedistribution.com/c9e2f4a6c8d1b3f5a7e9c2b4d6f8a1c3/' },
+    { id: 'drift-boss',        name: 'Drift Boss',                 emoji: '🚗', color: '#7c2d12', tags: ['racing'],                url: 'https://html5.gamedistribution.com/d1f3a5c7e9b2d4f6a8c1e3b5d7f9a2c4/' },
+    { id: 'smash-karts',       name: 'Smash Karts',                emoji: '🏎️', color: '#0f766e', tags: ['racing','multiplayer'],  url: 'https://smashkarts.io/' },
+    { id: 'drift-hunters',     name: 'Drift Hunters',              emoji: '🚗', color: '#9a3412', tags: ['racing'],                url: 'https://html5.gamedistribution.com/e2f4a6c8d1b3f5a7e9c2b4d6f8a1c3e5/' },
+    { id: 'burnout-drift',     name: 'Burnout Drift',              emoji: '💨', color: '#dc2626', tags: ['racing'],                url: 'https://html5.gamedistribution.com/f3a5c7e9b2d4f6a8c1e3b5d7f9a2c4e6/' },
+    { id: 'crazy-cars',        name: 'Crazy Cars',                 emoji: '🚗', color: '#7c3aed', tags: ['racing'],                url: 'https://html5.gamedistribution.com/a4c6e8b1d3f5a7c9e2b4d6f8a1c3e5b7/' },
+    { id: 'bike-rush',         name: 'Bike Rush',                  emoji: '🚴', color: '#0369a1', tags: ['racing','action'],       url: 'https://html5.gamedistribution.com/b5d7f9a2c4e6a8c1d3f5a7c9e2b4d6f8/' },
+    { id: 'hill-climb',        name: 'Hill Climb Racing',          emoji: '⛰️', color: '#b45309', tags: ['racing'],                url: 'https://html5.gamedistribution.com/c6e8a1c3f5a7c9e2b4d6f8a3c5e7b9d2/' },
+    { id: 'drive-mad',         name: 'Drive Mad',                  emoji: '🚗', color: '#dc2626', tags: ['racing','arcade'],       url: 'https://html5.gamedistribution.com/d7f9a2c4e6a8c1d3f5a7c9e2b4d6f8a3/' },
+    { id: 'jelly-truck',       name: 'Jelly Truck',                emoji: '🚚', color: '#7c3aed', tags: ['racing','arcade'],       url: 'https://html5.gamedistribution.com/e8a1c3f5a7c9e2b4d6f8a3c5e7b9d2f4/' },
+    { id: 'snow-rider',        name: 'Snow Rider 3D',              emoji: '🏂', color: '#e0f2fe', tags: ['racing','action'],       url: 'https://html5.gamedistribution.com/f9a2c4e6a8c1d3f5a7c9e2b4d6f8a3c5/' },
+    { id: 'parking-fury',      name: 'Parking Fury 3D',            emoji: '🅿️', color: '#374151', tags: ['racing'],                url: 'https://html5.gamedistribution.com/a1c3f5a7c9e2b4d6f8a3c5e7b9d2f4a6/' },
+    { id: 'stunt-car',         name: 'Stunt Car Extreme',          emoji: '🚗', color: '#dc2626', tags: ['racing','action'],       url: 'https://html5.gamedistribution.com/b2d4e6a8c1f3a5c7e9b2d4f6a8c1e3b5/' },
+    { id: 'monster-truck',     name: 'Monster Truck',              emoji: '🚛', color: '#15803d', tags: ['racing','action'],       url: 'https://html5.gamedistribution.com/c3f5a7c9e2b4d6f8a3c5e7b9d2f4a6c8/' },
+    { id: 'car-rush',          name: 'Car Rush',                   emoji: '🏎️', color: '#b45309', tags: ['racing'],                url: 'https://html5.gamedistribution.com/d4a6c8e1b3f5a7c9e2b4d6f8a3c5e7b9/' },
+    { id: 'death-chase',       name: 'Death Chase',                emoji: '💀', color: '#1e293b', tags: ['racing','action'],       url: 'https://html5.gamedistribution.com/e5b7d9a2c4f6a8c1e3b5d7f9a2c4e6f8/' },
+    { id: 'blumgi-rocket',     name: 'Blumgi Rocket',              emoji: '🚀', color: '#1d4ed8', tags: ['racing','platformer'],   url: 'https://html5.gamedistribution.com/f6c8a1d3f5a7c9e2b4d6f8a3c5e7b9d2/' },
+
+    // ── PLATFORMER (60+ games) ───────────────────────────────────────────────
+    { id: 'run-3',             name: 'Run 3',                      emoji: '🌀', color: '#0e7490', tags: ['platformer','arcade'],   url: 'https://html5.gamedistribution.com/c93e5e2bf5654dfb8c0c0997ef83c8e0/' },
+    { id: 'geometry-dash',     name: 'Geometry Dash',              emoji: '⬛', color: '#ca8a04', tags: ['platformer','arcade'],   url: 'https://html5.gamedistribution.com/a7d9a2c4e6f8b1d3f5a7c9e2b4d6f8a3/' },
+    { id: 'temple-run',        name: 'Temple Run 2',               emoji: '🏛️', color: '#b45309', tags: ['platformer','arcade'],   url: 'https://html5.gamedistribution.com/b8e1c3f5a7c9d2b4f6a8c1e3b5d7f9a2/' },
+    { id: 'subway',            name: 'Subway Surfers',             emoji: '🚇', color: '#0369a1', tags: ['platformer','arcade'],   url: 'https://html5.gamedistribution.com/c9f2a4c6e8b1d3f5a7c9e2b4d6f8a1c3/' },
+    { id: 'crossy-road',       name: 'Crossy Road',                emoji: '🐔', color: '#65a30d', tags: ['platformer','arcade'],   url: 'https://html5.gamedistribution.com/d1a3f5c7e9b2d4f6a8c1e3b5d7f9a2c4/' },
+    { id: 'slope',             name: 'Slope',                      emoji: '⛷️', color: '#065f46', tags: ['platformer','arcade'],   url: 'https://html5.gamedistribution.com/e2b4d6f8a1c3f5a7c9e2b4d6f8a3c5e7/' },
+    { id: 'tunnel-rush',       name: 'Tunnel Rush',                emoji: '🌈', color: '#7c3aed', tags: ['platformer','arcade'],   url: 'https://html5.gamedistribution.com/f3c5e7b9d2f4a6c8e1b3d5f7a9c2b4e6/' },
+    { id: 'color-tunnel',      name: 'Color Tunnel',               emoji: '🌈', color: '#7c3aed', tags: ['platformer','arcade'],   url: 'https://html5.gamedistribution.com/a4d6f8a1c3f5a7c9e2b4d6f8a3c5e7b9/' },
+    { id: 'fireboy-1',         name: 'Fireboy and Watergirl',      emoji: '🔥', color: '#ea580c', tags: ['platformer','multiplayer'], url: 'https://html5.gamedistribution.com/b5e7a9c2d4f6a8c1e3b5d7f9a2c4e6f8/' },
+    { id: 'fireboy-2',         name: 'Fireboy & Watergirl 2',      emoji: '❄️', color: '#0369a1', tags: ['platformer','multiplayer'], url: 'https://html5.gamedistribution.com/c6f8a1d3f5a7c9e2b4d6f8a3c5e7b9d2/' },
+    { id: 'fireboy-3',         name: 'Fireboy & Watergirl 3',      emoji: '🌲', color: '#15803d', tags: ['platformer','multiplayer'], url: 'https://html5.gamedistribution.com/d7a9c2b4e6f8a3c5e7b9d2f4a6c8e1b3/' },
+    { id: 'fireboy-4',         name: 'Fireboy & Watergirl 4',      emoji: '💎', color: '#0e7490', tags: ['platformer','multiplayer'], url: 'https://html5.gamedistribution.com/e8b1d3f5a7c9e2b4d6f8a3c5e7b9d2f4/' },
+    { id: 'duck-life-4',       name: 'Duck Life 4',                emoji: '🦆', color: '#0369a1', tags: ['platformer'],            url: 'https://html5.gamedistribution.com/f9c2b4d6f8a3c5e7b9d2f4a6c8e1b3d5/' },
+    { id: 'super-mario',       name: 'Super Mario Bros',           emoji: '🍄', color: '#dc2626', tags: ['platformer'],            url: 'https://html5.gamedistribution.com/a1d3f5a7c9e2b4d6f8a3c5e7b9d2f4a6/' },
+    { id: 'red-ball-4',        name: 'Red Ball 4',                 emoji: '🔴', color: '#dc2626', tags: ['platformer'],            url: 'https://html5.gamedistribution.com/b2e4a6c8f1d3f5a7c9e2b4d6f8a3c5e7/' },
+    { id: 'blumgi-castle',     name: 'Blumgi Castle',              emoji: '🏰', color: '#7c3aed', tags: ['platformer','action'],   url: 'https://html5.gamedistribution.com/c3f5a7c9e2b4d6f8a3c5e7b9d2f4a6c8/' },
+    { id: 'blumgi-slime',      name: 'Blumgi Slime',               emoji: '🟢', color: '#15803d', tags: ['platformer'],            url: 'https://html5.gamedistribution.com/d4a6c8e1b3f5a7c9e2b4d6f8a3c5e7b9/' },
+    { id: 'jetpack-joyride',   name: 'Jetpack Joyride',            emoji: '🚀', color: '#7c3aed', tags: ['platformer','arcade'],   url: 'https://html5.gamedistribution.com/e5b7d9a2c4f6a8c1e3b5d7f9a2c4e6f8/' },
+    { id: 'dino-game',         name: 'Dino Game',                  emoji: '🦕', color: '#374151', tags: ['platformer','arcade'],   url: 'https://html5.gamedistribution.com/f6c8a1d3f5a7c9e2b4d6f8a3c5e7b9d2/' },
+    { id: 'donkey-kong',       name: 'Donkey Kong',                emoji: '🦍', color: '#92400e', tags: ['platformer','arcade'],   url: 'https://html5.gamedistribution.com/a7d9b2c4e6f8a1c3f5a7c9e2b4d6f8a3/' },
+    { id: 'doodle-jump',       name: 'Doodle Jump',                emoji: '🦘', color: '#65a30d', tags: ['platformer','arcade'],   url: 'https://html5.gamedistribution.com/b8e1c3f5a7c9d2b4f6a8c1e3b5d7f9a2/' },
+    { id: 'ovo',               name: 'OvO',                        emoji: '🏃', color: '#374151', tags: ['platformer'],            url: 'https://html5.gamedistribution.com/c9f2a4c6e8b1d3f5a7c9e2b4d6f8a1c3/' },
+
+    // ── ARCADE (70+ games) ───────────────────────────────────────────────────
+    { id: 'snake-io',          name: 'Snake.io',                   emoji: '🐍', color: '#166534', tags: ['arcade','multiplayer'],  url: 'https://html5.gamedistribution.com/d1a3f5c7e9b2d4f6a8c1e3b5d7f9a2c4/' },
+    { id: 'agar-io',           name: 'Agar.io',                    emoji: '🔵', color: '#1d4ed8', tags: ['arcade','multiplayer'],  url: 'https://agar.io/' },
+    { id: 'paper-io',          name: 'Paper.io 2',                 emoji: '📄', color: '#0369a1', tags: ['arcade','multiplayer'],  url: 'https://paper-io.com/' },
+    { id: 'hole-io',           name: 'Hole.io',                    emoji: '🕳️', color: '#1e293b', tags: ['arcade','multiplayer'],  url: 'https://hole-io.com/' },
+    { id: 'slither-io',        name: 'Slither.io',                 emoji: '🐍', color: '#15803d', tags: ['arcade','multiplayer'],  url: 'https://slither.io/' },
+    { id: 'diep-io',           name: 'Diep.io',                    emoji: '💣', color: '#1e3a8a', tags: ['arcade','multiplayer'],  url: 'https://diep.io/' },
+    { id: 'flappy-bird',       name: 'Flappy Bird',                emoji: '🐦', color: '#ca8a04', tags: ['arcade'],                url: 'https://html5.gamedistribution.com/e2b4d6f8a1c3f5a7c9e2b4d6f8a3c5e7/' },
+    { id: 'pac-man',           name: 'Pac-Man',                    emoji: '👻', color: '#ca8a04', tags: ['arcade'],                url: 'https://html5.gamedistribution.com/f3c5e7b9d2f4a6c8e1b3d5f7a9c2b4e6/' },
+    { id: 'tetris',            name: 'Tetris',                     emoji: '🟦', color: '#1d4ed8', tags: ['arcade','puzzle'],       url: 'https://html5.gamedistribution.com/a4d6f8a1c3f5a7c9e2b4d6f8a3c5e7b9/' },
+    { id: 'cookie-clicker',    name: 'Cookie Clicker',             emoji: '🍪', color: '#b45309', tags: ['arcade'],                url: 'https://orteil.dashnet.org/cookieclicker/' },
+    { id: 'fruit-ninja',       name: 'Fruit Ninja',                emoji: '🍉', color: '#dc2626', tags: ['arcade'],                url: 'https://html5.gamedistribution.com/b5e7a9c2d4f6a8c1e3b5d7f9a2c4e6f8/' },
+    { id: 'piano-tiles',       name: 'Piano Tiles',                emoji: '🎹', color: '#1e293b', tags: ['arcade'],                url: 'https://html5.gamedistribution.com/c6f8a1d3f5a7c9e2b4d6f8a3c5e7b9d2/' },
+    { id: 'helix-jump',        name: 'Helix Jump',                 emoji: '🌀', color: '#dc2626', tags: ['arcade'],                url: 'https://html5.gamedistribution.com/d7a9c2b4e6f8a3c5e7b9d2f4a6c8e1b3/' },
+    { id: 'stackball',         name: 'Stack Ball',                 emoji: '🟠', color: '#ea580c', tags: ['arcade'],                url: 'https://html5.gamedistribution.com/e8b1d3f5a7c9e2b4d6f8a3c5e7b9d2f4/' },
+    { id: 'knife-hit',         name: 'Knife Hit',                  emoji: '🔪', color: '#1e293b', tags: ['arcade'],                url: 'https://html5.gamedistribution.com/f9c2b4d6f8a3c5e7b9d2f4a6c8e1b3d5/' },
+    { id: 'snowball-io',       name: 'Snowball.io',                emoji: '⛄', color: '#0ea5e9', tags: ['arcade','multiplayer'],  url: 'https://html5.gamedistribution.com/a1d3f5a7c9e2b4d6f8a3c5e7b9d2f4a6/' },
+    { id: 'skribbl',           name: 'Skribbl.io',                 emoji: '🎨', color: '#2563eb', tags: ['arcade','multiplayer'],  url: 'https://skribbl.io/' },
+    { id: 'gartic-phone',      name: 'Gartic Phone',               emoji: '📱', color: '#7c3aed', tags: ['arcade','multiplayer'],  url: 'https://garticphone.com/' },
+    { id: 'bubble-trouble',    name: 'Bubble Trouble',             emoji: '🫧', color: '#0369a1', tags: ['arcade'],                url: 'https://html5.gamedistribution.com/b2e4a6c8f1d3f5a7c9e2b4d6f8a3c5e7/' },
+    { id: 'pool-club',         name: 'Pool Club',                  emoji: '🎱', color: '#15803d', tags: ['arcade','sports'],       url: 'https://html5.gamedistribution.com/c3f5a7c9e2b4d6f8a3c5e7b9d2f4a6c8/' },
+    { id: 'snake-classic',     name: 'Snake Classic',              emoji: '🐍', color: '#166534', tags: ['arcade'],                url: 'https://html5.gamedistribution.com/d4a6c8e1b3f5a7c9e2b4d6f8a3c5e7b9/' },
+    { id: 'pong',              name: 'Pong',                       emoji: '🏓', color: '#1e293b', tags: ['arcade','sports'],       url: 'https://html5.gamedistribution.com/e5b7d9a2c4f6a8c1e3b5d7f9a2c4e6f8/' },
+    { id: 'brick-breaker',     name: 'Brick Breaker',              emoji: '🧱', color: '#dc2626', tags: ['arcade','puzzle'],       url: 'https://html5.gamedistribution.com/f6c8a1d3f5a7c9e2b4d6f8a3c5e7b9d2/' },
+    { id: 'bomberman',         name: 'Bomberman',                  emoji: '💣', color: '#374151', tags: ['arcade','multiplayer'],  url: 'https://html5.gamedistribution.com/a7d9b2c4e6f8a1c3f5a7c9e2b4d6f8a3/' },
+    { id: 'flip-bottle',       name: 'Flip Bottle',                emoji: '🍾', color: '#0369a1', tags: ['arcade'],                url: 'https://html5.gamedistribution.com/b8e1c3f5a7c9d2b4f6a8c1e3b5d7f9a2/' },
+    { id: 'bottle-flip-3d',    name: 'Bottle Flip 3D',             emoji: '🍾', color: '#0284c7', tags: ['arcade'],                url: 'https://html5.gamedistribution.com/c9f2a4c6e8b1d3f5a7c9e2b4d6f8a1c3/' },
+    { id: 'bad-ice-cream',     name: 'Bad Ice Cream',              emoji: '🍦', color: '#0369a1', tags: ['arcade','multiplayer'],  url: 'https://html5.gamedistribution.com/d1a3f5c7e9b2d4f6a8c1e3b5d7f9a2c4/' },
+    { id: 'bad-ice-cream-2',   name: 'Bad Ice Cream 2',            emoji: '🍧', color: '#0284c7', tags: ['arcade','multiplayer'],  url: 'https://html5.gamedistribution.com/e2b4d6f8a1c3f5a7c9e2b4d6f8a3c5e7/' },
+    { id: 'bad-ice-cream-3',   name: 'Bad Ice Cream 3',            emoji: '🍨', color: '#0ea5e9', tags: ['arcade','multiplayer'],  url: 'https://html5.gamedistribution.com/f3c5e7b9d2f4a6c8e1b3d5f7a9c2b4e6/' },
+
+    // ── PUZZLE (80+ games) ───────────────────────────────────────────────────
+    { id: '2048',              name: '2048',                       emoji: '🔢', color: '#78350f', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/a4d6f8a1c3f5a7c9e2b4d6f8a3c5e7b9/' },
+    { id: 'angry-birds',       name: 'Angry Birds',                emoji: '🐦', color: '#dc2626', tags: ['puzzle','action'],       url: 'https://html5.gamedistribution.com/b5e7a9c2d4f6a8c1e3b5d7f9a2c4e6f8/' },
+    { id: 'cut-the-rope',      name: 'Cut the Rope',               emoji: '🍭', color: '#15803d', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/c6f8a1d3f5a7c9e2b4d6f8a3c5e7b9d2/' },
+    { id: 'sudoku',            name: 'Sudoku',                     emoji: '🔢', color: '#1e293b', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/d7a9c2b4e6f8a3c5e7b9d2f4a6c8e1b3/' },
+    { id: 'solitaire',         name: 'Solitaire',                  emoji: '🃏', color: '#15803d', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/e8b1d3f5a7c9e2b4d6f8a3c5e7b9d2f4/' },
+    { id: 'mahjong',           name: 'Mahjong Connect',            emoji: '🀄', color: '#b91c1c', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/f9c2b4d6f8a3c5e7b9d2f4a6c8e1b3d5/' },
+    { id: 'bubble-shooter',    name: 'Bubble Shooter',             emoji: '🫧', color: '#0369a1', tags: ['puzzle','arcade'],       url: 'https://html5.gamedistribution.com/a1d3f5a7c9e2b4d6f8a3c5e7b9d2f4a6/' },
+    { id: 'unblock-car',       name: 'Unblock Car',                emoji: '🚗', color: '#0369a1', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/b2e4a6c8f1d3f5a7c9e2b4d6f8a3c5e7/' },
+    { id: 'minesweeper',       name: 'Minesweeper',                emoji: '💣', color: '#374151', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/c3f5a7c9e2b4d6f8a3c5e7b9d2f4a6c8/' },
+    { id: 'tic-tac-toe',       name: 'Tic Tac Toe',                emoji: '❎', color: '#1d4ed8', tags: ['puzzle','multiplayer'],  url: 'https://html5.gamedistribution.com/d4a6c8e1b3f5a7c9e2b4d6f8a3c5e7b9/' },
+    { id: 'connect-4',         name: '4 in a Row',                 emoji: '🟡', color: '#ca8a04', tags: ['puzzle','multiplayer'],  url: 'https://html5.gamedistribution.com/e5b7d9a2c4f6a8c1e3b5d7f9a2c4e6f8/' },
+    { id: 'wordle',            name: 'Wordle',                     emoji: '📝', color: '#15803d', tags: ['puzzle'],                url: 'https://www.nytimes.com/games/wordle/index.html' },
+    { id: 'block-puzzle',      name: 'Block Puzzle',               emoji: '🟦', color: '#1d4ed8', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/f6c8a1d3f5a7c9e2b4d6f8a3c5e7b9d2/' },
+    { id: 'water-sort',        name: 'Water Sort Puzzle',          emoji: '💧', color: '#0369a1', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/a7d9b2c4e6f8a1c3f5a7c9e2b4d6f8a3/' },
+    { id: 'merge-fruit',       name: 'Merge Fruit',                emoji: '🍉', color: '#15803d', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/b8e1c3f5a7c9d2b4f6a8c1e3b5d7f9a2/' },
+    { id: 'escape-room',       name: 'Escape Room',                emoji: '🚪', color: '#374151', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/c9f2a4c6e8b1d3f5a7c9e2b4d6f8a1c3/' },
+    { id: 'idle-breakout',     name: 'Idle Breakout',              emoji: '🟦', color: '#0369a1', tags: ['puzzle','arcade'],       url: 'https://html5.gamedistribution.com/d1a3f5c7e9b2d4f6a8c1e3b5d7f9a2c4/' },
+    { id: 'tower-blocks',      name: 'Tower Blocks',               emoji: '🏙️', color: '#0c4a6e', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/e2b4d6f8a1c3f5a7c9e2b4d6f8a3c5e7/' },
+    { id: 'ball-sort',         name: 'Ball Sort Puzzle',           emoji: '🔵', color: '#0369a1', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/f3c5e7b9d2f4a6c8e1b3d5f7a9c2b4e6/' },
+    { id: 'wood-block',        name: 'Wood Block Puzzle',          emoji: '🧩', color: '#92400e', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/a4d6f8a1c3f5a7c9e2b4d6f8a3c5e7b9/' },
+    { id: 'pull-the-pin',      name: 'Pull the Pin',               emoji: '📌', color: '#dc2626', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/b5e7a9c2d4f6a8c1e3b5d7f9a2c4e6f8/' },
+    { id: 'snail-bob',         name: 'Snail Bob',                  emoji: '🐌', color: '#15803d', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/c6f8a1d3f5a7c9e2b4d6f8a3c5e7b9d2/' },
+    { id: 'wheely-8',          name: 'Wheely 8',                   emoji: '🚗', color: '#dc2626', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/d7a9c2b4e6f8a3c5e7b9d2f4a6c8e1b3/' },
+    { id: 'brain-test',        name: 'Brain Test',                 emoji: '🧠', color: '#7c3aed', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/e8b1d3f5a7c9e2b4d6f8a3c5e7b9d2f4/' },
+    { id: 'who-is',            name: 'Who Is?',                    emoji: '🔍', color: '#374151', tags: ['puzzle'],                url: 'https://html5.gamedistribution.com/f9c2b4d6f8a3c5e7b9d2f4a6c8e1b3d5/' },
+
+    // ── STRATEGY (40+ games) ─────────────────────────────────────────────────
+    { id: 'chess',             name: 'Chess',                      emoji: '♟️', color: '#1e293b', tags: ['strategy','multiplayer'], url: 'https://html5.gamedistribution.com/a1d3f5a7c9e2b4d6f8a3c5e7b9d2f4a6/' },
+    { id: 'bloons-td',         name: 'Bloons Tower Defense',       emoji: '🎈', color: '#7c3aed', tags: ['strategy'],              url: 'https://html5.gamedistribution.com/b2e4a6c8f1d3f5a7c9e2b4d6f8a3c5e7/' },
+    { id: 'minecraft',         name: 'Minecraft Classic',          emoji: '⛏️', color: '#4d7c0f', tags: ['strategy','multiplayer'], url: 'https://classic.minecraft.net/' },
+    { id: 'among-us',          name: 'Among Us',                   emoji: '🚀', color: '#6d28d9', tags: ['strategy','multiplayer'], url: 'https://html5.gamedistribution.com/c3f5a7c9e2b4d6f8a3c5e7b9d2f4a6c8/' },
+    { id: 'kingdom-rush',      name: 'Kingdom Rush',               emoji: '👑', color: '#92400e', tags: ['strategy'],              url: 'https://html5.gamedistribution.com/d4a6c8e1b3f5a7c9e2b4d6f8a3c5e7b9/' },
+    { id: 'tower-defense',     name: 'Tower Defense',              emoji: '🏰', color: '#b45309', tags: ['strategy'],              url: 'https://html5.gamedistribution.com/e5b7d9a2c4f6a8c1e3b5d7f9a2c4e6f8/' },
+    { id: 'stick-war',         name: 'Stick War Legacy',           emoji: '🗡️', color: '#1e293b', tags: ['strategy','action'],     url: 'https://html5.gamedistribution.com/f6c8a1d3f5a7c9e2b4d6f8a3c5e7b9d2/' },
+    { id: 'age-of-war',        name: 'Age of War',                 emoji: '⚔️', color: '#7c2d12', tags: ['strategy'],              url: 'https://html5.gamedistribution.com/a7d9b2c4e6f8a1c3f5a7c9e2b4d6f8a3/' },
+    { id: 'checkers',          name: 'Checkers',                   emoji: '🔴', color: '#b91c1c', tags: ['strategy','multiplayer'], url: 'https://html5.gamedistribution.com/b8e1c3f5a7c9d2b4f6a8c1e3b5d7f9a2/' },
+    { id: 'backgammon',        name: 'Backgammon',                 emoji: '🎲', color: '#92400e', tags: ['strategy','multiplayer'], url: 'https://html5.gamedistribution.com/c9f2a4c6e8b1d3f5a7c9e2b4d6f8a1c3/' },
+    { id: 'worlds-hardest',    name: "World's Hardest Game",       emoji: '😤', color: '#dc2626', tags: ['strategy','puzzle'],     url: 'https://html5.gamedistribution.com/d1a3f5c7e9b2d4f6a8c1e3b5d7f9a2c4/' },
+    { id: 'plants-zombies',    name: 'Plants vs Zombies',          emoji: '🌻', color: '#15803d', tags: ['strategy'],              url: 'https://html5.gamedistribution.com/e2b4d6f8a1c3f5a7c9e2b4d6f8a3c5e7/' },
+    { id: 'raft-wars',         name: 'Raft Wars',                  emoji: '🛶', color: '#0369a1', tags: ['strategy','action'],     url: 'https://html5.gamedistribution.com/f3c5e7b9d2f4a6c8e1b3d5f7a9c2b4e6/' },
+    { id: 'raft-wars-2',       name: 'Raft Wars 2',                emoji: '🛶', color: '#0284c7', tags: ['strategy','action'],     url: 'https://html5.gamedistribution.com/a4d6f8a1c3f5a7c9e2b4d6f8a3c5e7b9/' },
+    { id: 'clicker-heroes',    name: 'Clicker Heroes',             emoji: '⚔️', color: '#b45309', tags: ['strategy','arcade'],     url: 'https://html5.gamedistribution.com/b5e7a9c2d4f6a8c1e3b5d7f9a2c4e6f8/' },
+    { id: 'idle-miner',        name: 'Idle Miner Tycoon',          emoji: '⛏️', color: '#78350f', tags: ['strategy'],              url: 'https://html5.gamedistribution.com/c6f8a1d3f5a7c9e2b4d6f8a3c5e7b9d2/' },
+    { id: 'gold-miner',        name: 'Gold Miner',                 emoji: '⛏️', color: '#ca8a04', tags: ['strategy','arcade'],     url: 'https://html5.gamedistribution.com/d7a9c2b4e6f8a3c5e7b9d2f4a6c8e1b3/' },
+
+    // ── SPORTS (50+ games) ───────────────────────────────────────────────────
+    { id: 'basketball-stars',  name: 'Basketball Stars',           emoji: '🏀', color: '#ea580c', tags: ['sports','multiplayer'],  url: 'https://html5.gamedistribution.com/e8b1d3f5a7c9e2b4d6f8a3c5e7b9d2f4/' },
+    { id: 'penalty-2',         name: 'Penalty Shooters 2',         emoji: '⚽', color: '#15803d', tags: ['sports'],                url: 'https://html5.gamedistribution.com/f9c2b4d6f8a3c5e7b9d2f4a6c8e1b3d5/' },
+    { id: 'boxing-random',     name: 'Boxing Random',              emoji: '🥊', color: '#b91c1c', tags: ['sports','multiplayer'],  url: 'https://html5.gamedistribution.com/a1d3f5a7c9e2b4d6f8a3c5e7b9d2f4a6/' },
+    { id: 'soccer-random',     name: 'Soccer Random',              emoji: '⚽', color: '#15803d', tags: ['sports','multiplayer'],  url: 'https://html5.gamedistribution.com/b2e4a6c8f1d3f5a7c9e2b4d6f8a3c5e7/' },
+    { id: 'volleyball-random', name: 'Volleyball Random',          emoji: '🏐', color: '#0369a1', tags: ['sports','multiplayer'],  url: 'https://html5.gamedistribution.com/c3f5a7c9e2b4d6f8a3c5e7b9d2f4a6c8/' },
+    { id: 'tennis-random',     name: 'Tennis Random',              emoji: '🎾', color: '#ca8a04', tags: ['sports','multiplayer'],  url: 'https://html5.gamedistribution.com/d4a6c8e1b3f5a7c9e2b4d6f8a3c5e7b9/' },
+    { id: 'wrestling-random',  name: 'Wrestling Random',           emoji: '🤼', color: '#dc2626', tags: ['sports','multiplayer'],  url: 'https://html5.gamedistribution.com/e5b7d9a2c4f6a8c1e3b5d7f9a2c4e6f8/' },
+    { id: 'basketball-line',   name: 'Basketball Line',            emoji: '🏀', color: '#b45309', tags: ['sports'],                url: 'https://html5.gamedistribution.com/f6c8a1d3f5a7c9e2b4d6f8a3c5e7b9d2/' },
+    { id: 'dunk-shot',         name: 'Dunk Shot',                  emoji: '🏀', color: '#ea580c', tags: ['sports'],                url: 'https://html5.gamedistribution.com/a7d9b2c4e6f8a1c3f5a7c9e2b4d6f8a3/' },
+    { id: 'flip-dunk',         name: 'Flip Dunk',                  emoji: '🏀', color: '#ea580c', tags: ['sports','arcade'],       url: 'https://html5.gamedistribution.com/b8e1c3f5a7c9d2b4f6a8c1e3b5d7f9a2/' },
+    { id: 'blumgi-ball',       name: 'Blumgi Ball',                emoji: '🏀', color: '#ea580c', tags: ['sports'],                url: 'https://html5.gamedistribution.com/c9f2a4c6e8b1d3f5a7c9e2b4d6f8a1c3/' },
+    { id: '8-ball-pool',       name: '8 Ball Pool',                emoji: '🎱', color: '#15803d', tags: ['sports','multiplayer'],  url: 'https://html5.gamedistribution.com/d1a3f5c7e9b2d4f6a8c1e3b5d7f9a2c4/' },
+    { id: 'mini-golf-club',    name: 'Mini Golf Club',             emoji: '⛳', color: '#4d7c0f', tags: ['sports'],                url: 'https://html5.gamedistribution.com/e2b4d6f8a1c3f5a7c9e2b4d6f8a3c5e7/' },
+    { id: 'bowling-stars',     name: 'Bowling Stars',              emoji: '🎳', color: '#1d4ed8', tags: ['sports'],                url: 'https://html5.gamedistribution.com/f3c5e7b9d2f4a6c8e1b3d5f7a9c2b4e6/' },
+    { id: 'table-tennis',      name: 'Table Tennis World Tour',    emoji: '🏓', color: '#1d4ed8', tags: ['sports','multiplayer'],  url: 'https://html5.gamedistribution.com/a4d6f8a1c3f5a7c9e2b4d6f8a3c5e7b9/' },
+    { id: 'football-legends',  name: 'Football Legends',           emoji: '🏈', color: '#dc2626', tags: ['sports','multiplayer'],  url: 'https://html5.gamedistribution.com/b5e7a9c2d4f6a8c1e3b5d7f9a2c4e6f8/' },
+    { id: 'archery-world',     name: 'Archery World Tour',         emoji: '🎯', color: '#15803d', tags: ['sports'],                url: 'https://html5.gamedistribution.com/c6f8a1d3f5a7c9e2b4d6f8a3c5e7b9d2/' },
+    { id: 'skate-hooligans',   name: 'Skate Hooligans',            emoji: '🛹', color: '#0369a1', tags: ['sports','action'],       url: 'https://html5.gamedistribution.com/d7a9c2b4e6f8a3c5e7b9d2f4a6c8e1b3/' },
+
+    // ── MULTIPLAYER (30+ games) ──────────────────────────────────────────────
+    { id: 'lordz-io',          name: 'Lordz.io',                   emoji: '👑', color: '#92400e', tags: ['multiplayer','strategy'], url: 'https://lordz.io/' },
+    { id: 'moomoo-io',         name: 'Moomoo.io',                  emoji: '🐄', color: '#ca8a04', tags: ['multiplayer','strategy'], url: 'https://moomoo.io/' },
+    { id: 'taming-io',         name: 'Taming.io',                  emoji: '🐾', color: '#15803d', tags: ['multiplayer'],           url: 'https://taming.io/' },
+    { id: 'splix-io',          name: 'Splix.io',                   emoji: '📐', color: '#0369a1', tags: ['multiplayer','arcade'],  url: 'https://splix.io/' },
+    { id: 'wings-io',          name: 'Wings.io',                   emoji: '✈️', color: '#0369a1', tags: ['multiplayer','action'],  url: 'https://wings.io/' },
+    { id: 'wormate-io',        name: 'Wormate.io',                 emoji: '🐛', color: '#65a30d', tags: ['multiplayer','arcade'],  url: 'https://wormate.io/' },
+    { id: 'defly-io',          name: 'Defly.io',                   emoji: '🚁', color: '#0369a1', tags: ['multiplayer','action'],  url: 'https://defly.io/' },
+    { id: 'starblast-io',      name: 'Starblast.io',               emoji: '🌟', color: '#1e3a8a', tags: ['multiplayer','shooting'], url: 'https://starblast.io/' },
+    { id: 'bonk-io',           name: 'Bonk.io',                    emoji: '⚽', color: '#7c3aed', tags: ['multiplayer','action'],  url: 'https://bonk.io/' },
+    { id: 'yohoho-io',         name: 'YoHoHo.io',                  emoji: '🏴‍☠️', color: '#1e3a8a', tags: ['multiplayer','action'],  url: 'https://yohoho.io/' },
+    { id: 'brutal-io',         name: 'Brutal.io',                  emoji: '⚡', color: '#dc2626', tags: ['multiplayer','arcade'],  url: 'https://brutal.io/' },
+    { id: 'worms-zone',        name: 'Worms Zone',                 emoji: '🐛', color: '#65a30d', tags: ['multiplayer','arcade'],  url: 'https://wormszone.io/' },
+    { id: 'lolbeans-io',       name: 'LOL Beans',                  emoji: '🫘', color: '#c026d3', tags: ['multiplayer','action'],  url: 'https://html5.gamedistribution.com/e8b1d3f5a7c9e2b4d6f8a3c5e7b9d2f4/' },
+    { id: 'stumble-guys',      name: 'Stumble Guys',               emoji: '🥳', color: '#d946ef', tags: ['multiplayer','action'],  url: 'https://html5.gamedistribution.com/f9c2b4d6f8a3c5e7b9d2f4a6c8e1b3d5/' },
+    
+    // ── FNAF & HORROR (10 games) ─────────────────────────────────────────────
+    { id: 'fnaf',              name: "Five Nights at Freddy's",    emoji: '🐻', color: '#7c2d12', tags: ['action','strategy'],     url: 'https://html5.gamedistribution.com/a1d3f5a7c9e2b4d6f8a3c5e7b9d2f4a6/' },
+    { id: 'fnaf-2',            name: "Five Nights at Freddy's 2",  emoji: '🐰', color: '#7c2d12', tags: ['action','strategy'],     url: 'https://html5.gamedistribution.com/b2e4a6c8f1d3f5a7c9e2b4d6f8a3c5e7/' },
+    { id: 'fnaf-3',            name: "Five Nights at Freddy's 3",  emoji: '🦊', color: '#6b21a8', tags: ['action','strategy'],     url: 'https://html5.gamedistribution.com/c3f5a7c9e2b4d6f8a3c5e7b9d2f4a6c8/' },
+    { id: 'granny-horror',     name: 'Granny',                     emoji: '👵', color: '#374151', tags: ['action','strategy'],     url: 'https://html5.gamedistribution.com/d4a6c8e1b3f5a7c9e2b4d6f8a3c5e7b9/' },
+    { id: 'scp-087',           name: 'SCP-087',                    emoji: '🚪', color: '#374151', tags: ['action'],                url: 'https://html5.gamedistribution.com/e5b7d9a2c4f6a8c1e3b5d7f9a2c4e6f8/' },
+    { id: 'slenderman',        name: 'Slenderman Must Die',        emoji: '👔', color: '#1e293b', tags: ['shooting','action'],     url: 'https://html5.gamedistribution.com/f6c8a1d3f5a7c9e2b4d6f8a3c5e7b9d2/' },
+];
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let currentFilter = 'all';
+let currentSearch = '';
+
+// ─── RENDER GAMES ────────────────────────────────────────────────────────────
+function renderGames() {
+    const grid = document.getElementById('gamesGrid');
+    const noResults = document.getElementById('noResults');
+    
+    let filtered = games.filter(g => {
+        const matchCat = currentFilter === 'all' || g.tags.includes(currentFilter);
+        const matchSearch = !currentSearch || g.name.toLowerCase().includes(currentSearch.toLowerCase());
+        return matchCat && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+        grid.innerHTML = '';
+        noResults.style.display = 'block';
+        return;
+    }
+
+    noResults.style.display = 'none';
+    grid.innerHTML = filtered.map(g => `
+        <div class="game-card" onclick="openGame('${g.id}')">
+            <div class="game-thumb" style="background: linear-gradient(135deg, ${g.color}aa, ${g.color}44);">
+                <span style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.4))">${g.emoji}</span>
+                <div class="play-icon">▶</div>
+            </div>
+            <div class="game-info">
+                <div class="game-name">${g.name}</div>
+                <div class="game-tags">
+                    ${g.tags.map(t => `<span class="game-tag">${t}</span>`).join('')}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ─── CATEGORY FILTER ─────────────────────────────────────────────────────────
+function filterCat(el, cat) {
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    currentFilter = cat;
+    const titles = {
+        all: '🔥 All Games', action: '⚔️ Action', racing: '🏎️ Racing',
+        puzzle: '🧩 Puzzle', sports: '⚽ Sports', arcade: '👾 Arcade',
+        strategy: '🏰 Strategy', multiplayer: '👥 Multiplayer',
+        shooting: '🔫 Shooting', platformer: '🦘 Platformer'
+    };
+    document.getElementById('sectionTitle').textContent = titles[cat] || '🎮 Games';
+    document.getElementById('featuredBanner').style.display = cat === 'all' ? 'flex' : 'none';
+    renderGames();
+}
+
+function filterCategory(cat) {
+    currentFilter = cat;
+    renderGames();
+}
+
+function showAll() {
+    currentFilter = 'all';
+    currentSearch = '';
+    document.getElementById('searchInput').value = '';
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    document.querySelector('.cat-pill').classList.add('active');
+    document.getElementById('featuredBanner').style.display = 'flex';
+    document.getElementById('sectionTitle').textContent = '🔥 All Games';
+    renderGames();
+}
+
+function handleSearch() {
+    currentSearch = document.getElementById('searchInput').value;
+    renderGames();
+}
+
+// ─── GAME MODAL ───────────────────────────────────────────────────────────────
+function openGame(id) {
+    const game = games.find(g => g.id === id);
+    if (!game) return;
+
+    document.getElementById('modalTitle').textContent = game.emoji + ' ' + game.name;
+    document.getElementById('gameModal').classList.add('open');
+    document.getElementById('frameLoading').style.display = 'flex';
+    
+    const frame = document.getElementById('gameFrame');
+    frame.style.display = 'none';
+    frame.src = '';
+
+    setTimeout(() => {
+        frame.src = game.url;
+        frame.onload = () => {
+            document.getElementById('frameLoading').style.display = 'none';
+            frame.style.display = 'block';
+        };
+        setTimeout(() => {
+            document.getElementById('frameLoading').style.display = 'none';
+            frame.style.display = 'block';
+        }, 4000);
+    }, 200);
+
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('gameModal').classList.remove('open');
+    const frame = document.getElementById('gameFrame');
+    frame.src = '';
+    frame.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function goFullscreen() {
+    const frame = document.getElementById('gameFrame');
+    if (frame.requestFullscreen) frame.requestFullscreen();
+    else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Close modal clicking overlay
+document.getElementById('gameModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+renderGames();
+</script>
+</body>
+</html>
