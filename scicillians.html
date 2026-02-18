@@ -772,7 +772,7 @@ function openGame(id) {
     frame.src = '';
 
     setTimeout(() => {
-        frame.src = game.url;
+        frame.src = game.embed;
         frame.onload = () => {
             document.getElementById('frameLoading').style.display = 'none';
             frame.style.display = 'block';
