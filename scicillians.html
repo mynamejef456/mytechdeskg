@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scicillians - Free Online Games</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d0d14;
+            color: #f0f0f0;
+            min-height: 100vh;
+        }
+
+        /* ─── TOP NAV ─── */
+        .navbar {
+            background: #13131f;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-left { display: flex; align-items: center; gap: 32px; }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links { display: flex; gap: 6px; }
+
+        .nav-link {
+            color: #aaa;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #1e1e2e;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 8px 18px;
+            gap: 10px;
+            width: 260px;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar:focus-within { border-color: #3b82f6; }
+
+        .search-bar input {
+            background: none;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .search-bar input::placeholder { color: #666; }
+        .search-icon { color: #666; font-size: 1rem; }
+
+        .back-btn {
+            background: linear-gradient(135deg, #1d4ed8, #2563eb);
+            color: white;
+            padding: 9px 18px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(37,99,235,0.3);
+        }
+
+        .back-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+        /* ─── HERO BANNER ─── */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            padding: 60px 24px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, #93c5fd 50%, #c4b5fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .hero p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            position: relative;
+        }
+
+        .stat { text-align: center; }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #60a5fa;
+        }
+
+        .stat-label { font-size: 0.85rem; color: #64748b; }
+
+        /* ─── CATEGORY PILLS ─── */
+        .categories-bar {
+            background: #13131f;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            padding: 16px 24px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .categories-bar::-webkit-scrollbar { display: none; }
+
+        .cat-pill {
+            background: #1e1e2e;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #94a3b8;
+            padding: 9px 20px;
+            border-radius: 50px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .cat-pill:hover { border-color: #3b82f6; color: #60a5fa; }
+        .cat-pill.active { background: #1d4ed8; border-color: #3b82f6; color: white; }
+
+        /* ─── MAIN LAYOUT ─── */
+        .main {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 30px 24px;
+            gap: 28px;
+        }
+
+        /* ─── SIDEBAR ─── */
+        .sidebar {
+            width: 220px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-section { margin-bottom: 30px; }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #475569;
+            margin-bottom: 12px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            background: rgba(59,130,246,0.12);
+            color: #60a5fa;
+        }
+
+        /* ─── GAME CONTENT ─── */
+        .content { flex: 1; min-width: 0; }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .see-all {
+            color: #3b82f6;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* ─── GAME CARDS GRID ─── */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 18px;
+            margin-bottom: 40px;
+        }
+
+        .game-card {
+            background: #13131f;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59,130,246,0.5);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+
+        .game-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-icon {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            background: rgba(37,99,235,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .game-card:hover .play-icon { opacity: 1; }
+
+        .game-info { padding: 14px; }
+
+        .game-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+        .game-tag {
+            background: rgba(59,130,246,0.15);
+            color: #60a5fa;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .fav-btn {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 6px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .fav-btn { color: #64748b; }
+        .fav-btn:hover { transform: scale(1.3); color: #fbbf24; }
+        .fav-btn.fav-active { color: #fbbf24; filter: drop-shadow(0 0 4px #fbbf24); }
+
+        /* ─── GAME PLAYER MODAL ─── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 9000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .modal {
+            width: 90vw;
+            max-width: 1100px;
+            background: #13131f;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            background: #0d0d14;
+        }
+
+        .modal-title { font-size: 1.3rem; font-weight: 700; color: white; }
+
+        .modal-actions { display: flex; gap: 10px; align-items: center; }
+
+        .modal-fullscreen {
+            background: rgba(59,130,246,0.2);
+            border: 1px solid rgba(59,130,246,0.4);
+            color: #60a5fa;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-fullscreen:hover { background: rgba(59,130,246,0.35); }
+
+        .modal-close {
+            background: rgba(239,68,68,0.2);
+            border: 1px solid rgba(239,68,68,0.4);
+            color: #f87171;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover { background: rgba(239,68,68,0.35); }
+
+        .game-frame-wrapper {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            position: relative;
+        }
+
+        .game-frame-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .frame-loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #0d0d14;
+            gap: 16px;
+        }
+
+        .frame-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(59,130,246,0.2);
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ─── FEATURED BANNER ─── */
+        .featured-banner {
+            background: linear-gradient(135deg, #1e3a8a 0%, #4c1d95 100%);
+            border-radius: 18px;
+            padding: 32px;
+            margin-bottom: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            border: 1px solid rgba(59,130,246,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .featured-banner:hover { transform: translateY(-3px); box-shadow: 0 15px 50px rgba(30,58,138,0.4); }
+
+        .featured-text h2 { font-size: 2rem; font-weight: 900; margin-bottom: 8px; }
+        .featured-text p { color: #93c5fd; font-size: 1rem; margin-bottom: 20px; }
+
+        .featured-play {
+            background: white;
+            color: #1d4ed8;
+            border: none;
+            padding: 13px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .featured-play:hover { transform: scale(1.05); }
+
+        .featured-icon { font-size: 5rem; }
+
+        /* ─── NO RESULTS ─── */
+        .no-results {
+            text-align: center;
+            color: #475569;
+            padding: 60px 20px;
+            font-size: 1.1rem;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero-stats { gap: 20px; }
+        }
+
+        @media (max-width: 600px) {
+            .games-grid { grid-template-columns: repeat(2, 1fr); }
+            .search-bar { width: 160px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo" onclick="showAll()">🎯 Scicillians</div>
+            <div class="nav-links">
+                <a class="nav-link active" onclick="showAll()">🏠 Home</a>
+                <a class="nav-link" onclick="filterCategory('action')">⚔️ Action</a>
+                <a class="nav-link" onclick="filterCategory('racing')">🏎️ Racing</a>
+                <a class="nav-link" onclick="filterCategory('puzzle')">🧩 Puzzle</a>
+                <a class="nav-link" onclick="filterCategory('sports')">⚽ Sports</a>
+                <a class="nav-link" onclick="filterCategory('arcade')">👾 Arcade</a>
+                <a class="nav-link" href="retro.html">👾 Retro Arcade</a>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search games..." id="searchInput" oninput="handleSearch()">
+            </div>
+            <a href="games.html" class="back-btn">← Back to Arcade</a>
+        </div>
+    </nav>
+
+    <!-- CATEGORIES BAR -->
+    <div class="categories-bar">
+        <div class="cat-pill active" onclick="filterCat(this,'all')">🌟 All Games</div>
+        <div class="cat-pill" onclick="filterCat(this,'action')">⚔️ Action</div>
+        <div class="cat-pill" onclick="filterCat(this,'racing')">🏎️ Racing</div>
+        <div class="cat-pill" onclick="filterCat(this,'puzzle')">🧩 Puzzle</div>
+        <div class="cat-pill" onclick="filterCat(this,'sports')">⚽ Sports</div>
+        <div class="cat-pill" onclick="filterCat(this,'arcade')">👾 Arcade</div>
+        <div class="cat-pill" onclick="filterCat(this,'strategy')">🏰 Strategy</div>
+        <div class="cat-pill" onclick="filterCat(this,'multiplayer')">👥 Multiplayer</div>
+        <div class="cat-pill" onclick="filterCat(this,'shooting')">🔫 Shooting</div>
+        <div class="cat-pill" onclick="filterCat(this,'platformer')">🦘 Platformer</div>
+        <div class="cat-pill" onclick="filterCat(this,'favorites')">⭐ Favorites</div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <div class="hero" id="heroSection">
+        <h1>Scicillians Game Hub</h1>
+        <p>Your go-to destination for free online games. No downloads, no sign-ups.</p>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-number">60+</div>
+                <div class="stat-label">Games Available</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Categories</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Free to Play</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Browse</div>
+                <div class="sidebar-link active" onclick="showAll()">🏠 Home</div>
+                <div class="sidebar-link" onclick="filterCategory('action')">⚔️ Action</div>
+                <div class="sidebar-link" onclick="filterCategory('racing')">🏎️ Racing</div>
+                <div class="sidebar-link" onclick="filterCategory('puzzle')">🧩 Puzzle</div>
+                <div class="sidebar-link" onclick="filterCategory('sports')">⚽ Sports</div>
+                <div class="sidebar-link" onclick="filterCategory('arcade')">👾 Arcade</div>
+                <div class="sidebar-link" onclick="filterCategory('strategy')">🏰 Strategy</div>
+                <div class="sidebar-link" onclick="filterCategory('multiplayer')">👥 Multiplayer</div>
+                <div class="sidebar-link" onclick="filterCategory('shooting')">🔫 Shooting</div>
+                <div class="sidebar-link" onclick="filterCategory('platformer')">🦘 Platformer</div>
+                <div class="sidebar-link" onclick="filterCat(this,'favorites')">⭐ Favorites</div>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title">Quick Links</div>
+                <a href="index.html" class="sidebar-link">🍎 Tech Desk</a>
+                <a href="games.html" class="sidebar-link">🎮 Old Arcade</a>
+                <a href="retro.html" class="sidebar-link">👾 Retro Arcade</a>
+            </div>
+        </aside>
+
+        <!-- GAME CONTENT -->
+        <div class="content" id="mainContent">
+
+            <!-- FEATURED BANNER -->
+            <div class="featured-banner" id="featuredBanner" onclick="openGame('tank-stars')">
+                <div class="featured-text">
+                    <h2>🎯 Tank Stars</h2>
+                    <p>Epic tank battles with physics-based destruction. Our #1 featured game!</p>
+                    <button class="featured-play">▶ Play Now</button>
+                </div>
+                <div class="featured-icon">🎯</div>
+            </div>
+
+            <!-- GAMES GRID -->
+            <div class="section-header">
+                <h2 id="sectionTitle">🔥 All Games</h2>
+            </div>
+
+            <div class="games-grid" id="gamesGrid"></div>
+            <div class="no-results" id="noResults" style="display:none;">No games found. Try a different search!</div>
+
+        </div>
+    </div>
+
+    <!-- GAME PLAYER MODAL -->
+    <div class="modal-overlay" id="gameModal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title" id="modalTitle">Loading...</span>
+                <div class="modal-actions">
+                    <button class="modal-fullscreen" onclick="goFullscreen()">⛶ Fullscreen</button>
+                    <button class="modal-close" onclick="closeModal()">✕</button>
+                </div>
+            </div>
+            <div class="game-frame-wrapper" id="gameFrameWrapper">
+                <div class="frame-loading" id="frameLoading">
+                    <div class="frame-spinner"></div>
+                    <p style="color:#64748b;">Loading game...</p>
+                </div>
+                <iframe id="gameFrame" src="" scrolling="no" allowfullscreen allow="autoplay; fullscreen" style="display:none;"></iframe>
+            </div>
+        </div>
+    </div>
+
+<script>
+// ─── GAME DATABASE (Only Working Games) ──────────────────────────────────────
+const games = [
+    // ── YOUR ORIGINAL ────────────────────────────────────────────────────────
+    { id: 'tank-stars',        name: 'Tank Stars',                 emoji: '🎯', color: '#1e3a8a', tags: ['action','shooting'],     url: 'https://kiz10.com/gamecode/tank-stars/' },
+
+    // ── .IO GAMES (All Working) ──────────────────────────────────────────────
+    { id: 'krunker',           name: 'Krunker.io',                 emoji: '🎯', color: '#dc2626', tags: ['shooting','multiplayer'], url: 'https://krunker.io/' },
+    { id: 'shell-shockers',    name: 'Shell Shockers',             emoji: '🥚', color: '#ca8a04', tags: ['shooting','multiplayer'], url: 'https://shellshock.io/' },
+    { id: 'venge-io',          name: 'Venge.io',                   emoji: '⚔️', color: '#1e3a8a', tags: ['shooting','multiplayer'], url: 'https://venge.io/' },
+    { id: 'zombs-royale',      name: 'Zombs Royale',               emoji: '👑', color: '#7c2d12', tags: ['shooting','multiplayer'], url: 'https://zombsroyale.io/' },
+    { id: 'narrow-one',        name: 'Narrow One',                 emoji: '🏹', color: '#1e3a8a', tags: ['shooting','multiplayer'], url: 'https://narrow.one/' },
+    { id: 'diep-io',           name: 'Diep.io',                    emoji: '💣', color: '#1e3a8a', tags: ['arcade','multiplayer'],  url: 'https://diep.io/' },
+    { id: 'paper-io',          name: 'Paper.io 2',                 emoji: '📄', color: '#0369a1', tags: ['arcade','multiplayer'],  url: 'https://paper-io.com/' },
+    { id: 'smash-karts',       name: 'Smash Karts',                emoji: '🏎️', color: '#0f766e', tags: ['racing','multiplayer'],  url: 'https://smashkarts.io/' },
+    { id: 'lordz-io',          name: 'Lordz.io',                   emoji: '👑', color: '#92400e', tags: ['strategy','multiplayer'], url: 'https://lordz.io/' },
+    { id: 'moomoo-io',         name: 'Moomoo.io',                  emoji: '🐄', color: '#ca8a04', tags: ['strategy','multiplayer'], url: 'https://moomoo.io/' },
+    { id: 'taming-io',         name: 'Taming.io',                  emoji: '🐾', color: '#15803d', tags: ['multiplayer','action'],  url: 'https://taming.io/' },
+    { id: 'splix-io',          name: 'Splix.io',                   emoji: '📐', color: '#0369a1', tags: ['arcade','multiplayer'],  url: 'https://splix.io/' },
+    { id: 'wings-io',          name: 'Wings.io',                   emoji: '✈️', color: '#0369a1', tags: ['multiplayer','action'],  url: 'https://wings.io/' },
+    { id: 'wormate-io',        name: 'Wormate.io',                 emoji: '🐛', color: '#65a30d', tags: ['arcade','multiplayer'],  url: 'https://wormate.io/' },
+    { id: 'defly-io',          name: 'Defly.io',                   emoji: '🚁', color: '#0369a1', tags: ['multiplayer','action'],  url: 'https://defly.io/' },
+    { id: 'starblast-io',      name: 'Starblast.io',               emoji: '🌟', color: '#1e3a8a', tags: ['shooting','multiplayer'], url: 'https://starblast.io/' },
+    { id: 'bonk-io',           name: 'Bonk.io',                    emoji: '⚽', color: '#7c3aed', tags: ['multiplayer','action'],  url: 'https://bonk.io/' },
+    { id: 'yohoho-io',         name: 'YoHoHo.io',                  emoji: '🏴‍☠️', color: '#1e3a8a', tags: ['multiplayer','action'],  url: 'https://yohoho.io/' },
+    { id: 'brutal-io',         name: 'Brutal.io',                  emoji: '⚡', color: '#dc2626', tags: ['arcade','multiplayer'],  url: 'https://brutal.io/' },
+    { id: 'worms-zone',        name: 'Worms Zone',                 emoji: '🐛', color: '#65a30d', tags: ['arcade','multiplayer'],  url: 'https://wormszone.io/' },
+    { id: 'skribbl',           name: 'Skribbl.io',                 emoji: '🎨', color: '#2563eb', tags: ['arcade','multiplayer'],  url: 'https://skribbl.io/' },
+
+    // ── STANDALONE WORKING GAMES ─────────────────────────────────────────────
+    { id: 'minecraft',         name: 'Minecraft Classic',          emoji: '⛏️', color: '#4d7c0f', tags: ['strategy','multiplayer'], url: 'https://classic.minecraft.net/' },
+    { id: 'cookie-clicker',    name: 'Cookie Clicker',             emoji: '🍪', color: '#b45309', tags: ['arcade'],                url: 'https://orteil.dashnet.org/cookieclicker/' },
+    { id: 'gartic-phone',      name: 'Gartic Phone',               emoji: '📱', color: '#7c3aed', tags: ['arcade','multiplayer'],  url: 'https://garticphone.com/' },
+
+    // ── 1V1.LOL & SIMILAR ────────────────────────────────────────────────────
+    { id: '1v1-lol',           name: '1v1.LOL',                    emoji: '🔫', color: '#dc2626', tags: ['shooting','multiplayer'], url: 'https://1v1.lol/' },
+    { id: 'buildroyale',       name: 'BuildRoyale.io',             emoji: '🏗️', color: '#0369a1', tags: ['shooting','multiplayer'], url: 'https://buildroyale.io/' },
+    { id: 'surviv-io',         name: 'Surviv.io',                  emoji: '🪖', color: '#854d0e', tags: ['shooting','multiplayer'], url: 'https://surviv.io/' },
+    { id: 'kirka-io',          name: 'Kirka.io',                   emoji: '🔫', color: '#1e3a8a', tags: ['shooting','multiplayer'], url: 'https://kirka.io/' },
+    { id: 'ev-io',             name: 'ev.io',                      emoji: '🎮', color: '#7c3aed', tags: ['shooting','multiplayer'], url: 'https://ev.io/' },
+
+    // ── MORE .IO GAMES ───────────────────────────────────────────────────────
+    { id: 'powerline-io',      name: 'Powerline.io',               emoji: '⚡', color: '#1d4ed8', tags: ['arcade','multiplayer'],  url: 'https://powerline.io/' },
+    { id: 'stabfish-io',       name: 'Stabfish.io',                emoji: '🐟', color: '#0369a1', tags: ['multiplayer','action'],  url: 'https://stabfish.io/' },
+    { id: 'littlebigsnake',    name: 'Little Big Snake',           emoji: '🐍', color: '#15803d', tags: ['arcade','multiplayer'],  url: 'https://littlebigsnake.com/' },
+    { id: 'betrayal-io',       name: 'Betrayal.io',                emoji: '🔪', color: '#dc2626', tags: ['multiplayer','action'],  url: 'https://betrayal.io/' },
+    { id: 'stabfish2',         name: 'Stabfish 2',                 emoji: '🐟', color: '#0284c7', tags: ['multiplayer','action'],  url: 'https://stabfish2.io/' },
+    { id: 'warbrokers',        name: 'War Brokers',                emoji: '🪖', color: '#4d7c0f', tags: ['shooting','multiplayer'], url: 'https://warbrokers.io/' },
+    { id: 'arras-io',          name: 'Arras.io',                   emoji: '💥', color: '#1e3a8a', tags: ['arcade','multiplayer'],  url: 'https://arras.io/' },
+    { id: 'braains-io',        name: 'Braains.io',                 emoji: '🧟', color: '#365314', tags: ['arcade','multiplayer'],  url: 'https://braains.io/' },
+    { id: 'zombs-io',          name: 'Zombs.io',                   emoji: '🧟', color: '#4d7c0f', tags: ['strategy','multiplayer'], url: 'https://zombs.io/' },
+    { id: 'gulper-io',         name: 'Gulper.io',                  emoji: '🐠', color: '#0284c7', tags: ['arcade','multiplayer'],  url: 'https://gulper.io/' },
+    { id: 'krew-io',           name: 'Krew.io',                    emoji: '🏴‍☠️', color: '#1e3a8a', tags: ['multiplayer','action'],  url: 'https://krew.io/' },
+    { id: 'battleboats-io',    name: 'Battleboats.io',             emoji: '⛵', color: '#0369a1', tags: ['multiplayer','action'],  url: 'https://battleboats.io/' },
+    { id: 'starve-io',         name: 'Starve.io',                  emoji: '🏕️', color: '#78350f', tags: ['strategy','multiplayer'], url: 'https://starve.io/' },
+    // ── EXTRA NICHE .IO GAMES ────────────────────────────────────────────────
+    { id: 'lordz2-io',          name: 'Lordz2.io',                  emoji: '⚔️', color: '#78350f', tags: ['strategy','multiplayer'],  url: 'https://lordz2.io/' },
+    { id: '2048-game',          name: '2048',                       emoji: '🔢', color: '#b45309', tags: ['puzzle'],                  url: 'https://2048game.com/' },
+    { id: 'foes-io',            name: 'Foes.io',                    emoji: '🗡️', color: '#dc2626', tags: ['action','multiplayer'],    url: 'https://foes.io/' },
+    { id: 'lostworld-io',       name: 'Lost World',                 emoji: '🦕', color: '#15803d', tags: ['action','multiplayer'],    url: 'https://lostworld.io/' },
+    { id: 'miniroyale',         name: 'Mini Royale: Nations',       emoji: '🏆', color: '#1e3a8a', tags: ['shooting','multiplayer'],  url: 'https://miniroyale.io/' },
+    { id: 'crabwar-io',         name: 'Crab War',                   emoji: '🦀', color: '#dc2626', tags: ['action','multiplayer'],    url: 'https://crabwar.io/' },
+    { id: 'kombat-io',          name: 'Kombat.io',                  emoji: '🥊', color: '#7c3aed', tags: ['action','multiplayer'],    url: 'https://kombat.io/' },
+    { id: 'tankar-io',          name: 'Tankar.io',                  emoji: '🪖', color: '#4d7c0f', tags: ['shooting','multiplayer'],  url: 'https://tankar.io/' },
+    { id: 'gats-io',            name: 'Gats.io',                    emoji: '🔫', color: '#374151', tags: ['shooting','multiplayer'],  url: 'https://gats.io/' },
+    { id: 'zapper-io',          name: 'Zapper.io',                  emoji: '⚡', color: '#ca8a04', tags: ['action','multiplayer'],    url: 'https://zapper.io/' },
+    { id: 'triep-io',           name: 'Triep.io',                   emoji: '💥', color: '#1e3a8a', tags: ['arcade','multiplayer'],    url: 'https://triep.io/' },
+    { id: 'spinz-io',           name: 'Spinz.io',                   emoji: '🌀', color: '#7c3aed', tags: ['arcade','multiplayer'],    url: 'https://spinz.io/' },
+    { id: 'brutes-io',          name: 'Brutes.io',                  emoji: '👊', color: '#dc2626', tags: ['action','multiplayer'],    url: 'https://brutes.io/' },
+    { id: 'stomped-io',         name: 'Stomped.io',                 emoji: '👣', color: '#15803d', tags: ['action','multiplayer'],    url: 'https://stomped.io/' },
+    { id: 'doomed-io',          name: 'Doomed.io',                  emoji: '💀', color: '#374151', tags: ['shooting','multiplayer'],  url: 'https://doomed.io/' },
+    { id: 'fightz-io',          name: 'Fightz.io',                  emoji: '⚔️', color: '#92400e', tags: ['action','multiplayer'],    url: 'https://fightz.io/' },
+    { id: 'shellshock-2',       name: 'ShellShock Live',            emoji: '💣', color: '#ca8a04', tags: ['shooting','multiplayer'],  url: 'https://shellshocklive.com/' },
+    { id: 'ocean-io',           name: 'Ocean.io',                   emoji: '🐋', color: '#0369a1', tags: ['arcade','multiplayer'],    url: 'https://ocean.io/' },
+    { id: 'pucks-io',           name: 'Pucks.io',                   emoji: '🏒', color: '#1d4ed8', tags: ['sports','multiplayer'],    url: 'https://pucks.io/' },
+    { id: 'stolk-io',           name: 'Stolk.io',                   emoji: '🏹', color: '#4d7c0f', tags: ['action','multiplayer'],    url: 'https://stolk.io/' },
+    { id: 'ragdoll-hit',        name: 'Ragdoll Hit',                emoji: '🪆', color: '#dc2626', tags: ['action','arcade'],          url: 'https://ragdollhit.com/' },
+    { id: 'ragdoll-archers',    name: 'Ragdoll Archers',            emoji: '🏹', color: '#92400e', tags: ['action','arcade'],          url: 'https://ragdollarchers.io/' },
+];
+// ─── FAVORITES ───────────────────────────────────────────────────────────────
+let favorites = JSON.parse(localStorage.getItem('scicillians_favs') || '[]');
+
+function isFav(id) { return favorites.includes(id); }
+
+function toggleFav(e, id) {
+    e.stopPropagation();
+    if (isFav(id)) {
+        favorites = favorites.filter(f => f !== id);
+    } else {
+        favorites.push(id);
+    }
+    localStorage.setItem('scicillians_favs', JSON.stringify(favorites));
+    renderGames();
+    if (currentFilter === 'favorites') renderGames();
+}
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let currentFilter = 'all';
+let currentSearch = '';
+
+// ─── RENDER GAMES ────────────────────────────────────────────────────────────
+function renderGames() {
+    const grid = document.getElementById('gamesGrid');
+    const noResults = document.getElementById('noResults');
+
+    let pool = currentFilter === 'favorites'
+        ? games.filter(g => isFav(g.id))
+        : games;
+
+    let filtered = pool.filter(g => {
+        const matchCat = currentFilter === 'all' || currentFilter === 'favorites' || g.tags.includes(currentFilter);
+        const matchSearch = !currentSearch || g.name.toLowerCase().includes(currentSearch.toLowerCase());
+        return matchCat && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+        grid.innerHTML = '';
+        noResults.style.display = 'block';
+        noResults.innerHTML = currentFilter === 'favorites'
+            ? '⭐ No favorites yet! Click the star on any game to save it here.'
+            : 'No games found. Try a different search!';
+        return;
+    }
+
+    noResults.style.display = 'none';
+    grid.innerHTML = filtered.map(g => `
+        <div class="game-card" onclick="openGame('${g.id}')">
+            <div class="game-thumb" style="background: linear-gradient(135deg, ${g.color}aa, ${g.color}44);">
+                <span style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.4))">${g.emoji}</span>
+                <div class="play-icon">▶</div>
+            </div>
+            <div class="game-info">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                    <div class="game-name" style="margin-bottom:0">${g.name}</div>
+                    <button class="fav-btn ${isFav(g.id) ? 'fav-active' : ''}" onclick="toggleFav(event,'${g.id}')" title="${isFav(g.id) ? 'Remove from favorites' : 'Add to favorites'}">
+                        ${isFav(g.id) ? '⭐' : '☆'}
+                    </button>
+                </div>
+                <div class="game-tags">
+                    ${g.tags.map(t => `<span class="game-tag">${t}</span>`).join('')}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ─── CATEGORY FILTER ─────────────────────────────────────────────────────────
+function filterCat(el, cat) {
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    currentFilter = cat;
+    const titles = {
+        all: '🔥 All Games', action: '⚔️ Action', racing: '🏎️ Racing',
+        puzzle: '🧩 Puzzle', sports: '⚽ Sports', arcade: '👾 Arcade',
+        strategy: '🏰 Strategy', multiplayer: '👥 Multiplayer',
+        shooting: '🔫 Shooting', platformer: '🦘 Platformer',
+        favorites: '⭐ My Favorites'
+    };
+    document.getElementById('sectionTitle').textContent = titles[cat] || '🎮 Games';
+    document.getElementById('featuredBanner').style.display = cat === 'all' ? 'flex' : 'none';
+    renderGames();
+}
+
+function filterCategory(cat) {
+    currentFilter = cat;
+    renderGames();
+}
+
+function showAll() {
+    currentFilter = 'all';
+    currentSearch = '';
+    document.getElementById('searchInput').value = '';
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    document.querySelector('.cat-pill').classList.add('active');
+    document.getElementById('featuredBanner').style.display = 'flex';
+    document.getElementById('sectionTitle').textContent = '🔥 All Games';
+    renderGames();
+}
+
+function handleSearch() {
+    currentSearch = document.getElementById('searchInput').value;
+    renderGames();
+}
+
+// ─── GAME MODAL ───────────────────────────────────────────────────────────────
+function openGame(id) {
+    const game = games.find(g => g.id === id);
+    if (!game) return;
+
+    document.getElementById('modalTitle').textContent = game.emoji + ' ' + game.name;
+    document.getElementById('gameModal').classList.add('open');
+    document.getElementById('frameLoading').style.display = 'flex';
+    
+    const frame = document.getElementById('gameFrame');
+    frame.style.display = 'none';
+    frame.src = '';
+
+    setTimeout(() => {
+        frame.src = game.url;
+        frame.onload = () => {
+            document.getElementById('frameLoading').style.display = 'none';
+            frame.style.display = 'block';
+        };
+        setTimeout(() => {
+            document.getElementById('frameLoading').style.display = 'none';
+            frame.style.display = 'block';
+        }, 4000);
+    }, 200);
+
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('gameModal').classList.remove('open');
+    const frame = document.getElementById('gameFrame');
+    frame.src = '';
+    frame.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function goFullscreen() {
+    const frame = document.getElementById('gameFrame');
+    if (frame.requestFullscreen) frame.requestFullscreen();
+    else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Close modal clicking overlay
+document.getElementById('gameModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+renderGames();
+</script>
+</body>
+</html>
