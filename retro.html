@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scicillians - Retro Arcade</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #f0f0f0;
+            min-height: 100vh;
+        }
+
+        /* ─── SCANLINE EFFECT ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0,0,0,0.03) 0px,
+                rgba(0,0,0,0.03) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ─── NAVBAR ─── */
+        .navbar {
+            background: #0d0d0d;
+            border-bottom: 2px solid #22c55e;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(34,197,94,0.3);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #22c55e;
+            text-shadow: 0 0 10px #22c55e, 0 0 20px #22c55e;
+            cursor: pointer;
+            letter-spacing: 2px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .nav-right { display: flex; align-items: center; gap: 14px; }
+
+        .back-btn {
+            background: transparent;
+            color: #22c55e;
+            border: 1px solid #22c55e;
+            padding: 9px 18px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            transition: all 0.2s;
+            text-shadow: 0 0 6px #22c55e;
+        }
+
+        .back-btn:hover {
+            background: #22c55e;
+            color: #000;
+            box-shadow: 0 0 15px rgba(34,197,94,0.5);
+            text-shadow: none;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #111;
+            border: 1px solid #22c55e44;
+            border-radius: 4px;
+            padding: 8px 14px;
+            gap: 8px;
+            width: 220px;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar:focus-within { border-color: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.3); }
+        .search-bar input { background: none; border: none; outline: none; color: #22c55e; font-size: 0.9rem; width: 100%; font-family: 'Courier New', monospace; }
+        .search-bar input::placeholder { color: #22c55e44; }
+
+        /* ─── HERO ─── */
+        .hero {
+            background: linear-gradient(135deg, #0a0a0a 0%, #0d1a0d 50%, #0a0a0a 100%);
+            padding: 60px 24px;
+            text-align: center;
+            border-bottom: 1px solid #22c55e22;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(34,197,94,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            font-family: 'Courier New', monospace;
+            color: #22c55e;
+            text-shadow: 0 0 20px #22c55e, 0 0 40px #22c55e88;
+            margin-bottom: 12px;
+            letter-spacing: 4px;
+            animation: flicker 4s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 95%, 100% { opacity: 1; }
+            96% { opacity: 0.8; }
+            97% { opacity: 1; }
+            98% { opacity: 0.6; }
+            99% { opacity: 1; }
+        }
+
+        .hero-sub {
+            color: #4ade80;
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #22c55e;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 10px #22c55e;
+        }
+
+        .stat-label { font-size: 0.8rem; color: #4ade8088; font-family: 'Courier New', monospace; letter-spacing: 1px; }
+
+        /* ─── CATEGORY PILLS ─── */
+        .categories-bar {
+            background: #0d0d0d;
+            border-bottom: 1px solid #22c55e22;
+            padding: 14px 24px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .categories-bar::-webkit-scrollbar { display: none; }
+
+        .cat-pill {
+            background: transparent;
+            border: 1px solid #22c55e44;
+            color: #4ade80;
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .cat-pill:hover { border-color: #22c55e; color: #22c55e; text-shadow: 0 0 6px #22c55e; }
+        .cat-pill.active { background: #22c55e22; border-color: #22c55e; color: #22c55e; text-shadow: 0 0 8px #22c55e; box-shadow: 0 0 10px rgba(34,197,94,0.2); }
+
+        /* ─── MAIN ─── */
+        .main {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 24px;
+            gap: 28px;
+        }
+
+        /* ─── SIDEBAR ─── */
+        .sidebar { width: 200px; flex-shrink: 0; }
+
+        .sidebar-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #22c55e66;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 4px;
+            color: #4ade80;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 2px solid transparent;
+        }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            background: rgba(34,197,94,0.08);
+            color: #22c55e;
+            border-left-color: #22c55e;
+            text-shadow: 0 0 6px #22c55e;
+        }
+
+        .sidebar-section { margin-bottom: 28px; }
+
+        /* ─── CONTENT ─── */
+        .content { flex: 1; min-width: 0; }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #22c55e;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px #22c55e66;
+        }
+
+        /* ─── GAME GRID ─── */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .game-card {
+            background: #0d0d0d;
+            border: 1px solid #22c55e22;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .game-card:hover {
+            border-color: #22c55e;
+            box-shadow: 0 0 20px rgba(34,197,94,0.25), inset 0 0 20px rgba(34,197,94,0.03);
+            transform: translateY(-3px);
+        }
+
+        .game-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+            background: #111;
+        }
+
+        .game-thumb::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.1) 2px,
+                rgba(0,0,0,0.1) 4px
+            );
+            pointer-events: none;
+        }
+
+        .play-icon {
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            background: rgba(34,197,94,0.9);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+            color: #000;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(34,197,94,0.6);
+        }
+
+        .game-card:hover .play-icon { opacity: 1; }
+
+        .game-info { padding: 12px; }
+
+        .game-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #22c55e;
+            font-family: 'Courier New', monospace;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 0 0 6px #22c55e44;
+        }
+
+        .game-name-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .game-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+
+        .game-tag {
+            background: rgba(34,197,94,0.1);
+            color: #4ade80;
+            padding: 2px 7px;
+            border-radius: 3px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #22c55e33;
+        }
+
+        .fav-btn {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 2px 3px;
+            border-radius: 3px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .fav-btn:hover { transform: scale(1.3); }
+        .fav-btn.fav-active { filter: drop-shadow(0 0 4px #fbbf24); }
+
+        /* ─── YEAR BADGE ─── */
+        .year-badge {
+            font-size: 0.65rem;
+            color: #22c55e66;
+            font-family: 'Courier New', monospace;
+            margin-top: 3px;
+        }
+
+        /* ─── NO RESULTS ─── */
+        .no-results {
+            text-align: center;
+            color: #22c55e44;
+            padding: 60px 20px;
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* ─── MODAL ─── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 9000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .modal {
+            width: 90vw;
+            max-width: 1100px;
+            background: #0d0d0d;
+            border: 1px solid #22c55e;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(34,197,94,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            border-bottom: 1px solid #22c55e33;
+            background: #080808;
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #22c55e;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 8px #22c55e;
+        }
+
+        .modal-actions { display: flex; gap: 10px; }
+
+        .modal-fullscreen {
+            background: transparent;
+            border: 1px solid #22c55e44;
+            color: #22c55e;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-fullscreen:hover { background: #22c55e22; border-color: #22c55e; }
+
+        .modal-close {
+            background: transparent;
+            border: 1px solid #dc2626;
+            color: #dc2626;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover { background: #dc2626; color: white; }
+
+        .game-frame-wrapper {
+            width: 100%;
+            height: 70vh;
+            position: relative;
+            background: #000;
+        }
+
+        .frame-loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .frame-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #22c55e22;
+            border-top-color: #22c55e;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            box-shadow: 0 0 15px rgba(34,197,94,0.3);
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .hero-title { font-size: 2.2rem; }
+        }
+
+        @media (max-width: 600px) {
+            .games-grid { grid-template-columns: repeat(2, 1fr); }
+            .search-bar { width: 150px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo" onclick="showAll()">👾 RETRO ARCADE</div>
+        <div class="nav-right">
+            <div class="search-bar">
+                <span style="color:#22c55e44">🔍</span>
+                <input type="text" placeholder="Search games..." id="searchInput" oninput="handleSearch()">
+            </div>
+            <a href="scicillians.html" class="back-btn">← Back to Hub</a>
+        </div>
+    </nav>
+
+    <!-- CATEGORIES -->
+    <div class="categories-bar">
+        <div class="cat-pill active" onclick="filterCat(this,'all')">[ ALL ]</div>
+        <div class="cat-pill" onclick="filterCat(this,'shooter')">[ SHOOTER ]</div>
+        <div class="cat-pill" onclick="filterCat(this,'platformer')">[ PLATFORMER ]</div>
+        <div class="cat-pill" onclick="filterCat(this,'arcade')">[ ARCADE ]</div>
+        <div class="cat-pill" onclick="filterCat(this,'rpg')">[ RPG ]</div>
+        <div class="cat-pill" onclick="filterCat(this,'puzzle')">[ PUZZLE ]</div>
+        <div class="cat-pill" onclick="filterCat(this,'racing')">[ RACING ]</div>
+        <div class="cat-pill" onclick="filterCat(this,'favorites')">[ ⭐ FAVORITES ]</div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-title">// RETRO ARCADE //</div>
+        <div class="hero-sub">&gt; INSERT COIN TO PLAY &lt;</div>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-number">20+</div>
+                <div class="stat-label">CLASSIC GAMES</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">FREE TO PLAY</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">NOSTALGIA</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">> BROWSE</div>
+                <div class="sidebar-link active" onclick="showAll()">[ ALL GAMES ]</div>
+                <div class="sidebar-link" onclick="filterCat(this,'shooter')">[ SHOOTER ]</div>
+                <div class="sidebar-link" onclick="filterCat(this,'platformer')">[ PLATFORMER ]</div>
+                <div class="sidebar-link" onclick="filterCat(this,'arcade')">[ ARCADE ]</div>
+                <div class="sidebar-link" onclick="filterCat(this,'rpg')">[ RPG ]</div>
+                <div class="sidebar-link" onclick="filterCat(this,'puzzle')">[ PUZZLE ]</div>
+                <div class="sidebar-link" onclick="filterCat(this,'racing')">[ RACING ]</div>
+                <div class="sidebar-link" onclick="filterCat(this,'favorites')">[ ⭐ FAVORITES ]</div>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title">> NAVIGATE</div>
+                <a href="scicillians.html" class="sidebar-link">[ GAME HUB ]</a>
+                <a href="games.html" class="sidebar-link">[ OLD ARCADE ]</a>
+            </div>
+        </aside>
+
+        <!-- CONTENT -->
+        <div class="content">
+            <div class="section-header">
+                <h2 id="sectionTitle">> ALL GAMES</h2>
+            </div>
+            <div class="games-grid" id="gamesGrid"></div>
+            <div class="no-results" id="noResults" style="display:none;">
+                > NO GAMES FOUND_<br><span style="font-size:0.8rem;color:#22c55e33">TRY A DIFFERENT SEARCH</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- GAME MODAL -->
+    <div class="modal-overlay" id="gameModal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title" id="modalTitle">LOADING...</span>
+                <div class="modal-actions">
+                    <button class="modal-fullscreen" onclick="goFullscreen()">[ FULLSCREEN ]</button>
+                    <button class="modal-close" onclick="closeModal()">✕</button>
+                </div>
+            </div>
+            <div class="game-frame-wrapper" id="gameFrameWrapper">
+                <div class="frame-loading" id="frameLoading">
+                    <div class="frame-spinner"></div>
+                    <p style="color:#22c55e66;font-family:'Courier New',monospace;font-size:0.85rem;">LOADING GAME...</p>
+                </div>
+                <iframe id="gameFrame" src="" scrolling="no" allowfullscreen allow="autoplay; fullscreen" style="display:none;"></iframe>
+            </div>
+        </div>
+    </div>
+
+<script>
+// ─── RETRO GAME DATABASE ──────────────────────────────────────────────────────
+const games = [
+    // ── SHOOTERS ─────────────────────────────────────────────────────────────
+    { id: 'doom',           name: 'DOOM (1993)',         emoji: '👹', year: 1993, color: '#7f1d1d', tags: ['shooter'],    url: 'https://js-dos.com/games/doom.exe.html' },
+    { id: 'quake',          name: 'Quake',              emoji: '🔫', year: 1996, color: '#451a03', tags: ['shooter'],    url: 'https://quakejs.com/' },
+    { id: 'wolfenstein',    name: 'Wolfenstein 3D',     emoji: '🐺', year: 1992, color: '#78350f', tags: ['shooter'],    url: 'https://js-dos.com/games/wolf3d.exe.html' },
+    { id: 'duke3d',         name: 'Duke Nukem 3D',      emoji: '💪', year: 1996, color: '#7c3aed', tags: ['shooter'],    url: 'https://js-dos.com/games/duke3d.exe.html' },
+    { id: 'contra',         name: 'Contra',             emoji: '🔫', year: 1987, color: '#1e3a8a', tags: ['shooter','platformer'], url: 'https://www.retrogames.cc/embed/14837-contra-usa.html' },
+
+    // ── PLATFORMERS ───────────────────────────────────────────────────────────
+    { id: 'mario',          name: 'Super Mario Bros',   emoji: '🍄', year: 1985, color: '#dc2626', tags: ['platformer'], url: 'https://www.retrogames.cc/embed/14761-super-mario-bros-japan.html' },
+    { id: 'sonic',          name: 'Sonic the Hedgehog', emoji: '💙', year: 1991, color: '#1d4ed8', tags: ['platformer'], url: 'https://www.retrogames.cc/embed/29040-sonic-the-hedgehog-usa-europe.html' },
+    { id: 'megaman',        name: 'Mega Man 2',         emoji: '🤖', year: 1988, color: '#1e40af', tags: ['platformer'], url: 'https://www.retrogames.cc/embed/14811-mega-man-2-usa.html' },
+    { id: 'castlevania',    name: 'Castlevania',        emoji: '🧛', year: 1986, color: '#3b0764', tags: ['platformer'], url: 'https://www.retrogames.cc/embed/14855-castlevania-usa.html' },
+    { id: 'metroid',        name: 'Metroid',            emoji: '👽', year: 1986, color: '#365314', tags: ['platformer'], url: 'https://www.retrogames.cc/embed/14848-metroid-usa.html' },
+
+    // ── ARCADE ───────────────────────────────────────────────────────────────
+    { id: 'pacman',         name: 'Pac-Man',            emoji: '👻', year: 1980, color: '#ca8a04', tags: ['arcade'],     url: 'https://freepacman.org/' },
+    { id: 'tetris-retro',   name: 'Tetris',             emoji: '🟦', year: 1984, color: '#1d4ed8', tags: ['arcade','puzzle'], url: 'https://jstris.jezevec10.com/' },
+    { id: 'galaga',         name: 'Galaga',             emoji: '🚀', year: 1981, color: '#1e3a8a', tags: ['arcade','shooter'], url: 'https://www.retrogames.cc/embed/14905-galaga-namco.html' },
+    { id: 'frogger',        name: 'Frogger',            emoji: '🐸', year: 1981, color: '#15803d', tags: ['arcade'],     url: 'https://www.retrogames.cc/embed/33755-frogger-usa.html' },
+    { id: 'asteroids',      name: 'Asteroids',          emoji: '🌑', year: 1979, color: '#374151', tags: ['arcade','shooter'], url: 'https://www.retrogames.cc/embed/22066-asteroids-usa.html' },
+    { id: 'donkeykong',     name: 'Donkey Kong',        emoji: '🦍', year: 1981, color: '#dc2626', tags: ['arcade','platformer'], url: 'https://www.retrogames.cc/embed/14902-donkey-kong-usa.html' },
+    { id: 'spaceinvaders',  name: 'Space Invaders',     emoji: '👾', year: 1978, color: '#065f46', tags: ['arcade','shooter'], url: 'https://www.retrogames.cc/embed/21939-space-invaders-japan.html' },
+    { id: 'pong',           name: 'Pong',               emoji: '🏓', year: 1972, color: '#111827', tags: ['arcade'],     url: 'https://ponggame.org/' },
+
+    // ── RPG ──────────────────────────────────────────────────────────────────
+    { id: 'zelda',          name: 'The Legend of Zelda',emoji: '🗡️', year: 1986, color: '#713f12', tags: ['rpg'],        url: 'https://www.retrogames.cc/embed/14867-the-legend-of-zelda-usa.html' },
+    { id: 'finalfantasy',   name: 'Final Fantasy',      emoji: '⚔️', year: 1987, color: '#1e1b4b', tags: ['rpg'],        url: 'https://www.retrogames.cc/embed/14762-final-fantasy-usa.html' },
+
+    // ── RACING ───────────────────────────────────────────────────────────────
+    { id: 'mariokart',      name: 'Mario Kart (SNES)',  emoji: '🏎️', year: 1992, color: '#dc2626', tags: ['racing'],     url: 'https://www.retrogames.cc/embed/14742-super-mario-kart-usa.html' },
+    { id: 'f-zero',         name: 'F-Zero',             emoji: '🚀', year: 1990, color: '#1e3a8a', tags: ['racing'],     url: 'https://www.retrogames.cc/embed/14785-f-zero-usa.html' },
+
+    // ── PUZZLE ───────────────────────────────────────────────────────────────
+    { id: 'bomberman',      name: 'Bomberman',          emoji: '💣', year: 1983, color: '#b45309', tags: ['puzzle','arcade'], url: 'https://www.retrogames.cc/embed/14869-bomberman-usa.html' },
+    { id: 'digdug',         name: 'Dig Dug',            emoji: '⛏️', year: 1982, color: '#ea580c', tags: ['puzzle','arcade'], url: 'https://www.retrogames.cc/embed/14903-dig-dug-us.html' },
+];
+
+// ─── FAVORITES ────────────────────────────────────────────────────────────────
+let favorites = JSON.parse(localStorage.getItem('scicillians_retro_favs') || '[]');
+function isFav(id) { return favorites.includes(id); }
+function toggleFav(e, id) {
+    e.stopPropagation();
+    favorites = isFav(id) ? favorites.filter(f => f !== id) : [...favorites, id];
+    localStorage.setItem('scicillians_retro_favs', JSON.stringify(favorites));
+    renderGames();
+}
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let currentFilter = 'all';
+let currentSearch = '';
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function renderGames() {
+    const grid = document.getElementById('gamesGrid');
+    const noResults = document.getElementById('noResults');
+
+    let pool = currentFilter === 'favorites' ? games.filter(g => isFav(g.id)) : games;
+
+    let filtered = pool.filter(g => {
+        const matchCat = currentFilter === 'all' || currentFilter === 'favorites' || g.tags.includes(currentFilter);
+        const matchSearch = !currentSearch || g.name.toLowerCase().includes(currentSearch.toLowerCase());
+        return matchCat && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+        grid.innerHTML = '';
+        noResults.style.display = 'block';
+        noResults.innerHTML = currentFilter === 'favorites'
+            ? '> NO FAVORITES YET_<br><span style="font-size:0.8rem;color:#22c55e33">CLICK ⭐ ON ANY GAME TO SAVE IT</span>'
+            : '> NO GAMES FOUND_<br><span style="font-size:0.8rem;color:#22c55e33">TRY A DIFFERENT SEARCH</span>';
+        return;
+    }
+
+    noResults.style.display = 'none';
+    grid.innerHTML = filtered.map(g => `
+        <div class="game-card" onclick="openGame('${g.id}')">
+            <div class="game-thumb" style="background:linear-gradient(135deg,${g.color}cc,${g.color}44);">
+                <span style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.6))">${g.emoji}</span>
+                <div class="play-icon">▶</div>
+            </div>
+            <div class="game-info">
+                <div class="game-name-row">
+                    <div class="game-name">${g.name}</div>
+                    <button class="fav-btn ${isFav(g.id) ? 'fav-active' : ''}" onclick="toggleFav(event,'${g.id}')" title="${isFav(g.id) ? 'Unfavorite' : 'Favorite'}">
+                        ${isFav(g.id) ? '⭐' : '☆'}
+                    </button>
+                </div>
+                <div class="year-badge">${g.year}</div>
+                <div class="game-tags" style="margin-top:5px;">
+                    ${g.tags.map(t => `<span class="game-tag">${t}</span>`).join('')}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function filterCat(el, cat) {
+    document.querySelectorAll('.cat-pill, .sidebar-link').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    currentFilter = cat;
+    const titles = {
+        all: '> ALL GAMES', shooter: '> SHOOTERS', platformer: '> PLATFORMERS',
+        arcade: '> ARCADE', rpg: '> RPG', puzzle: '> PUZZLE', racing: '> RACING', favorites: '> ⭐ FAVORITES'
+    };
+    document.getElementById('sectionTitle').textContent = titles[cat] || '> GAMES';
+    renderGames();
+}
+
+function showAll() {
+    currentFilter = 'all';
+    currentSearch = '';
+    document.getElementById('searchInput').value = '';
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    document.querySelector('.cat-pill').classList.add('active');
+    document.getElementById('sectionTitle').textContent = '> ALL GAMES';
+    renderGames();
+}
+
+function handleSearch() {
+    currentSearch = document.getElementById('searchInput').value;
+    renderGames();
+}
+
+function openGame(id) {
+    const game = games.find(g => g.id === id);
+    if (!game) return;
+    document.getElementById('modalTitle').textContent = game.emoji + ' ' + game.name + ' (' + game.year + ')';
+    document.getElementById('gameModal').classList.add('open');
+    document.getElementById('frameLoading').style.display = 'flex';
+    const frame = document.getElementById('gameFrame');
+    frame.style.display = 'none';
+    frame.src = '';
+    setTimeout(() => {
+        frame.src = game.url;
+        frame.onload = () => {
+            document.getElementById('frameLoading').style.display = 'none';
+            frame.style.display = 'block';
+        };
+        setTimeout(() => {
+            document.getElementById('frameLoading').style.display = 'none';
+            frame.style.display = 'block';
+        }, 5000);
+    }, 200);
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('gameModal').classList.remove('open');
+    const frame = document.getElementById('gameFrame');
+    frame.src = '';
+    frame.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function goFullscreen() {
+    const frame = document.getElementById('gameFrame');
+    if (frame.requestFullscreen) frame.requestFullscreen();
+    else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.getElementById('gameModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+renderGames();
+</script>
+</body>
+</html>
