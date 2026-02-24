@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💻 ULTIMATE HACKER SCREEN 💻</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #0a0f0c 0%, #1a2f1a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .hacker-terminal {
+            width: 90%;
+            max-width: 900px;
+            background-color: #0f1a0f;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.3),
+                        0 0 20px rgba(0, 255, 0, 0.2) inset,
+                        0 0 100px rgba(0, 100, 0, 0.5);
+            border: 2px solid #2a5a2a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Scanning line effect */
+        .hacker-terminal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(0, 255, 0, 0.2);
+            animation: scan 4s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #1a2a1a;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #2a5a2a;
+            color: #0f0;
+            font-size: 14px;
+        }
+
+        .terminal-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terminal-title span {
+            color: #4aff4a;
+            text-shadow: 0 0 5px #0f0;
+        }
+
+        .status-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #0f0;
+            box-shadow: 0 0 10px currentColor;
+            animation: blink 1.5s infinite;
+        }
+
+        .dot:nth-child(1) { background-color: #ff5555; box-shadow: 0 0 10px #ff5555; }
+        .dot:nth-child(2) { background-color: #ffff55; box-shadow: 0 0 10px #ffff55; }
+        .dot:nth-child(3) { background-color: #55ff55; box-shadow: 0 0 10px #55ff55; }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .terminal-content {
+            background-color: #0a140a;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #2a5a2a;
+            font-size: 16px;
+            line-height: 1.8;
+            color: #0f0;
+            text-shadow: 0 0 5px #0f0;
+            max-height: 600px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #0f0 #1a2a1a;
+        }
+
+        .terminal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terminal-content::-webkit-scrollbar-track {
+            background: #1a2a1a;
+        }
+
+        .terminal-content::-webkit-scrollbar-thumb {
+            background: #0f0;
+            border-radius: 4px;
+        }
+
+        .command-line {
+            margin: 12px 0;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .prompt {
+            color: #4aff4a;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .command {
+            color: #ffffaa;
+        }
+
+        .output {
+            color: #88ff88;
+            margin-left: 25px;
+            padding-left: 15px;
+            border-left: 2px solid #2a5a2a;
+        }
+
+        .error {
+            color: #ff6b6b;
+            text-shadow: 0 0 5px #ff0000;
+        }
+
+        .success {
+            color: #6bff6b;
+            text-shadow: 0 0 8px #00ff00;
+        }
+
+        .blink {
+            animation: cursorBlink 1s infinite;
+            background-color: #0f0;
+            width: 10px;
+            height: 18px;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        @keyframes cursorBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .glitch {
+            animation: glitch 0.1s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 1px); }
+            40% { transform: translate(2px, -1px); }
+            60% { transform: translate(-1px, 0); }
+            80% { transform: translate(1px, -1px); }
+            100% { transform: translate(0); }
+        }
+
+        .funny-ascii {
+            color: #4aff4a;
+            font-size: 12px;
+            line-height: 1.2;
+            white-space: pre;
+            margin: 15px 0;
+        }
+
+        .matrix-rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+
+        button {
+            background-color: #1a2a1a;
+            color: #0f0;
+            border: 2px solid #2a5a2a;
+            padding: 12px 30px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        button:hover {
+            background-color: #2a3a2a;
+            box-shadow: 0 0 30px #0f0;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="hacker-terminal" id="terminal">
+        <div class="terminal-header">
+            <div class="terminal-title">
+                <span>🔓</span>
+                <span>ROOT@DEEPWEB:~</span>
+                <span>🔓</span>
+            </div>
+            <div class="status-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <div class="terminal-content" id="terminalContent">
+            <div class="funny-ascii">
+    ╔══╗ ──────── ╔╗───╔╗──────╔══╗
+    ║══╬═╦═╦═╦═╦╗╔╣╠═╗╔╣╠═╦═╦╦╗║══╣
+    ╠══║╬║╩╣║║║║╚╝║║╩╣╚╣║║║╩╣║║╠══║
+    ╚══╩═╩═╩╩╩╩═╝─╚╩═╝─╚╩╩═╩╩═╩══╝
+            </div>
+            
+            <div class="command-line">
+                <span class="prompt">$</span>
+                <span class="command">sudo access mainframe --level 9000 --coolness=max</span>
+            </div>
+            <div class="output">[ACCESS GRANTED] Welcome to the SUPER SECURE MAINFRAME</div>
+            <div class="output">User: anonymous@hackerman</div>
+            <div class="output">Authorization level: OVER 9000!!!</div>
+
+            <div class="command-line">
+                <span class="prompt">#</span>
+                <span class="command">ping -c 4 the-pentagon.gov</span>
+            </div>
+            <div class="output">PING the-pentagon.gov (69.69.69.69) 56(84) bytes of data.</div>
+            <div class="output">64 bytes from server: icmp_seq=1 ttl=54 time=0.01ms (They didn't notice)</div>
+            <div class="output">64 bytes from server: icmp_seq=2 ttl=54 time=0.02ms (Still hacking...)</div>
+            <div class="output">64 bytes from server: icmp_seq=3 ttl=54 time=0.01ms (Mom brought pizza)</div>
+            <div class="output">64 bytes from server: icmp_seq=4 ttl=54 time=0.03ms (PIZZA TIME!!!)</div>
+
+            <div class="command-line">
+                <span class="prompt">></span>
+                <span class="command">hack NSA --steal --secrets --all-the-things</span>
+            </div>
+            <div class="output error">ERROR: Need more RGB lights for optimal hacking speed!</div>
+            <div class="output success">Installing RGB lights... [██████████] 100%</div>
+            <div class="output">Hacking speed increased by 9000%! 🚀</div>
+
+            <div class="command-line">
+                <span class="prompt">λ</span>
+                <span class="command">decrypt --algorithm="impossible" --target="nasa_cats.jpg"</span>
+            </div>
+            <div class="output">Decrypting top secret cat photos...</div>
+            <div class="output">Found: "Top_secret_government_cat_memes.zip"</div>
+            <div class="output">Contents: 1000 cat memes, 3 doge memes, 1 suspicious cucumber</div>
+
+            <div class="funny-ascii">
+        ⠀⠀⠀⠀⠀⠀⠀⢀⣤⣶⣶⣿⣿⣿⣿⣶⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀
+        ⠀⠀⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀
+        ⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀
+        ⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀
+        ⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀
+        ⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠛⠛⠻⣿⣿⣿⣿⣿⣿⣿⣷⠀⠀
+        ⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⡇⠀
+        ⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⣀⣀⣠⣾⣿⣿⣿⣿⣿⣿⣿⠇⠀
+        ⠀⠀⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀
+        ⠀⠀⠀⠀⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀
+        ⠀⠀⠀⠀⠀⠈⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠁⠀⠀⠀⠀⠀
+        ⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⠛⠿⠿⠿⠛⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀
+            </div>
+            <div class="output">HACKER STATUS: TOO COOL FOR SCHOOL 😎</div>
+
+            <div class="command-line">
+                <span class="prompt">~</span>
+                <span class="command">grep -r "secret pizza recipe" /etc/shadow/</span>
+            </div>
+            <div class="output">Found: /etc/shadow/pineapple_pizza_abomination.conf</div>
+            <div class="output error">WARNING: Pineapple on pizza detected! ABORT MISSION!</div>
+
+            <div class="command-line">
+                <span class="prompt">$</span>
+                <span class="command">./enhance --factor 42 --input "blurry_cat.jpg" --output "crystal_clear_alien.jpg"</span>
+            </div>
+            <div class="output">ENHANCE! 🔍</div>
+            <div class="output">ENHANCE! 🔍🔍</div>
+            <div class="output">ENHANCE! 🔍🔍🔍</div>
+            <div class="output success">It's just a cat wearing sunglasses... Wait, are those sunglasses from Area 51?!</div>
+
+            <div class="command-line">
+                <span class="prompt">></span>
+                <span class="command">matrix --mode=rain --intensity=overload</span>
+            </div>
+            <div class="output">01001110 01100101 01110110 01100101 01110010 00100000 01100111 01101111 01101110 01101110 01100001 00100000 01100111 01101001 01110110 01100101 00100000 01111001 01101111 01110101 00100000 01110101 01110000</div>
+            <div class="output success">Translation: "Never gonna give you up" - Hack3r Anthem</div>
+
+            <div class="command-line">
+                <span class="prompt">#</span>
+                <span class="command">sudo rm -rf / --no-preserve-root --just-kidding</span>
+            </div>
+            <div class="output error">🔥 SYSTEM MELTDOWN IMMINENT! 🔥</div>
+            <div class="output">Just kidding! That's how you become a script kiddie! 😂</div>
+
+            <div class="command-line">
+                <span class="prompt">$</span>
+                <span class="command">fortune | cowsay | lolcat</span>
+            </div>
+            <div class="output">
+    ________________________________________
+    &lt; You're not a real hacker until you've 
+      tried turning it off and on again! &gt;
+    ----------------------------------------
+           \   ^__^
+            \  (oo)\_______
+               (__)\       )\/\
+                   ||----w |
+                   ||     ||
+            </div>
+
+            <div class="command-line">
+                <span class="prompt">></span>
+                <span class="command">hack --target="my_boring_homework" --action="make_interesting"</span>
+            </div>
+            <div class="output">Hacking homework...</div>
+            <div class="output">Transformed into: "How to hack the planet in 10 easy steps"</div>
+            <div class="output success">Teacher's note: A+ would get hacked again! 📚</div>
+
+            <div class="command-line">
+                <span class="prompt">$</span>
+                <span class="command">exit --reason="mom_called_for_dinner"</span>
+            </div>
+            <div class="output">Logging out...</div>
+            <div class="output">Remember: With great hacking power comes great responsibility... and RGB lights!</div>
+            
+            <span class="prompt">$</span>
+            <span class="command">_</span>
+            <span class="blink"></span>
+        </div>
+
+        <div style="text-align: center;">
+            <button onclick="addHack()">🚀 EXECUTE MORE HACKS 🚀</button>
+            <button onclick="location.reload()" style="margin-left: 10px;">🔄 RESET MATRIX 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        function addHack() {
+            const terminal = document.getElementById('terminalContent');
+            const hacks = [
+                `<div class="command-line"><span class="prompt">></span><span class="command">sudo make-me-a-sandwich</span></div>
+                <div class="output error">Error: insufficient bread in /dev/bread</div>
+                <div class="output success">Creating virtual bread... 🍞</div>`,
+
+                `<div class="command-line"><span class="prompt">#</span><span class="command">ping facebook.com --packets=infinite</span></div>
+                <div class="output">Pinging Mark Zuckerberg's mainframe...</div>
+                <div class="output">He says: "Stop stealing my hoodies!" 👕</div>`,
+
+                `<div class="command-line"><span class="prompt">$</span><span class="command">crack-wifi --password="password123" --obvious=true</span></div>
+                <div class="output success">Success! Password was "password123" (who would have thought?!)</div>
+                <div class="output">Neighbor's WiFi: "FBI Surveillance Van" connected! 🚐</div>`,
+
+                `<div class="command-line"><span class="prompt">λ</span><span class="command">hack-time --travel --year=1995 --dialup-sound=true</span></div>
+                <div class="output">EEEEEE-OOOO-EEEEEE-SCREECH-BZZZZZZZ</div>
+                <div class="output">You've been disconnected! Someone picked up the phone! 📞</div>`,
+
+                `<div class="command-line"><span class="prompt">></span><span class="command">steal --item="moon" --from="sky"</span></div>
+                <div class="output">ERROR: Moon too heavy (also, werewolves are protecting it) 🌕🐺</div>`,
+
+                `<div class="command-line"><span class="prompt">$</span><span class="command">matrix --pill="red" --follow-the-white-rabbit</span></div>
+                <div class="output">Knock, knock, Neo... 🐇</div>
+                <div class="output success">You're now wearing a cool trenchcoat and sunglasses! 🕶️</div>`
+            ];
+            
+            const randomHack = hacks[Math.floor(Math.random() * hacks.length)];
+            terminal.insertAdjacentHTML('beforeend', randomHack);
+            
+            // Add glitch effect
+            terminal.classList.add('glitch');
+            setTimeout(() => terminal.classList.remove('glitch'), 200);
+            
+            // Scroll to bottom
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        // Auto-add a random hack every 10 seconds
+        setInterval(addHack, 10000);
+
+        // Easter egg - Konami code
+        let konami = [];
+        document.addEventListener('keydown', function(e) {
+            konami.push(e.keyCode);
+            if (konami.toString().indexOf("38,38,40,40,37,39,37,39,66,65") >= 0) {
+                document.body.style.background = "linear-gradient(135deg, #ff00ff 0%, #00ffff 100%)";
+                alert("🎮 KONAMI CODE ACTIVATED! ULTIMATE HACKER POWERS UNLOCKED! 🎮");
+            }
+        });
+    </script>
+</body>
+</html>
