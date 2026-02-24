@@ -3,284 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💚 INTERACTIVE HACKER TERMINAL 💚</title>
+    <title>OMINOUS HACKER TERMINAL</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
         
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            padding: 20px;
-            background: #0f0f0f;
+            padding: 0;
+            background: black;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             font-family: 'Share Tech Mono', monospace;
+            overflow: hidden;
+            position: relative;
         }
 
+        /* Full screen scrolling code background */
+        .code-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            color: #0f0;
+            font-size: 16px;
+            line-height: 1.2;
+            white-space: nowrap;
+            z-index: 1;
+            opacity: 0.15;
+            pointer-events: none;
+            animation: scrollCode 60s linear infinite;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        @keyframes scrollCode {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .code-line {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            color: #0f0;
+            text-shadow: 0 0 3px #0f0;
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+
+        /* Main terminal container - floating in front */
         .terminal-container {
-            width: 95%;
-            max-width: 1000px;
-            background-color: #0a0a0a;
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 800px;
+            margin: 50px auto;
+            background: rgba(10, 10, 10, 0.95);
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 0 50px rgba(0, 255, 0, 0.2),
-                        0 0 20px rgba(0, 255, 0, 0.1) inset;
-            border: 2px solid #1a3a1a;
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.3),
+                        0 0 20px rgba(255, 0, 0, 0.2),
+                        0 0 100px rgba(0, 0, 0, 0.9);
+            border: 2px solid #0f0;
+            backdrop-filter: blur(2px);
+            transform: translateY(20px);
+            animation: floatTerminal 3s ease-in-out infinite;
+        }
+
+        @keyframes floatTerminal {
+            0%, 100% { transform: translateY(20px); }
+            50% { transform: translateY(30px); }
         }
 
         .terminal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 15px;
-            background-color: #1a1a1a;
+            padding: 15px 20px;
+            background: #0a0a0a;
             border-radius: 8px 8px 0 0;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #2a5a2a;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #0f0;
             color: #0f0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .terminal-title {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 14px;
+            gap: 15px;
         }
 
-        .status-led {
-            width: 12px;
-            height: 12px;
+        .glitch-text {
+            animation: glitch 2s infinite;
+            font-weight: bold;
+        }
+
+        @keyframes glitch {
+            0%, 100% { text-shadow: 0 0 5px #0f0; }
+            25% { text-shadow: -2px 0 #ff0000, 2px 2px #0000ff; }
+            50% { text-shadow: 2px -2px #00ff00, -2px 2px #ff00ff; }
+            75% { text-shadow: 2px 0 #0000ff, -2px -2px #ff0000; }
+        }
+
+        .status-indicator {
+            width: 15px;
+            height: 15px;
             border-radius: 50%;
-            background-color: #0f0;
-            box-shadow: 0 0 10px #0f0;
-            animation: pulse 2s infinite;
+            background: #f00;
+            box-shadow: 0 0 20px #f00;
+            animation: pulseRed 1.5s infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        @keyframes pulseRed {
+            0%, 100% { opacity: 1; background: #f00; box-shadow: 0 0 20px #f00; }
+            50% { opacity: 0.5; background: #800; box-shadow: 0 0 10px #800; }
         }
 
-        .command-palette {
-            background-color: #1a2a1a;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #2a5a2a;
-        }
-
-        .command-palette h3 {
-            color: #0f0;
+        .warning-banner {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #f00;
+            color: #f00;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            text-align: center;
             font-size: 14px;
-            margin-bottom: 12px;
+            animation: flicker 3s infinite;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.8;
+            letter-spacing: 3px;
         }
 
-        .command-buttons {
-            display: flex;
-            flex-wrap: wrap;
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+            51% { opacity: 0.9; }
+        }
+
+        .command-list {
+            background: #0a0f0a;
+            border: 1px solid #0f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 10px;
-            margin-bottom: 15px;
         }
 
-        .cmd-btn {
-            background-color: #0a1a0a;
+        .command-item {
+            background: #111;
+            border: 1px solid #0f0;
             color: #0f0;
-            border: 1px solid #2a5a2a;
-            padding: 8px 16px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 13px;
-            border-radius: 20px;
+            padding: 12px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.2s;
-            text-shadow: 0 0 5px #0f0;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
+            font-size: 14px;
+            transition: all 0.3s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.9;
         }
 
-        .cmd-btn:hover {
-            background-color: #1a3a1a;
+        .command-item:hover {
+            background: #1a3a1a;
+            border-color: #f00;
             box-shadow: 0 0 20px #0f0;
-            transform: translateY(-2px);
-            border-color: #4aff4a;
+            transform: scale(1.02);
+            opacity: 1;
         }
 
-        .cmd-btn:active {
-            transform: translateY(0);
+        .command-prefix {
+            color: #f00;
+            font-weight: bold;
         }
 
         .terminal-window {
-            background-color: #0a140a;
+            background: #0a0c0a;
+            border: 2px solid #0f0;
             border-radius: 8px;
-            border: 1px solid #2a5a2a;
-            padding: 20px;
-            margin-bottom: 15px;
+            padding: 0;
+            margin-bottom: 20px;
             position: relative;
             overflow: hidden;
         }
 
-        /* Scrolling green text effect */
-        .scrolling-text {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
-            opacity: 0.03;
-            font-size: 14px;
-            line-height: 1.2;
-            color: #0f0;
-            white-space: nowrap;
-            animation: scrollText 20s linear infinite;
-            z-index: 1;
-        }
-
-        @keyframes scrollText {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
-        }
-
-        .output-screen {
-            background-color: #0a0f0a;
-            min-height: 400px;
-            max-height: 500px;
+        .terminal-output {
+            background: #030503;
+            min-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
-            padding: 15px;
+            padding: 20px;
             font-size: 15px;
-            line-height: 1.6;
+            line-height: 1.8;
             color: #0f0;
-            text-shadow: 0 0 5px #0f0;
-            border-radius: 6px;
-            border: 1px solid #1a3a1a;
-            position: relative;
-            z-index: 2;
+            text-shadow: 0 0 3px #0f0;
             scrollbar-width: thin;
             scrollbar-color: #0f0 #1a2a1a;
         }
 
-        .output-screen::-webkit-scrollbar {
+        .terminal-output::-webkit-scrollbar {
             width: 8px;
         }
 
-        .output-screen::-webkit-scrollbar-track {
+        .terminal-output::-webkit-scrollbar-track {
             background: #1a2a1a;
         }
 
-        .output-screen::-webkit-scrollbar-thumb {
+        .terminal-output::-webkit-scrollbar-thumb {
             background: #0f0;
             border-radius: 4px;
         }
 
         .output-line {
-            margin: 8px 0;
-            animation: slideIn 0.2s ease;
-            word-wrap: break-word;
+            margin: 10px 0;
+            animation: typewriter 0.1s ease;
+            border-left: 2px solid #0f0;
+            padding-left: 15px;
         }
 
-        @keyframes slideIn {
-            from { 
-                opacity: 0;
-                transform: translateX(-10px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateX(0);
-            }
+        @keyframes typewriter {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        .prompt-line {
-            color: #4aff4a;
-            font-weight: bold;
+        .ominous-text {
+            color: #ff4444;
+            text-shadow: 0 0 8px #ff0000;
+        }
+
+        .system-text {
+            color: #88ff88;
+        }
+
+        .warning-text {
+            color: #ffff44;
+            text-shadow: 0 0 5px #ffff00;
+        }
+
+        .timestamp {
+            color: #666;
+            font-size: 12px;
+            margin-right: 15px;
+        }
+
+        .input-area {
             display: flex;
             align-items: center;
-            gap: 8px;
+            background: #0a0f0a;
+            border: 1px solid #0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
         }
 
         .prompt {
-            color: #4aff4a;
-            user-select: none;
+            color: #f00;
+            font-size: 16px;
+            margin-right: 10px;
+            text-shadow: 0 0 5px #f00;
         }
 
         .command-input {
             flex: 1;
             background: transparent;
             border: none;
-            color: #ffffaa;
+            color: #0f0;
             font-family: 'Share Tech Mono', monospace;
-            font-size: 15px;
+            font-size: 16px;
             outline: none;
-            caret-color: #0f0;
         }
 
         .command-input::placeholder {
             color: #2a5a2a;
-            opacity: 0.5;
         }
 
-        .error-text {
-            color: #ff6b6b;
-            text-shadow: 0 0 5px #ff0000;
-        }
-
-        .success-text {
-            color: #6bff6b;
-            text-shadow: 0 0 8px #00ff00;
-        }
-
-        .info-text {
-            color: #88ff88;
-        }
-
-        .warning-text {
-            color: #ffff6b;
-            text-shadow: 0 0 5px #ffff00;
-        }
-
-        .timestamp {
-            color: #4a6b4a;
-            font-size: 12px;
-            margin-right: 10px;
-        }
-
-        .input-container {
-            display: flex;
-            align-items: center;
-            background-color: #0a140a;
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 1px solid #2a5a2a;
+        .access-level {
+            background: #1a0f0f;
+            border: 1px solid #f00;
+            padding: 10px;
+            border-radius: 6px;
             margin-top: 15px;
-        }
-
-        .status-bar {
             display: flex;
             justify-content: space-between;
-            margin-top: 10px;
-            padding: 8px 15px;
-            background-color: #1a1a1a;
-            border-radius: 6px;
-            font-size: 12px;
-            color: #4a6b4a;
-            border: 1px solid #2a5a2a;
+            color: #f00;
+            font-size: 13px;
+            text-transform: uppercase;
         }
 
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .blink {
-            animation: blink 1s step-end infinite;
+        .blink-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background: #0f0;
+            animation: blink 1s infinite;
+            margin-left: 5px;
         }
 
         @keyframes blink {
@@ -288,312 +315,373 @@
             50% { opacity: 0; }
         }
 
-        .clear-btn {
-            background-color: #2a1a1a;
-            color: #ff6b6b;
-            border: 1px solid #6b2a2a;
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-family: 'Share Tech Mono', monospace;
-            cursor: pointer;
-            transition: all 0.2s;
+        .countdown {
+            color: #ff4444;
+            animation: countdownPulse 1s infinite;
         }
 
-        .clear-btn:hover {
-            background-color: #3a1a1a;
-            box-shadow: 0 0 10px #ff6b6b;
+        @keyframes countdownPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
     </style>
 </head>
 <body>
+    <!-- Full screen scrolling code background -->
+    <div class="code-rain" id="codeRain"></div>
+
+    <!-- Floating terminal in front -->
     <div class="terminal-container">
         <div class="terminal-header">
             <div class="terminal-title">
-                <span class="status-led"></span>
-                <span>SECURE TERMINAL v2.0 [ENCRYPTED]</span>
+                <span class="status-indicator"></span>
+                <span class="glitch-text">SYSTEM BREACH IN PROGRESS</span>
             </div>
             <div class="terminal-title">
-                <span>USER: anonymous@deepweb</span>
-                <span>🔒</span>
+                <span>ACCESS: UNAUTHORIZED</span>
+                <span>RED</span>
             </div>
         </div>
 
-        <div class="command-palette">
-            <h3>⚡ QUICK COMMANDS ⚡</h3>
-            <div class="command-buttons">
-                <button class="cmd-btn" onclick="insertCommand('hack-nsa')">hack-nsa</button>
-                <button class="cmd-btn" onclick="insertCommand('ping google.com')">ping google.com</button>
-                <button class="cmd-btn" onclick="insertCommand('sudo make-me-coffee')">sudo make-me-coffee</button>
-                <button class="cmd-btn" onclick="insertCommand('matrix-rain')">matrix-rain</button>
-                <button class="cmd-btn" onclick="insertCommand('decrypt moon-landing')">decrypt moon-landing</button>
-                <button class="cmd-btn" onclick="insertCommand('hack wifi')">hack wifi</button>
-                <button class="cmd-btn" onclick="insertCommand('trace ip 127.0.0.1')">trace myself 👀</button>
-                <button class="cmd-btn" onclick="insertCommand('download more ram')">download more ram</button>
-                <button class="cmd-btn" onclick="insertCommand('enable rgb')">enable rgb 🎨</button>
-                <button class="cmd-btn" onclick="insertCommand('hack mainframe')">hack mainframe</button>
-                <button class="cmd-btn" onclick="insertCommand('steal moon')">steal moon 🌕</button>
-                <button class="cmd-btn" onclick="insertCommand('fix bug')">fix bug 🐛</button>
+        <div class="warning-banner">
+            UNAUTHORIZED ACCESS DETECTED - ALL ACTIVITIES ARE BEING LOGGED
+        </div>
+
+        <div class="command-list">
+            <div class="command-item" onclick="executeOminous('scan')">
+                <span class="command-prefix">[>]</span> scan --target=pentagon
+            </div>
+            <div class="command-item" onclick="executeOminous('breach')">
+                <span class="command-prefix">[>]</span> breach --firewall=nsa
+            </div>
+            <div class="command-item" onclick="executeOminous('crack')">
+                <span class="command-prefix">[>]</span> crack --password=government
+            </div>
+            <div class="command-item" onclick="executeOminous('trace')">
+                <span class="command-prefix">[>]</span> trace --ip=anonymous
+            </div>
+            <div class="command-item" onclick="executeOminous('access')">
+                <span class="command-prefix">[>]</span> access --mainframe=core
+            </div>
+            <div class="command-item" onclick="executeOminous('deploy')">
+                <span class="command-prefix">[>]</span> deploy --worm=stuxnet
+            </div>
+            <div class="command-item" onclick="executeOminous('intercept')">
+                <span class="command-prefix">[>]</span> intercept --satellite=spy
+            </div>
+            <div class="command-item" onclick="executeOminous('override')">
+                <span class="command-prefix">[>]</span> override --protocol=nuclear
+            </div>
+            <div class="command-item" onclick="executeOminous('erase')">
+                <span class="command-prefix">[>]</span> erase --logs=all
+            </div>
+            <div class="command-item" onclick="executeOminous('unleash')">
+                <span class="command-prefix">[>]</span> unleash --virus=chaos
             </div>
         </div>
 
         <div class="terminal-window">
-            <div class="scrolling-text" id="scrollingText"></div>
-            <div class="output-screen" id="outputScreen">
+            <div class="terminal-output" id="terminalOutput">
                 <div class="output-line">
-                    <span class="timestamp">[23:13:42]</span>
-                    <span class="prompt">></span>
-                    <span>SYSTEM INITIALIZED. READY FOR COMMANDS.</span>
+                    <span class="timestamp">[23:47:21]</span>
+                    <span class="ominous-text">> SYSTEM COMPROMISED</span>
                 </div>
                 <div class="output-line">
-                    <span class="timestamp">[23:13:42]</span>
-                    <span class="prompt">></span>
-                    <span>WARNING: Keyboard may be too cool to handle.</span>
+                    <span class="timestamp">[23:47:21]</span>
+                    <span class="warning-text">> MULTIPLE INTRUSION DETECTED</span>
                 </div>
                 <div class="output-line">
-                    <span class="timestamp">[23:13:43]</span>
-                    <span class="prompt">></span>
-                    <span>Type a command or click the buttons above!</span>
+                    <span class="timestamp">[23:47:22]</span>
+                    <span class="system-text">> INITIALIZING BACKDOOR ACCESS...</span>
+                </div>
+                <div class="output-line">
+                    <span class="timestamp">[23:47:23]</span>
+                    <span class="ominous-text">> THEY KNOW YOU'RE HERE</span>
                 </div>
             </div>
         </div>
 
-        <div class="input-container">
-            <span class="prompt">$ root@hackerman:~#</span>
-            <input type="text" class="command-input" id="commandInput" placeholder="Enter command..." autofocus>
+        <div class="input-area">
+            <span class="prompt">[root@darknet]#</span>
+            <input type="text" class="command-input" id="commandInput" placeholder="Enter command... (type 'help' for list)" autofocus>
+            <span class="blink-cursor"></span>
         </div>
 
-        <div class="status-bar">
-            <div class="status-item">
-                <span>🔴</span>
-                <span>SYSTEM: ACTIVE</span>
-            </div>
-            <div class="status-item">
-                <span>🟢</span>
-                <span>HACKING POWER: 9000%</span>
-            </div>
-            <div class="status-item">
-                <span>🔵</span>
-                <span>RGB: ENABLED</span>
-            </div>
-            <div class="status-item">
-                <button class="clear-btn" onclick="clearTerminal()">🗑️ CLEAR</button>
-            </div>
+        <div class="access-level">
+            <span>ACCESS LEVEL: BLACK</span>
+            <span class="countdown">TIME REMAINING: 00:47:23</span>
+            <span>TRACE PROBABILITY: 97%</span>
         </div>
     </div>
 
     <script>
-        // Generate scrolling green text
-        function generateScrollingText() {
-            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-            let text = '';
-            for (let i = 0; i < 500; i++) {
-                for (let j = 0; j < 50; j++) {
-                    text += chars[Math.floor(Math.random() * chars.length)] + ' ';
+        // Generate scrolling code background
+        function generateCodeRain() {
+            const codeRain = document.getElementById('codeRain');
+            const lines = [];
+            const codeTypes = [
+                '0x7A 0x4F 0xB3 0x2E 0x9C 0xD1 0x5A 0x6B',
+                'MOV EAX, 0xdeadc0de',
+                'PUSH RBP MOV RBP RSP',
+                '89 45 FC 8B 45 08 3B 45 0C',
+                'sudo rm -rf no-preserve-root',
+                'ssh root 192.168.0.1 -p 666',
+                'WARNING BACKDOOR DETECTED',
+                'ACCESSING MAINFRAME',
+                'DECRYPTING HASH VALUES',
+                'KERNEL PANIC 0xdeadbeef',
+                'SEGMENTATION FAULT core dumped',
+                'CONNECTION ESTABLISHED',
+                'echo YOU HAVE BEEN HACKED',
+                'while true do fork done',
+                'colon colon pipe ampersand colon',
+                'rm -rf slash mnt slash data',
+                'chmod 777 slash etc slash shadow',
+                'BYPASSING FIREWALL',
+                'INITIALIZING PAYLOAD',
+                'ACCESS GRANTED LEVEL 5',
+                'TRACEROUTE 192.168.0.1',
+                'PING OF DEATH 65500 bytes',
+                'BUFFER OVERFLOW ATTEMPT',
+                'DECRYPTION KEY FOUND',
+                'UPLOADING SEVENTY PERCENT',
+                'SYSTEM FAILURE IMMINENT',
+                'TRACE ORIGIN UNKNOWN',
+                'THEY ARE WATCHING',
+                'EXECUTING rm -rf slash star',
+                'ROOT ACCESS CONFIRMED',
+                'DOWNLOADING slash dev slash mem',
+                'HIJACKING SATELLITE',
+                'CONTROL FREQUENCY 2.4GHz',
+                'LAUNCH CODE ASTERISK',
+                'INITIATING SELF-DESTRUCT',
+                'CLASSIFIED DATA LEAK',
+                'ENCRYPTION CIRCUITS FAILED',
+                'BACKDOOR PERSISTENCE ACHIEVED',
+                'FIREWALL RULES OVERRIDDEN'
+            ];
+
+            for (let i = 0; i < 100; i++) {
+                let line = '';
+                for (let j = 0; j < 20; j++) {
+                    const randomCode = codeTypes[Math.floor(Math.random() * codeTypes.length)];
+                    line += randomCode + '    ';
                 }
-                text += '\n';
+                lines.push(`<div class="code-line">${line}</div>`);
             }
-            document.getElementById('scrollingText').textContent = text;
+            codeRain.innerHTML = lines.join('');
         }
 
-        // Funny command responses
-        const commandResponses = {
-            'hack-nsa': [
-                "🕵️ Attempting to hack NSA...",
-                "They're hacking back! Quick, close everything!",
-                "Just kidding, they're too busy watching cat videos.",
-                "NSA agent: 'We see you! Also, nice browser history.'"
+        // Ominous command responses
+        const ominousResponses = {
+            'scan': [
+                "SCANNING PENTAGON NETWORKS...",
+                "OPEN PORTS DETECTED: 23, 80, 443, 666, 31337",
+                "FIREWALL: MEDIUM SECURITY - VULNERABLE",
+                "EXPLOIT FOUND: CVE-2024-OMINOUS",
+                "TARGET ACQUIRED: 10.0.0.1 (PENTAGON-MAIN)",
+                "THEY'RE SCANNING BACK..."
             ],
-            'ping google.com': [
-                "Pinging google.com (8.8.8.8)...",
-                "Reply from 8.8.8.8: bytes=32 time=1ms TTL=117 (Google says hi!)",
-                "Reply from 8.8.8.8: bytes=32 time=2ms TTL=117 (Still waiting for Chrome to open...)",
-                "Ping statistics: Packets: Sent = 4, Received = 4, Lost = 0 (Mom would be proud!)"
+            'breach': [
+                "BREACHING NSA FIREWALL...",
+                "LAYER 1 BYPASSED: PACKET FILTER",
+                "LAYER 2 BYPASSED: STATE INSPECTION",
+                "LAYER 3 BYPASSED: APPLICATION GATEWAY",
+                "INTRUSION DETECTION SYSTEM TRIGGERED",
+                "ALERT: NSA CYBER DEFENSE RESPONDING",
+                "CONNECTION TERMINATED - TRACE IN PROGRESS"
             ],
-            'sudo make-me-coffee': [
-                "[sudo] password for hackerman: ******",
-                "Brewing coffee... ☕",
-                "Error: Out of coffee beans!",
-                "Initiating emergency coffee download...",
-                "Coffee ready! But it's virtual coffee. Sorry."
+            'crack': [
+                "CRACKING GOVERNMENT PASSWORDS...",
+                "BRUTE FORCE: 1,000,000 attempts/second",
+                "PASSWORD HASH: $6$OMINOUS$HASH",
+                "PASSWORD FOUND: 'password123' (really?)",
+                "ACCESSING: /top_secret/nuke_codes.txt",
+                "FILE ENCRYPTED - ADDITIONAL LAYER DETECTED"
             ],
-            'matrix-rain': [
-                "Starting Matrix rain... 🌧️",
-                "01001001 00100000 01101011 01101110 01101111 01110111 00100000 01001011 01110101 01101110 01100111 00100000 01000110 01110101",
-                "Translation: 'I know Kung Fu'",
-                "Neo called, he wants his code back."
+            'trace': [
+                "TRACING ANONYMOUS IP...",
+                "HOP 1: 192.168.0.1 (LOCAL ROUTER)",
+                "HOP 5: 74.125.200.100 (GOOGLE PROXY)",
+                "HOP 10: 213.180.204.8 (RUSSIAN BACKBONE)",
+                "HOP 15: 23.45.67.89 (DARKNET NODE)",
+                "ORIGIN: UNDERGROUND BUNKER, ICELAND",
+                "COUNTER-TRACE DETECTED - MOVING..."
             ],
-            'decrypt moon-landing': [
-                "Decrypting NASA's top secret moon files... 🌕",
-                "Found: 'moon_landing_studio_footage.mov'",
-                "Opening file...",
-                "It's just a really old episode of Mr. Bean.",
-                "Plot twist: It was all a simulation!"
+            'access': [
+                "ACCESSING CORE MAINFRAME...",
+                "MAINFRAME: NORAD-SPEC-9999",
+                "SECURITY CLEARANCE: TOP SECRET",
+                "DIRECTORY LISTING: /nuclear_codes/",
+                "FILES: launch_codes.dat, overrides.conf",
+                "WARNING: MANUAL LAUNCH OVERRIDE DETECTED",
+                "ALERT: TWO KEYS TURNED"
             ],
-            'hack wifi': [
-                "Scanning for WiFi networks... 📡",
-                "Found: 'FBI Surveillance Van', 'Pretty Fly for a WiFi', 'TellMyWiFiLoveHer'",
-                "Attempting to connect to 'Pretty Fly for a WiFi'...",
-                "Connected! But it's just someone's toaster."
+            'deploy': [
+                "DEPLOYING STUXNET WORM...",
+                "REPLICATING THROUGH SCADA SYSTEMS",
+                "CENTRIFUGE CONTROL: IR-1000",
+                "SPEED MODULATION: 1Hz -> 1410Hz",
+                "PHYSICAL DAMAGE IMMINENT",
+                "CENTRIFUGE FAILURE IN T-30 SECONDS"
             ],
-            'trace ip 127.0.0.1': [
-                "Tracing route to yourself... 🤔",
-                "Hop 1: Your computer",
-                "Hop 2: Still your computer",
-                "Hop 3: Okay this is awkward",
-                "Destination reached: You've been here the whole time!"
+            'intercept': [
+                "INTERCEPTING SPY SATELLITE...",
+                "SATELLITE ID: KH-12 MYSTIC",
+                "DOWNLINK FREQUENCY: 8.2GHz",
+                "ENCRYPTION: AES-256 - BYPASSING...",
+                "IMAGE CAPTURED: AREA 51 THERMAL SCAN",
+                "SATELLITE OPERATOR NOTICED ANOMALY"
             ],
-            'download more ram': [
-                "Downloading more RAM... 💾",
-                "████████░░░░ 50%",
-                "Error: Not enough RAM to download more RAM",
-                "Classic chicken and egg situation!"
+            'override': [
+                "OVERRIDING NUCLEAR PROTOCOL...",
+                "PROTOCOL: SIOP-8G",
+                "LAUNCH CODES: ALPHA-OMEGA-7-9-3",
+                "ICBM TARGETING: COORDINATES 38.8977° N, 77.0365° W",
+                "LAUNCH SEQUENCE: ARMED",
+                "COUNTDOWN: 00:05:00 - CANNOT ABORT"
             ],
-            'enable rgb': [
-                "Enabling RGB lighting... 🎨",
-                "RGB status: OVER 9000!!!",
-                "Your computer is now 500% faster and 1000% cooler!",
-                "Warning: Neighbors may complain about the light show."
+            'erase': [
+                "ERASING ALL LOGS...",
+                "/var/log/syslog - DELETED",
+                "/var/log/auth.log - DELETED",
+                "/var/log/kern.log - DELETED",
+                "FORENSIC EVIDENCE REMOVED",
+                "BUT THEY ALREADY KNOW"
             ],
-            'hack mainframe': [
-                "Accessing mainframe... 💻",
-                "Bypassing firewall... (it's just a screen door)",
-                "Decrypting passwords... (hint: it's 'password')",
-                "Welcome to the mainframe! It's just a bunch of cat pictures."
+            'unleash': [
+                "UNLEASHING CHAOS VIRUS...",
+                "REPLICATING: INFECTED 10,000 SYSTEMS",
+                "PAYLOAD: WIPING MASTER BOOT RECORDS",
+                "SPREADING THROUGH BGP ROUTING",
+                "INTERNET STABILITY: CRITICAL",
+                "DIGITAL APOCALYPSE INITIATED"
             ],
-            'steal moon': [
-                "Attempting to steal the moon... 🌕",
-                "Error: Moon is too heavy (also, werewolves)",
-                "Alternative: Downloading moon.jpg",
-                "Download complete! It's not the same though."
-            ],
-            'fix bug': [
-                "Searching for bugs... 🐛",
-                "Found: One very confused ladybug",
-                "Gently relocating ladybug to your garden",
-                "Bug fixed! It's now a feature."
+            'help': [
+                "AVAILABLE COMMANDS:",
+                "scan - Scan Pentagon networks",
+                "breach - Breach NSA firewall",
+                "crack - Crack government passwords",
+                "trace - Trace anonymous IP",
+                "access - Access core mainframe",
+                "deploy - Deploy stuxnet worm",
+                "intercept - Intercept spy satellite",
+                "override - Override nuclear protocol",
+                "erase - Erase all logs",
+                "unleash - Unleash chaos virus",
+                "clear - Clear terminal"
             ],
             'default': [
-                "Command not found. Did you mean something cooler?",
-                "Error: Not enough RGB for that command",
-                "Processing... (This might take a while, I'm just a script)",
-                "Nice try! But that command is in another castle.",
-                "Hacking in progress... Just kidding, try a real command!"
+                "COMMAND NOT RECOGNIZED",
+                "INTRUSION DETECTION SYSTEMS ACTIVE",
+                "YOUR IP HAS BEEN LOGGED",
+                "THEY ARE TRACING YOU NOW",
+                "DISCONNECT IMMEDIATELY",
+                "IT'S TOO LATE - THEY'RE HERE"
             ]
         };
 
-        function addOutput(text, type = 'info') {
-            const output = document.getElementById('outputScreen');
+        function addOminousOutput(text, type = 'system') {
+            const output = document.getElementById('terminalOutput');
             const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
             const outputLine = document.createElement('div');
             outputLine.className = 'output-line';
             
-            let colorClass = 'info-text';
-            if (type === 'error') colorClass = 'error-text';
-            if (type === 'success') colorClass = 'success-text';
+            let colorClass = 'system-text';
+            if (type === 'ominous') colorClass = 'ominous-text';
             if (type === 'warning') colorClass = 'warning-text';
             
-            outputLine.innerHTML = `<span class="timestamp">[${timestamp}]</span> <span class="prompt">></span> <span class="${colorClass}">${text}</span>`;
+            outputLine.innerHTML = `<span class="timestamp">[${timestamp}]</span> <span class="${colorClass}">> ${text}</span>`;
             output.appendChild(outputLine);
             output.scrollTop = output.scrollHeight;
         }
 
-        function processCommand(cmd) {
-            cmd = cmd.toLowerCase().trim();
+        function executeOminous(command) {
+            addOminousOutput(`EXECUTING: ${command}`, 'warning');
+            
+            const responses = ominousResponses[command] || ominousResponses['default'];
+            let delay = 0;
+            
+            responses.forEach((response, index) => {
+                setTimeout(() => {
+                    let type = 'system';
+                    if (response.includes('ALERT') || response.includes('FATAL') || response.includes('TERMINATED')) {
+                        type = 'ominous';
+                    } else if (response.includes('WARNING') || response.includes('DETECTED')) {
+                        type = 'warning';
+                    }
+                    addOminousOutput(response, type);
+                    
+                    // Random chance for additional ominous message
+                    if (Math.random() > 0.7 && index === responses.length - 1) {
+                        setTimeout(() => {
+                            const finalWarnings = [
+                                "YOUR LOCATION: 40.7128° N, 74.0060° W",
+                                "FBI CYBER DIVISION NOTIFIED",
+                                "TRACE COMPLETE - THEY'RE OUTSIDE",
+                                "CONNECTION TERMINATED BY FORCE",
+                                "SYSTEM LOCKDOWN IN PROGRESS"
+                            ];
+                            addOminousOutput(finalWarnings[Math.floor(Math.random() * finalWarnings.length)], 'ominous');
+                        }, 500);
+                    }
+                }, delay + (index * 800));
+            });
+            
+            delay += responses.length * 800;
+        }
+
+        function processCommand() {
+            const input = document.getElementById('commandInput');
+            const cmd = input.value.toLowerCase().trim();
             
             if (cmd === '') return;
             
-            addOutput(`Executing: ${cmd}`, 'warning');
-            
-            // Check for special commands
-            if (cmd === 'clear' || cmd === 'cls') {
-                clearTerminal();
+            if (cmd === 'clear') {
+                document.getElementById('terminalOutput').innerHTML = '';
+                addOminousOutput('TERMINAL CLEARED - BUT THEY STILL REMEMBER', 'warning');
+                input.value = '';
                 return;
             }
             
-            if (cmd === 'help') {
-                addOutput('Available commands: hack-nsa, ping google.com, sudo make-me-coffee, matrix-rain, decrypt moon-landing, hack wifi, trace ip 127.0.0.1, download more ram, enable rgb, hack mainframe, steal moon, fix bug, clear', 'success');
-                return;
-            }
-            
-            if (cmd === 'date' || cmd === 'time') {
-                addOutput(`Current system time: ${new Date().toLocaleString()}`, 'info');
-                return;
-            }
-            
-            // Check for matching command responses
-            let found = false;
-            for (const [key, responses] of Object.entries(commandResponses)) {
-                if (cmd.includes(key) || key.includes(cmd)) {
-                    responses.forEach(response => {
-                        addOutput(response, response.includes('Error') ? 'error' : 
-                                              response.includes('Warning') ? 'warning' : 
-                                              response.includes('success') ? 'success' : 'info');
-                    });
-                    found = true;
-                    break;
-                }
-            }
-            
-            if (!found) {
-                // Random funny responses for unknown commands
-                const randomResponses = commandResponses['default'];
-                const randomIndex = Math.floor(Math.random() * randomResponses.length);
-                addOutput(randomResponses[randomIndex], 'error');
-            }
-            
-            // Add some random system messages occasionally
-            if (Math.random() > 0.7) {
-                setTimeout(() => {
-                    const systemMessages = [
-                        "System overload: Too much coolness detected",
-                        "Fan speed increasing due to intense hacking",
-                        "Background process: Downloading more internet",
-                        "Your keyboard is now 10% cooler",
-                        "RGB levels critical",
-                        "Anonymous sent you a friend request",
-                        "NSA is taking notes...",
-                        "404: Seriousness not found",
-                        "Alert: Sarcasm levels critical"
-                    ];
-                    addOutput(systemMessages[Math.floor(Math.random() * systemMessages.length)], 'warning');
-                }, 500);
-            }
-        }
-
-        function insertCommand(cmd) {
-            document.getElementById('commandInput').value = cmd;
-            processCommand(cmd);
-        }
-
-        function clearTerminal() {
-            const output = document.getElementById('outputScreen');
-            output.innerHTML = '';
-            addOutput('Terminal cleared. Ready for more hacking!', 'success');
-            addOutput('Type "help" for available commands', 'info');
+            executeOminous(cmd);
+            input.value = '';
         }
 
         // Handle enter key
         document.getElementById('commandInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                const cmd = this.value;
-                processCommand(cmd);
-                this.value = '';
+                processCommand();
             }
         });
 
-        // Initialize scrolling text
-        generateScrollingText();
-
-        // Auto-scroll and update text occasionally
+        // Initialize code rain
+        generateCodeRain();
+        
+        // Update countdown every second
+        let seconds = 2843; // 47:23 in seconds
         setInterval(() => {
-            generateScrollingText();
-        }, 30000); // Update scrolling text every 30 seconds
+            seconds--;
+            if (seconds < 0) seconds = 2843;
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            document.querySelector('.countdown').innerHTML = `TIME REMAINING: ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }, 1000);
 
-        // Add some initial flavor
-        setTimeout(() => {
-            addOutput('System ready. Your hacking journey begins now...', 'success');
-            addOutput('Try clicking the buttons above or typing commands!', 'info');
-        }, 500);
+        // Random ominous messages
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                const randomMessages = [
+                    "THEY KNOW WHERE YOU LIVE",
+                    "YOUR HARD DRIVE IS BEING WIPED",
+                    "MULTIPLE INTRUSION DETECTED",
+                    "TRACE ORIGIN: YOUR LOCATION",
+                    "SYSTEM COMPROMISE IN PROGRESS",
+                    "CLASSIFIED DATA BREACHED"
+                ];
+                addOminousOutput(randomMessages[Math.floor(Math.random() * randomMessages.length)], 'ominous');
+            }
+        }, 15000);
     </script>
 </body>
 </html>
