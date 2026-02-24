@@ -3,14 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💻 ULTIMATE HACKER SCREEN 💻</title>
+    <title>💚 INTERACTIVE HACKER TERMINAL 💚</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
         
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             margin: 0;
             padding: 20px;
-            background: linear-gradient(135deg, #0a0f0c 0%, #1a2f1a 100%);
+            background: #0f0f0f;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -18,36 +24,15 @@
             font-family: 'Share Tech Mono', monospace;
         }
 
-        .hacker-terminal {
-            width: 90%;
-            max-width: 900px;
-            background-color: #0f1a0f;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 0 50px rgba(0, 255, 0, 0.3),
-                        0 0 20px rgba(0, 255, 0, 0.2) inset,
-                        0 0 100px rgba(0, 100, 0, 0.5);
-            border: 2px solid #2a5a2a;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Scanning line effect */
-        .hacker-terminal::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: rgba(0, 255, 0, 0.2);
-            animation: scan 4s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes scan {
-            0% { top: 0; }
-            100% { top: 100%; }
+        .terminal-container {
+            width: 95%;
+            max-width: 1000px;
+            background-color: #0a0a0a;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.2),
+                        0 0 20px rgba(0, 255, 0, 0.1) inset;
+            border: 2px solid #1a3a1a;
         }
 
         .terminal-header {
@@ -55,378 +40,560 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px 15px;
-            background-color: #1a2a1a;
+            background-color: #1a1a1a;
             border-radius: 8px 8px 0 0;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border-bottom: 2px solid #2a5a2a;
             color: #0f0;
-            font-size: 14px;
         }
 
         .terminal-title {
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 14px;
         }
 
-        .terminal-title span {
-            color: #4aff4a;
-            text-shadow: 0 0 5px #0f0;
-        }
-
-        .status-dots {
-            display: flex;
-            gap: 8px;
-        }
-
-        .dot {
+        .status-led {
             width: 12px;
             height: 12px;
             border-radius: 50%;
             background-color: #0f0;
-            box-shadow: 0 0 10px currentColor;
-            animation: blink 1.5s infinite;
+            box-shadow: 0 0 10px #0f0;
+            animation: pulse 2s infinite;
         }
 
-        .dot:nth-child(1) { background-color: #ff5555; box-shadow: 0 0 10px #ff5555; }
-        .dot:nth-child(2) { background-color: #ffff55; box-shadow: 0 0 10px #ffff55; }
-        .dot:nth-child(3) { background-color: #55ff55; box-shadow: 0 0 10px #55ff55; }
-
-        @keyframes blink {
+        @keyframes pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            50% { opacity: 0.5; }
         }
 
-        .terminal-content {
+        .command-palette {
+            background-color: #1a2a1a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #2a5a2a;
+        }
+
+        .command-palette h3 {
+            color: #0f0;
+            font-size: 14px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        .command-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .cmd-btn {
+            background-color: #0a1a0a;
+            color: #0f0;
+            border: 1px solid #2a5a2a;
+            padding: 8px 16px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 13px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-shadow: 0 0 5px #0f0;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
+        }
+
+        .cmd-btn:hover {
+            background-color: #1a3a1a;
+            box-shadow: 0 0 20px #0f0;
+            transform: translateY(-2px);
+            border-color: #4aff4a;
+        }
+
+        .cmd-btn:active {
+            transform: translateY(0);
+        }
+
+        .terminal-window {
             background-color: #0a140a;
-            padding: 25px;
             border-radius: 8px;
             border: 1px solid #2a5a2a;
-            font-size: 16px;
-            line-height: 1.8;
-            color: #0f0;
-            text-shadow: 0 0 5px #0f0;
-            max-height: 600px;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: #0f0 #1a2a1a;
+            padding: 20px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .terminal-content::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .terminal-content::-webkit-scrollbar-track {
-            background: #1a2a1a;
-        }
-
-        .terminal-content::-webkit-scrollbar-thumb {
-            background: #0f0;
-            border-radius: 4px;
-        }
-
-        .command-line {
-            margin: 12px 0;
-            word-wrap: break-word;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .prompt {
-            color: #4aff4a;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .command {
-            color: #ffffaa;
-        }
-
-        .output {
-            color: #88ff88;
-            margin-left: 25px;
-            padding-left: 15px;
-            border-left: 2px solid #2a5a2a;
-        }
-
-        .error {
-            color: #ff6b6b;
-            text-shadow: 0 0 5px #ff0000;
-        }
-
-        .success {
-            color: #6bff6b;
-            text-shadow: 0 0 8px #00ff00;
-        }
-
-        .blink {
-            animation: cursorBlink 1s infinite;
-            background-color: #0f0;
-            width: 10px;
-            height: 18px;
-            display: inline-block;
-            margin-left: 5px;
-        }
-
-        @keyframes cursorBlink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        .glitch {
-            animation: glitch 0.1s infinite;
-        }
-
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 1px); }
-            40% { transform: translate(2px, -1px); }
-            60% { transform: translate(-1px, 0); }
-            80% { transform: translate(1px, -1px); }
-            100% { transform: translate(0); }
-        }
-
-        .funny-ascii {
-            color: #4aff4a;
-            font-size: 12px;
-            line-height: 1.2;
-            white-space: pre;
-            margin: 15px 0;
-        }
-
-        .matrix-rain {
+        /* Scrolling green text effect */
+        .scrolling-text {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             pointer-events: none;
-            opacity: 0.1;
-        }
-
-        button {
-            background-color: #1a2a1a;
+            opacity: 0.03;
+            font-size: 14px;
+            line-height: 1.2;
             color: #0f0;
-            border: 2px solid #2a5a2a;
-            padding: 12px 30px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+            white-space: nowrap;
+            animation: scrollText 20s linear infinite;
+            z-index: 1;
         }
 
-        button:hover {
-            background-color: #2a3a2a;
-            box-shadow: 0 0 30px #0f0;
-            transform: scale(1.05);
+        @keyframes scrollText {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .output-screen {
+            background-color: #0a0f0a;
+            min-height: 400px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 15px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #0f0;
+            text-shadow: 0 0 5px #0f0;
+            border-radius: 6px;
+            border: 1px solid #1a3a1a;
+            position: relative;
+            z-index: 2;
+            scrollbar-width: thin;
+            scrollbar-color: #0f0 #1a2a1a;
+        }
+
+        .output-screen::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .output-screen::-webkit-scrollbar-track {
+            background: #1a2a1a;
+        }
+
+        .output-screen::-webkit-scrollbar-thumb {
+            background: #0f0;
+            border-radius: 4px;
+        }
+
+        .output-line {
+            margin: 8px 0;
+            animation: slideIn 0.2s ease;
+            word-wrap: break-word;
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .prompt-line {
+            color: #4aff4a;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .prompt {
+            color: #4aff4a;
+            user-select: none;
+        }
+
+        .command-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #ffffaa;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 15px;
+            outline: none;
+            caret-color: #0f0;
+        }
+
+        .command-input::placeholder {
+            color: #2a5a2a;
+            opacity: 0.5;
+        }
+
+        .error-text {
+            color: #ff6b6b;
+            text-shadow: 0 0 5px #ff0000;
+        }
+
+        .success-text {
+            color: #6bff6b;
+            text-shadow: 0 0 8px #00ff00;
+        }
+
+        .info-text {
+            color: #88ff88;
+        }
+
+        .warning-text {
+            color: #ffff6b;
+            text-shadow: 0 0 5px #ffff00;
+        }
+
+        .timestamp {
+            color: #4a6b4a;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            background-color: #0a140a;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #2a5a2a;
+            margin-top: 15px;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: #1a1a1a;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #4a6b4a;
+            border: 1px solid #2a5a2a;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .clear-btn {
+            background-color: #2a1a1a;
+            color: #ff6b6b;
+            border: 1px solid #6b2a2a;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-family: 'Share Tech Mono', monospace;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .clear-btn:hover {
+            background-color: #3a1a1a;
+            box-shadow: 0 0 10px #ff6b6b;
         }
     </style>
 </head>
 <body>
-    <div class="hacker-terminal" id="terminal">
+    <div class="terminal-container">
         <div class="terminal-header">
             <div class="terminal-title">
-                <span>🔓</span>
-                <span>ROOT@DEEPWEB:~</span>
-                <span>🔓</span>
+                <span class="status-led"></span>
+                <span>SECURE TERMINAL v2.0 [ENCRYPTED]</span>
             </div>
-            <div class="status-dots">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+            <div class="terminal-title">
+                <span>USER: anonymous@deepweb</span>
+                <span>🔒</span>
             </div>
         </div>
 
-        <div class="terminal-content" id="terminalContent">
-            <div class="funny-ascii">
-    ╔══╗ ──────── ╔╗───╔╗──────╔══╗
-    ║══╬═╦═╦═╦═╦╗╔╣╠═╗╔╣╠═╦═╦╦╗║══╣
-    ╠══║╬║╩╣║║║║╚╝║║╩╣╚╣║║║╩╣║║╠══║
-    ╚══╩═╩═╩╩╩╩═╝─╚╩═╝─╚╩╩═╩╩═╩══╝
+        <div class="command-palette">
+            <h3>⚡ QUICK COMMANDS ⚡</h3>
+            <div class="command-buttons">
+                <button class="cmd-btn" onclick="insertCommand('hack-nsa')">hack-nsa</button>
+                <button class="cmd-btn" onclick="insertCommand('ping google.com')">ping google.com</button>
+                <button class="cmd-btn" onclick="insertCommand('sudo make-me-coffee')">sudo make-me-coffee</button>
+                <button class="cmd-btn" onclick="insertCommand('matrix-rain')">matrix-rain</button>
+                <button class="cmd-btn" onclick="insertCommand('decrypt moon-landing')">decrypt moon-landing</button>
+                <button class="cmd-btn" onclick="insertCommand('hack wifi')">hack wifi</button>
+                <button class="cmd-btn" onclick="insertCommand('trace ip 127.0.0.1')">trace myself 👀</button>
+                <button class="cmd-btn" onclick="insertCommand('download more ram')">download more ram</button>
+                <button class="cmd-btn" onclick="insertCommand('enable rgb')">enable rgb 🎨</button>
+                <button class="cmd-btn" onclick="insertCommand('hack mainframe')">hack mainframe</button>
+                <button class="cmd-btn" onclick="insertCommand('steal moon')">steal moon 🌕</button>
+                <button class="cmd-btn" onclick="insertCommand('fix bug')">fix bug 🐛</button>
             </div>
-            
-            <div class="command-line">
-                <span class="prompt">$</span>
-                <span class="command">sudo access mainframe --level 9000 --coolness=max</span>
-            </div>
-            <div class="output">[ACCESS GRANTED] Welcome to the SUPER SECURE MAINFRAME</div>
-            <div class="output">User: anonymous@hackerman</div>
-            <div class="output">Authorization level: OVER 9000!!!</div>
-
-            <div class="command-line">
-                <span class="prompt">#</span>
-                <span class="command">ping -c 4 the-pentagon.gov</span>
-            </div>
-            <div class="output">PING the-pentagon.gov (69.69.69.69) 56(84) bytes of data.</div>
-            <div class="output">64 bytes from server: icmp_seq=1 ttl=54 time=0.01ms (They didn't notice)</div>
-            <div class="output">64 bytes from server: icmp_seq=2 ttl=54 time=0.02ms (Still hacking...)</div>
-            <div class="output">64 bytes from server: icmp_seq=3 ttl=54 time=0.01ms (Mom brought pizza)</div>
-            <div class="output">64 bytes from server: icmp_seq=4 ttl=54 time=0.03ms (PIZZA TIME!!!)</div>
-
-            <div class="command-line">
-                <span class="prompt">></span>
-                <span class="command">hack NSA --steal --secrets --all-the-things</span>
-            </div>
-            <div class="output error">ERROR: Need more RGB lights for optimal hacking speed!</div>
-            <div class="output success">Installing RGB lights... [██████████] 100%</div>
-            <div class="output">Hacking speed increased by 9000%! 🚀</div>
-
-            <div class="command-line">
-                <span class="prompt">λ</span>
-                <span class="command">decrypt --algorithm="impossible" --target="nasa_cats.jpg"</span>
-            </div>
-            <div class="output">Decrypting top secret cat photos...</div>
-            <div class="output">Found: "Top_secret_government_cat_memes.zip"</div>
-            <div class="output">Contents: 1000 cat memes, 3 doge memes, 1 suspicious cucumber</div>
-
-            <div class="funny-ascii">
-        ⠀⠀⠀⠀⠀⠀⠀⢀⣤⣶⣶⣿⣿⣿⣿⣶⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀
-        ⠀⠀⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀
-        ⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀
-        ⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀
-        ⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀
-        ⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠛⠛⠻⣿⣿⣿⣿⣿⣿⣿⣷⠀⠀
-        ⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⡇⠀
-        ⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⣀⣀⣠⣾⣿⣿⣿⣿⣿⣿⣿⠇⠀
-        ⠀⠀⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀
-        ⠀⠀⠀⠀⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀
-        ⠀⠀⠀⠀⠀⠈⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠁⠀⠀⠀⠀⠀
-        ⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⠛⠿⠿⠿⠛⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀
-            </div>
-            <div class="output">HACKER STATUS: TOO COOL FOR SCHOOL 😎</div>
-
-            <div class="command-line">
-                <span class="prompt">~</span>
-                <span class="command">grep -r "secret pizza recipe" /etc/shadow/</span>
-            </div>
-            <div class="output">Found: /etc/shadow/pineapple_pizza_abomination.conf</div>
-            <div class="output error">WARNING: Pineapple on pizza detected! ABORT MISSION!</div>
-
-            <div class="command-line">
-                <span class="prompt">$</span>
-                <span class="command">./enhance --factor 42 --input "blurry_cat.jpg" --output "crystal_clear_alien.jpg"</span>
-            </div>
-            <div class="output">ENHANCE! 🔍</div>
-            <div class="output">ENHANCE! 🔍🔍</div>
-            <div class="output">ENHANCE! 🔍🔍🔍</div>
-            <div class="output success">It's just a cat wearing sunglasses... Wait, are those sunglasses from Area 51?!</div>
-
-            <div class="command-line">
-                <span class="prompt">></span>
-                <span class="command">matrix --mode=rain --intensity=overload</span>
-            </div>
-            <div class="output">01001110 01100101 01110110 01100101 01110010 00100000 01100111 01101111 01101110 01101110 01100001 00100000 01100111 01101001 01110110 01100101 00100000 01111001 01101111 01110101 00100000 01110101 01110000</div>
-            <div class="output success">Translation: "Never gonna give you up" - Hack3r Anthem</div>
-
-            <div class="command-line">
-                <span class="prompt">#</span>
-                <span class="command">sudo rm -rf / --no-preserve-root --just-kidding</span>
-            </div>
-            <div class="output error">🔥 SYSTEM MELTDOWN IMMINENT! 🔥</div>
-            <div class="output">Just kidding! That's how you become a script kiddie! 😂</div>
-
-            <div class="command-line">
-                <span class="prompt">$</span>
-                <span class="command">fortune | cowsay | lolcat</span>
-            </div>
-            <div class="output">
-    ________________________________________
-    &lt; You're not a real hacker until you've 
-      tried turning it off and on again! &gt;
-    ----------------------------------------
-           \   ^__^
-            \  (oo)\_______
-               (__)\       )\/\
-                   ||----w |
-                   ||     ||
-            </div>
-
-            <div class="command-line">
-                <span class="prompt">></span>
-                <span class="command">hack --target="my_boring_homework" --action="make_interesting"</span>
-            </div>
-            <div class="output">Hacking homework...</div>
-            <div class="output">Transformed into: "How to hack the planet in 10 easy steps"</div>
-            <div class="output success">Teacher's note: A+ would get hacked again! 📚</div>
-
-            <div class="command-line">
-                <span class="prompt">$</span>
-                <span class="command">exit --reason="mom_called_for_dinner"</span>
-            </div>
-            <div class="output">Logging out...</div>
-            <div class="output">Remember: With great hacking power comes great responsibility... and RGB lights!</div>
-            
-            <span class="prompt">$</span>
-            <span class="command">_</span>
-            <span class="blink"></span>
         </div>
 
-        <div style="text-align: center;">
-            <button onclick="addHack()">🚀 EXECUTE MORE HACKS 🚀</button>
-            <button onclick="location.reload()" style="margin-left: 10px;">🔄 RESET MATRIX 🔄</button>
+        <div class="terminal-window">
+            <div class="scrolling-text" id="scrollingText"></div>
+            <div class="output-screen" id="outputScreen">
+                <div class="output-line">
+                    <span class="timestamp">[23:13:42]</span>
+                    <span class="prompt">></span>
+                    <span>SYSTEM INITIALIZED. READY FOR COMMANDS.</span>
+                </div>
+                <div class="output-line">
+                    <span class="timestamp">[23:13:42]</span>
+                    <span class="prompt">></span>
+                    <span>WARNING: Keyboard may be too cool to handle.</span>
+                </div>
+                <div class="output-line">
+                    <span class="timestamp">[23:13:43]</span>
+                    <span class="prompt">></span>
+                    <span>Type a command or click the buttons above!</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-container">
+            <span class="prompt">$ root@hackerman:~#</span>
+            <input type="text" class="command-input" id="commandInput" placeholder="Enter command..." autofocus>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <span>🔴</span>
+                <span>SYSTEM: ACTIVE</span>
+            </div>
+            <div class="status-item">
+                <span>🟢</span>
+                <span>HACKING POWER: 9000%</span>
+            </div>
+            <div class="status-item">
+                <span>🔵</span>
+                <span>RGB: ENABLED</span>
+            </div>
+            <div class="status-item">
+                <button class="clear-btn" onclick="clearTerminal()">🗑️ CLEAR</button>
+            </div>
         </div>
     </div>
 
     <script>
-        function addHack() {
-            const terminal = document.getElementById('terminalContent');
-            const hacks = [
-                `<div class="command-line"><span class="prompt">></span><span class="command">sudo make-me-a-sandwich</span></div>
-                <div class="output error">Error: insufficient bread in /dev/bread</div>
-                <div class="output success">Creating virtual bread... 🍞</div>`,
-
-                `<div class="command-line"><span class="prompt">#</span><span class="command">ping facebook.com --packets=infinite</span></div>
-                <div class="output">Pinging Mark Zuckerberg's mainframe...</div>
-                <div class="output">He says: "Stop stealing my hoodies!" 👕</div>`,
-
-                `<div class="command-line"><span class="prompt">$</span><span class="command">crack-wifi --password="password123" --obvious=true</span></div>
-                <div class="output success">Success! Password was "password123" (who would have thought?!)</div>
-                <div class="output">Neighbor's WiFi: "FBI Surveillance Van" connected! 🚐</div>`,
-
-                `<div class="command-line"><span class="prompt">λ</span><span class="command">hack-time --travel --year=1995 --dialup-sound=true</span></div>
-                <div class="output">EEEEEE-OOOO-EEEEEE-SCREECH-BZZZZZZZ</div>
-                <div class="output">You've been disconnected! Someone picked up the phone! 📞</div>`,
-
-                `<div class="command-line"><span class="prompt">></span><span class="command">steal --item="moon" --from="sky"</span></div>
-                <div class="output">ERROR: Moon too heavy (also, werewolves are protecting it) 🌕🐺</div>`,
-
-                `<div class="command-line"><span class="prompt">$</span><span class="command">matrix --pill="red" --follow-the-white-rabbit</span></div>
-                <div class="output">Knock, knock, Neo... 🐇</div>
-                <div class="output success">You're now wearing a cool trenchcoat and sunglasses! 🕶️</div>`
-            ];
-            
-            const randomHack = hacks[Math.floor(Math.random() * hacks.length)];
-            terminal.insertAdjacentHTML('beforeend', randomHack);
-            
-            // Add glitch effect
-            terminal.classList.add('glitch');
-            setTimeout(() => terminal.classList.remove('glitch'), 200);
-            
-            // Scroll to bottom
-            terminal.scrollTop = terminal.scrollHeight;
+        // Generate scrolling green text
+        function generateScrollingText() {
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            let text = '';
+            for (let i = 0; i < 500; i++) {
+                for (let j = 0; j < 50; j++) {
+                    text += chars[Math.floor(Math.random() * chars.length)] + ' ';
+                }
+                text += '\n';
+            }
+            document.getElementById('scrollingText').textContent = text;
         }
 
-        // Auto-add a random hack every 10 seconds
-        setInterval(addHack, 10000);
+        // Funny command responses
+        const commandResponses = {
+            'hack-nsa': [
+                "🕵️ Attempting to hack NSA...",
+                "They're hacking back! Quick, close everything!",
+                "Just kidding, they're too busy watching cat videos.",
+                "NSA agent: 'We see you! Also, nice browser history.'"
+            ],
+            'ping google.com': [
+                "Pinging google.com (8.8.8.8)...",
+                "Reply from 8.8.8.8: bytes=32 time=1ms TTL=117 (Google says hi!)",
+                "Reply from 8.8.8.8: bytes=32 time=2ms TTL=117 (Still waiting for Chrome to open...)",
+                "Ping statistics: Packets: Sent = 4, Received = 4, Lost = 0 (Mom would be proud!)"
+            ],
+            'sudo make-me-coffee': [
+                "[sudo] password for hackerman: ******",
+                "Brewing coffee... ☕",
+                "Error: Out of coffee beans!",
+                "Initiating emergency coffee download...",
+                "Coffee ready! But it's virtual coffee. Sorry."
+            ],
+            'matrix-rain': [
+                "Starting Matrix rain... 🌧️",
+                "01001001 00100000 01101011 01101110 01101111 01110111 00100000 01001011 01110101 01101110 01100111 00100000 01000110 01110101",
+                "Translation: 'I know Kung Fu'",
+                "Neo called, he wants his code back."
+            ],
+            'decrypt moon-landing': [
+                "Decrypting NASA's top secret moon files... 🌕",
+                "Found: 'moon_landing_studio_footage.mov'",
+                "Opening file...",
+                "It's just a really old episode of Mr. Bean.",
+                "Plot twist: It was all a simulation!"
+            ],
+            'hack wifi': [
+                "Scanning for WiFi networks... 📡",
+                "Found: 'FBI Surveillance Van', 'Pretty Fly for a WiFi', 'TellMyWiFiLoveHer'",
+                "Attempting to connect to 'Pretty Fly for a WiFi'...",
+                "Connected! But it's just someone's toaster."
+            ],
+            'trace ip 127.0.0.1': [
+                "Tracing route to yourself... 🤔",
+                "Hop 1: Your computer",
+                "Hop 2: Still your computer",
+                "Hop 3: Okay this is awkward",
+                "Destination reached: You've been here the whole time!"
+            ],
+            'download more ram': [
+                "Downloading more RAM... 💾",
+                "████████░░░░ 50%",
+                "Error: Not enough RAM to download more RAM",
+                "Classic chicken and egg situation!"
+            ],
+            'enable rgb': [
+                "Enabling RGB lighting... 🎨",
+                "RGB status: OVER 9000!!!",
+                "Your computer is now 500% faster and 1000% cooler!",
+                "Warning: Neighbors may complain about the light show."
+            ],
+            'hack mainframe': [
+                "Accessing mainframe... 💻",
+                "Bypassing firewall... (it's just a screen door)",
+                "Decrypting passwords... (hint: it's 'password')",
+                "Welcome to the mainframe! It's just a bunch of cat pictures."
+            ],
+            'steal moon': [
+                "Attempting to steal the moon... 🌕",
+                "Error: Moon is too heavy (also, werewolves)",
+                "Alternative: Downloading moon.jpg",
+                "Download complete! It's not the same though."
+            ],
+            'fix bug': [
+                "Searching for bugs... 🐛",
+                "Found: One very confused ladybug",
+                "Gently relocating ladybug to your garden",
+                "Bug fixed! It's now a feature."
+            ],
+            'default': [
+                "Command not found. Did you mean something cooler?",
+                "Error: Not enough RGB for that command",
+                "Processing... (This might take a while, I'm just a script)",
+                "Nice try! But that command is in another castle.",
+                "Hacking in progress... Just kidding, try a real command!"
+            ]
+        };
 
-        // Easter egg - Konami code
-        let konami = [];
-        document.addEventListener('keydown', function(e) {
-            konami.push(e.keyCode);
-            if (konami.toString().indexOf("38,38,40,40,37,39,37,39,66,65") >= 0) {
-                document.body.style.background = "linear-gradient(135deg, #ff00ff 0%, #00ffff 100%)";
-                alert("🎮 KONAMI CODE ACTIVATED! ULTIMATE HACKER POWERS UNLOCKED! 🎮");
+        function addOutput(text, type = 'info') {
+            const output = document.getElementById('outputScreen');
+            const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
+            const outputLine = document.createElement('div');
+            outputLine.className = 'output-line';
+            
+            let colorClass = 'info-text';
+            if (type === 'error') colorClass = 'error-text';
+            if (type === 'success') colorClass = 'success-text';
+            if (type === 'warning') colorClass = 'warning-text';
+            
+            outputLine.innerHTML = `<span class="timestamp">[${timestamp}]</span> <span class="prompt">></span> <span class="${colorClass}">${text}</span>`;
+            output.appendChild(outputLine);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function processCommand(cmd) {
+            cmd = cmd.toLowerCase().trim();
+            
+            if (cmd === '') return;
+            
+            addOutput(`Executing: ${cmd}`, 'warning');
+            
+            // Check for special commands
+            if (cmd === 'clear' || cmd === 'cls') {
+                clearTerminal();
+                return;
+            }
+            
+            if (cmd === 'help') {
+                addOutput('Available commands: hack-nsa, ping google.com, sudo make-me-coffee, matrix-rain, decrypt moon-landing, hack wifi, trace ip 127.0.0.1, download more ram, enable rgb, hack mainframe, steal moon, fix bug, clear', 'success');
+                return;
+            }
+            
+            if (cmd === 'date' || cmd === 'time') {
+                addOutput(`Current system time: ${new Date().toLocaleString()}`, 'info');
+                return;
+            }
+            
+            // Check for matching command responses
+            let found = false;
+            for (const [key, responses] of Object.entries(commandResponses)) {
+                if (cmd.includes(key) || key.includes(cmd)) {
+                    responses.forEach(response => {
+                        addOutput(response, response.includes('Error') ? 'error' : 
+                                              response.includes('Warning') ? 'warning' : 
+                                              response.includes('success') ? 'success' : 'info');
+                    });
+                    found = true;
+                    break;
+                }
+            }
+            
+            if (!found) {
+                // Random funny responses for unknown commands
+                const randomResponses = commandResponses['default'];
+                const randomIndex = Math.floor(Math.random() * randomResponses.length);
+                addOutput(randomResponses[randomIndex], 'error');
+            }
+            
+            // Add some random system messages occasionally
+            if (Math.random() > 0.7) {
+                setTimeout(() => {
+                    const systemMessages = [
+                        "System overload: Too much coolness detected",
+                        "Fan speed increasing due to intense hacking",
+                        "Background process: Downloading more internet",
+                        "Your keyboard is now 10% cooler",
+                        "RGB levels critical",
+                        "Anonymous sent you a friend request",
+                        "NSA is taking notes...",
+                        "404: Seriousness not found",
+                        "Alert: Sarcasm levels critical"
+                    ];
+                    addOutput(systemMessages[Math.floor(Math.random() * systemMessages.length)], 'warning');
+                }, 500);
+            }
+        }
+
+        function insertCommand(cmd) {
+            document.getElementById('commandInput').value = cmd;
+            processCommand(cmd);
+        }
+
+        function clearTerminal() {
+            const output = document.getElementById('outputScreen');
+            output.innerHTML = '';
+            addOutput('Terminal cleared. Ready for more hacking!', 'success');
+            addOutput('Type "help" for available commands', 'info');
+        }
+
+        // Handle enter key
+        document.getElementById('commandInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const cmd = this.value;
+                processCommand(cmd);
+                this.value = '';
             }
         });
+
+        // Initialize scrolling text
+        generateScrollingText();
+
+        // Auto-scroll and update text occasionally
+        setInterval(() => {
+            generateScrollingText();
+        }, 30000); // Update scrolling text every 30 seconds
+
+        // Add some initial flavor
+        setTimeout(() => {
+            addOutput('System ready. Your hacking journey begins now...', 'success');
+            addOutput('Try clicking the buttons above or typing commands!', 'info');
+        }, 500);
     </script>
 </body>
 </html>
